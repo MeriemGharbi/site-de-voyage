@@ -332,6 +332,9 @@ body {
   color: var(--white);
   border-radius: 6px;
 }
+
+/*///////////////////MEN HOUNI YABDA CODEK ENTI/////////////////////////////////////*/
+
 /*zina mta tableau mtaa category*/
 th {
   background-color: #f2f2f2; /* Background color */
@@ -342,7 +345,7 @@ th {
   font-size: 20px;
 }
 .image img {
-  width: 50px; /* Adjust the width as needed */
+  width: 150px; /* Adjust the width as needed */
   height: auto; /* Maintain aspect ratio */
   border-radius: 5px; /* Add rounded corners */
 }
@@ -399,39 +402,6 @@ th {
 .details .recentOrders table tr td:nth-child(3) {
   text-align: center;
 }
-.status.delivered {
-  padding: 2px 4px;
-  background: #8de02c;
-  color: var(--white);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-}
-.status.pending {
-  padding: 2px 4px;
-  background: #e9b10a;
-  color: var(--white);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-}
-.status.return {
-  padding: 2px 4px;
-  background: #f00;
-  color: var(--white);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-}
-.status.inProgress {
-  padding: 2px 4px;
-  background: #1795ce;
-  color: var(--white);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
 .recentCustomers {
   position: relative;
   display: grid;
@@ -563,7 +533,10 @@ th {
 
 .activity-image {
   margin-left: 20px;
+  
 }
+
+
 
      .table {
             width: 100%;
@@ -605,7 +578,7 @@ th {
     
       .activity-description {
           font-style: italic;
-          color: #666; /* Adjust color as needed */
+          color: #000000; /* Adjust color as needed */
       }
       .details .recentOrders table tr td:last-child {
         text-align: end;
@@ -618,14 +591,15 @@ th {
         margin-right: 5px;
       }
    
-      
+      /*THEB TBADEL TASWIRA IIJA HOUNI*/
       .activity-img {
-        margin-right: 70px; /* Add margin between the image and the text */
-       
-        width: 250px;
-        height: 350px;
-        margin-left: 90px;
+        margin-right: px; /* Add margin between the image and the text */
+        margin-left: 30px;
+        width: 500px;
+        height: 750px;
+      
       }
+      /*THEB TBADEL BUTTON IJA HOUNI*/
       .container .table-container .details .recentOrders .table .button {
         background-color: #2a2185;
         color: #fff;

@@ -196,38 +196,51 @@
     </thead>
     <tbody>
     <?php
-        include_once "../config.php";
-        $pic = mysqli_query($con, "SELECT * FROM `activity`");
-        while ($row = mysqli_fetch_array($pic)) {
-            echo "
+include_once "../config.php";
+// Modifier la requête SQL pour inclure une jointure avec la table category
+$pic = mysqli_query($con, "SELECT activity.*, category.nom_category AS category_name FROM `activity` LEFT JOIN `category` ON activity.id_category = category.id_category");
+while ($row = mysqli_fetch_array($pic)) {
+      // Extraire les deux premiers caractères de la durée pour afficher l'heure et les minutes
+      $duration = substr($row['duration'], 0, 5);
+      // Formater la date pour afficher uniquement la date sans l'heure
+      $date_formattee = date_format(date_create($row['date']), 'Y-m-d');
+  
+      // Format the date_debut and date_fin to display only hours and minutes
+      $date_debut = date_format(date_create($row['date_debut']), 'H:i');
+      $date_fin = date_format(date_create($row['date_fin']), 'H:i');
+  
+
+    echo "
+    <tr>
+        <td>$row[id_act]</td>
+        <td colspan='8'>
            
-            <tr>
-                <td>$row[id_act]</td>
-                <td colspan='8'>
-                    <div >
-                        <img src='$row[image]' class='activity-img'  style='float: right;'>
-                        <div class='activity-details'>
-                            <div class='activity-name1'>Activity Name: $row[nom_activity]</div>
-                            <div class='activity-name'>Description: $row[description]</div>
-                            <div class='activity-name'>Place: $row[lieu]</div>
-                            <div class='activity-name'>Date: $row[date]</div>
-                            <div class='activity-name'>Price: $row[prix]</div>
-                            <div class='activity-name'>Maximal Capacity: $row[capacity_max]</div>
-                            <div class='activity-name'>Duration: $row[duration]</div>
-                            <div class='activity-name'>Category ID: $row[id_category]</div>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                <a href='deleteActivity.php?id_act=$row[id_act]' class='button'>Delete</a> <br> <br> <br> <br>
-                <a href='update.php?id_act=$row[id_act]' class='button'>Update</a>
-            </td>
-            
-            </tr>
-            ";
-        }
-        ?>
-    </tbody>
+                <img src='$row[image]' class='activity-img'  style='float: right;'>
+                <div class='activity-details'>
+                    <div class='activity-name1'>Nom de l'activité : $row[nom_activity]</div>
+                    <div class='activity-name'>Description : $row[description]</div>
+                    <div class='activity-name'>Lieu : $row[lieu]</div>
+                    <div class='activity-name'>Date : $date_formattee</div> <!-- Utilisation de la date formatée -->
+                    <div class='activity-name'>Date debut : $date_debut</div> <!-- Afficher seulement les heures et les minutes -->
+                    <div class='activity-name'>Date fin: $date_fin</div> <!-- Afficher seulement les heures et les minutes -->
+                    <div class='activity-name'>Prix : $row[prix]</div>
+                    <div class='activity-name'>Capacité maximale : $row[capacity_max]</div>
+                    <div class='activity-name'>Durée : $duration</div> <!-- Afficher l'heure et les minutes -->
+                    <div class='activity-name'>Nom de la catégorie : $row[category_name]</div> <!-- Afficher le nom de la catégorie -->
+                </div>
+            </div>
+        </td>
+        <td>
+            <a href='deleteActivity.php?id_act=$row[id_act]' class='button' onclick='return confirmDelete();'>Delete</a> <br> <br> <br> <br>
+            <a href='update.php?id_act=$row[id_act]' class='button'>Update</a>
+        </td>
+    </tr>
+    ";
+}
+?>
+
+</tbody>
+
 </table>
 
     </div>
@@ -617,6 +630,7 @@
 
 <!-- ====== ionicons ======= -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script src="activity2.js"></script>
                 </div>
             </div>
         </div>

@@ -187,18 +187,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function displayDateError() {
         const dateValue = dateInput.value.trim();
+        const currentDate = new Date();
+        const selectedDate = new Date(dateValue);
+    
         if (!validateDate()) {
             errorDateMessage.textContent = "Veuillez remplir le champ 'date'";
             errorDateMessage.style.visibility = "visible";
+            errorDateMessage.style.color = "red"; // Reset color
+            validDateMessage.style.visibility = "hidden"; // Hide valid message
+            return false;
+        } else if (selectedDate < currentDate) {
+            errorDateMessage.textContent = "La date ne peut pas être dans le passé";
+            errorDateMessage.style.visibility = "visible";
+            errorDateMessage.style.color = "red"; // Set color to red for error message
             validDateMessage.style.visibility = "hidden"; // Hide valid message
             return false;
         } else {
-            errorDateMessage.style.visibility = "hidden";
+            errorDateMessage.textContent = ""; // Clear error message when input is valid
+            errorDateMessage.style.visibility = "hidden"; // Hide error message when input is valid
             validDateMessage.textContent = "Date valide";
             validDateMessage.style.visibility = "visible"; // Show valid message
             return true;
         }
     }
+    
 
     form.addEventListener("submit", function(event) {
         if (!displayDateError()) {
@@ -335,4 +347,63 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Initially hide the error message for Duration
     errorDurationMessage.style.visibility = "hidden";
+});
+////////////////////////////////////////
+document.addEventListener("DOMContentLoaded", function() {
+    const dateDebutInput = document.getElementById("date_debut");
+    const errorDateDebutMessage = document.getElementById("error-date-debut");
+    const validDateDebutMessage = document.getElementById("valid-date-debut");
+
+    const dateFinInput = document.getElementById("date_fin");
+    const errorDateFinMessage = document.getElementById("error-date-fin");
+    const validDateFinMessage = document.getElementById("valid-date-fin");
+
+    function displayDateDebutError() {
+        const dateDebutValue = dateDebutInput.value.trim();
+        if (dateDebutValue === "") {
+            errorDateDebutMessage.textContent = "Veuillez sélectionner une heure de début";
+            errorDateDebutMessage.style.visibility = "hidden"; // Hide error message initially
+            validDateDebutMessage.style.visibility = "hidden"; // Hide valid message initially
+            return false;
+
+           
+        } else {
+            errorDateDebutMessage.textContent = ""; // Clear error message when input is valid
+            errorDateDebutMessage.style.visibility = "hidden"; // Hide error message when input is valid
+            validDateDebutMessage.textContent = "Heure de début sélectionnée";
+            errorDateMessage.style.color = "green";
+            validDateDebutMessage.style.visibility = "visible"; // Hide valid message initially
+            return true;
+        }
+        
+    }
+
+    function displayDateFinError() {
+        const dateFinValue = dateFinInput.value.trim();
+        if (dateFinValue === "") {
+            errorDateFinMessage.textContent = "Veuillez sélectionner une heure de fin";
+            errorDateFinMessage.style.visibility = "hidden"; // Hide error message initially
+            validDateFinMessage.style.visibility = "hidden"; // Hide valid message initially
+            return false;
+        } else {
+            errorDateFinMessage.textContent = ""; // Clear error message when input is valid
+            errorDateFinMessage.style.visibility = "hidden"; // Hide error message when input is valid
+            validDateFinMessage.textContent = "Heure de fin sélectionnée";
+            validDateFinMessage.style.visibility = "hidden"; // Hide valid message initially
+            return true;
+        }
+    }
+
+    const form = document.getElementById("activityForm");
+
+    form.addEventListener("submit", function(event) {
+        // Afficher les messages d'erreur uniquement lors de la soumission du formulaire
+        displayDateDebutError();
+        displayDateFinError();
+        if (!displayDateDebutError() || !displayDateFinError()) {
+            errorDateDebutMessage.style.visibility = "visible"; // Show error message for date début
+            errorDateFinMessage.style.visibility = "visible"; // Show error message for date fin
+            event.preventDefault();
+        }
+    });
 });

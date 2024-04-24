@@ -163,6 +163,23 @@
                             </div>
 
                             <div class="attributs">
+    <label for="date">date debut</label>
+    <input type="time" name="date_debut" id="date_debut" class="input">
+    <span id="error-date-debut" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
+    <span id="valid-date-debut" class="valid-message" style="color: green; visibility: hidden;">Date valide</span><br>
+</div>
+
+<div class="attributs">
+    <label for="date_fin">date fin</label>
+    <input type="time" name="date_fin" id="date_fin" class="input">
+    <span id="error-date-fin" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
+    <span id="valid-date-fin" class="valid-message" style="color: green; visibility: hidden;">Date valide</span><br>
+</div>
+
+
+                            
+
+                            <div class="attributs">
                             <label for="prix">prix</label>
                             <input type="text" name="prix" id="prix" class="input">
                             <span id="error-prix" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ avec des chiffres</span><br>

@@ -7,6 +7,8 @@ if(isset($_POST['update'])){
     $DESCRIPTION = $_POST['description'];
     $LIEU = $_POST['lieu'];
     $DATE = $_POST['date'];
+    $DATE_DEBUT = $_POST['date_debut'];
+    $DATE_FIN = $_POST['date_fin'];
     $PRIX = $_POST['prix'];
     $CAPACITY_MAX = $_POST['capacity_max'];
     $ID_CATEGORY = $_POST['id_category'];
@@ -27,7 +29,7 @@ if(isset($_POST['update'])){
     }
 
     // Update the record
-    mysqli_query($con, "UPDATE `activity` SET `nom_activity`='$NOM_ACTIVITY', `description`='$DESCRIPTION', `lieu`='$LIEU', `date`='$DATE', `prix`='$PRIX', `capacity_max`='$CAPACITY_MAX', `image`='$img_des', `id_category`='$ID_CATEGORY', `duration`='$DURATION' WHERE id_act = '$ID_ACT'");
+    mysqli_query($con, "UPDATE `activity` SET `nom_activity`='$NOM_ACTIVITY', `description`='$DESCRIPTION', `lieu`='$LIEU', `date`='$DATE', `prix`='$PRIX', `capacity_max`='$CAPACITY_MAX', `image`='$img_des', `id_category`='$ID_CATEGORY', `duration`='$DURATION',`date_debut`='$DATE_DEBUT', `date_fin`='$DATE_FIN'  WHERE id_act = '$ID_ACT'");
 
     header("location:showActivity.php");
 }

@@ -152,8 +152,22 @@ $data = mysqli_fetch_array($Record )
                <span id="valid-lieu" class="valid-message" style="color: green; visibility: hidden;">Lieu valide</span><br>
 
 
-               <label for="date">date</label>
+                <label for="date">date</label>
                 <input type="date" name="date" value="<?php echo date('Y-m-d', strtotime($data['date'])); ?>" id="date">
+
+                <div class="attributs">
+                <label for="date">date debut</label>
+                <input type="time" name="date_debut" value="<?php echo $data['date_debut'] ?>" id="date_debut" class="input">
+                <span id="error-date" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
+                <span id="valid-date" class="valid-message" style="color: green; visibility: hidden;">Date valide</span><br>
+                </div>
+                            
+                <div class="attributs">
+                <label for="date_fin">date fin</label>
+                <input type="time" name="date_fin" value="<?php echo $data['date_fin'] ?>" id="date_fin" class="input">
+                <span id="error-date" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
+                <span id="valid-date" class="valid-message" style="color: green; visibility: hidden;">Date valide</span><br>
+                </div>
 
                <span id="error-date" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
                <span id="valid-date" class="valid-message" style="color: green; visibility: hidden;">Date valide</span><br>

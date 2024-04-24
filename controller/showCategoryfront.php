@@ -180,6 +180,34 @@
 .activity-link:hover {
     color: #0056b3;
 }
+/* Ajoutez ces styles à votre balise <style> existante ou à votre fichier CSS */
+
+.category-links {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0; /* Ajoutez de la marge pour l'écart */
+    text-align: center; /* Centrez les liens horizontalement */
+}
+
+.category-links li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.category-links li a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold; /* Mettez en gras pour plus de visibilité */
+    padding: 5px 10px; /* Ajoutez un peu d'espace autour des liens */
+    border: 1px solid #007bff; /* Ajoutez une bordure */
+    border-radius: 20px; /* Arrondissez les coins */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Ajoutez une transition pour un effet de survol plus doux */
+}
+
+.category-links li a:hover {
+    background-color: #007bff;
+    color: #fff; /* Inversez les couleurs au survol */
+}
 
 
 .imglevel{
@@ -187,6 +215,27 @@
     width: 40px;
     height:35px;
 }
+.cardHeader .category-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cardHeader .category-links li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.cardHeader .category-links li a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.cardHeader .category-links li a:hover {
+    color: #0056b3;
+}
+
 
             </style>
 </head>
@@ -269,58 +318,77 @@
         </div>
     </div>
     <!-- Navbar & Hero End -->
-    <!-- Navbar & Hero End -->
+  
+
+                <div class="cardHeader">
+                       <h1 class="category">Category</h1>
+                    </div>
     
-   
-    <div class="back">
-    <div class="container">
-        <div class="activity-list">
-            <div class="activities text-center">
-                <h1 class="mb-4"><span class="title">Our Activities</span></h1>
-            </div>
-            <?php
-            include_once "../config.php";
-            $activities = mysqli_query($con, "SELECT activity.*, category.nom_category AS category_name FROM `activity` LEFT JOIN `category` ON activity.id_category = category.id_category");
-            while ($activity = mysqli_fetch_assoc($activities)) {
-                
-                ?>
-                <div class="activity">
-                    <div class="activity-details">
-                        <h3 class="activity-name"><?= $activity['nom_activity'] ?></h3>
-                        <p class="activity-label">Description:</p>
-                        <p class="activity-description"><?= $activity['description'] ?></p>
-                        <p class="activity-label">Place:</p>
-                        <p class="activity-place"><?= $activity['lieu'] ?></p>
-                        <p class="activity-label">Date:</p>
-                        <p class="activity-date"><?= date('Y-m-d', strtotime($activity['date'])) ?></p>
-                        <p class="activity-label">Date debut :</p>
-                        <p class="activity-date"><?= date('H:i', strtotime($activity['date_debut'])) ?></p>  
-                        <p class="activity-label">Date fin :</p>
-                        <p class="activity-date"><?= date('H:i', strtotime($activity['date_fin'])) ?></p>
-                        <p class="activity-label">Price:</p>
-                        <p class="activity-price"><?= $activity['prix'] ?></p>
-                        <p class="activity-label">Max Capacity:</p>
-                        <p class="activity-max-capacity"><?= $activity['capacity_max'] ?></p>
-                        <p class="activity-label">Duration:</p>
-                        <p class="activity-duration"><?= date('H:i', strtotime($activity['duration'])) ?></p>
-                        <p class="activity-label">Category:</p>
-                        <p class="activity-category"><?= $activity['category_name'] ?></p> <!-- Display category name -->
-                    </div>
-                    <div class="activity-image">
-                        <img src="<?= $activity['image'] ?>" alt="<?= $activity['nom_activity'] ?>">
-                    </div>
-                </div>
-                <?php
-            }
-            ?>
-        </div>
-    </div>
- <!-- Footer Start -->
-
-                
+    <table class="table" class="rwd-table">
+    <thead>
+                <tr>
+                    
+                    <th>Category name</th>
+                    <th>Level</th>
+                    <th>Season</th>
+                    <th>Popularity</th>
+                    <th>Mobility</th>
+                    
+                </tr>
+            </thead>
             <tbody>
-             
+                <?php
+                include_once "../config.php";
+                //liste des categories
+                $sql = "SELECT * FROM category";
+                $result = mysqli_query($con, $sql); // Executing the query
+                if (mysqli_num_rows($result) > 0) {
+                    // Afficher les categories dans le cas win les activité lmawjoudin yabdew >0
+                    while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                <tr>
+                    
+                    <td><?=$row['nom_category']?></td>
+                    <td><img src="../view/frontoffice/img/level.png" class="imglevel" alt="Category Icon" class="icon"><?=$row['level']?></td>
+                    <td><img src="../view/frontoffice/img/season.png" class="imglevel" alt="Category Icon" class="icon"><?=$row['season']?></td>
+                    <td><img src="../view/frontoffice/img/pop.png" class="imglevel" alt="Category Icon" class="icon"><?=$row['popularity']?></td>
+                    <td><img src="../view/frontoffice/img/mob.png" class="imglevel" alt="Category Icon" class="icon"><?=$row['mobility']?></td>
+                  
+                </tr>
+                <?php
+                    } // fin de while loop
+                } else {
+                    echo "<tr><td colspan='12' class='message'>0 categories pour le moment !</td></tr>";
+                }
+                ?>
+                <div class="category-links">
+<?php
+// Inclure le fichier de configuration de la base de données
+include_once "../config.php";
 
+// Récupérer les catégories disponibles dans la base de données
+$query_categories = "SELECT * FROM category";
+$result_categories = $con->query($query_categories);
+
+
+// Afficher les catégories sous forme de liens
+if($result_categories->num_rows > 0) {
+    echo "<ul>";
+    while($row = $result_categories->fetch_assoc()) {
+        echo "<li><a href='activities.php?category_id=" . $row['id_category'] . "'>" . $row['nom_category'] . "</a></li>";
+    }
+    echo "</ul>";
+} else {
+    echo "Aucune catégorie trouvée.";
+}
+
+// Fermer la connexion à la base de données
+$con->close();
+?>
+</div>
+
+
+            </tbody>
         </table>
    
     <!-- Booking Start -->

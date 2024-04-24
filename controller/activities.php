@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,6 +31,131 @@
 
     <!-- Template Stylesheet -->
     <link href="../view/frontoffice/css/style.css" rel="stylesheet">
+    <style>
+              .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+            
+           
+  }
+
+        .activity {
+            display: flex;
+            width: 100%;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;  
+            margin: 20px  ;
+           
+        }
+
+        .activity-image {
+            flex: 0 0 40%;
+
+        }
+
+        .activity-image img {
+            width: 100%;
+            height: 100%;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+
+        .activity-details {
+            flex: 0 0 60%;
+            padding: 20px;
+        }
+
+        .activity-label {
+            font-family: "Montserrat", sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 5px;
+
+        }
+        .activity-name{
+            text-align: center;
+            color: black;
+        }
+
+        .activity-description,
+        .activity-place,
+        .activity-date,
+        .activity-price,
+        .activity-max-capacity,
+        .activity-duration,
+        .activity-category {
+            font-family: "Roboto", sans-serif;
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .activity-category {
+            font-style: italic;
+        }
+
+        .activity-link {
+            font-family: "Montserrat", sans-serif;
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .activity-link:hover {
+            color: #0056b3;
+        }
+        .cardHeader{
+            text-align: center;
+        }
+        .table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 0 auto; /* Center the table horizontally */
+    margin-top: 20px; /* Add some space between the table and other elements */
+    border-radius: 20px; /* Add border radius to all corners of the table */
+    overflow: hidden; /* Ensure border radius is applied correctly */
+}
+
+.table th{
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 30px;
+    color: black;
+    font-weight: 700;
+}
+
+.table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Add a bottom border to separate rows */
+}
+
+.table th {
+    background-color: #f2f2f2; /* Light gray background color for header */
+    font-weight: bold;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternate background color for even rows */
+}
+
+.table tr:hover {
+    background-color: #f0f0f0; /* Background color on hover */
+}
+.imglevel{
+        margin-right: 15px;
+    width: 40px;
+    height:35px;
+}
+
+            </style>
 </head>
 
 <body>
@@ -58,7 +184,7 @@
         </div>
     </div>
     <!-- Topbar End -->
-
+    
 
     <!-- Navbar & Hero Start -->
     <div class="container-fluid position-relative p-0">
@@ -72,7 +198,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="showActivityfront.php" class="nav-item nav-link active">Home</a>
+                    <a href="showActivityfront1.php" class="nav-item nav-link active">Home</a>
                     <a href="about.html" class="nav-item nav-link">Offers</a>
                     <a href="package.html" class="nav-item nav-link">User</a>
                     <a href="package.html" class="nav-item nav-link">location</a>
@@ -110,249 +236,82 @@
         </div>
     </div>
     <!-- Navbar & Hero End -->
-
-
-    <!-- About Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
-                    <div class="position-relative h-100">
-                        <img class="img-fluid position-absolute w-100 h-100" src="../view/frontoffice/img/img6.jpeg" alt="" style="object-fit: cover;">
-                    </div>
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                    <h1 class="mb-4">Explore <span class="text-primary">Travel Agency</span></h1>
-                    <p class="mb-4">Welcome to Xplore - Your Gateway to Unforgettable Adventures!</p>
-                    <p class="mb-4">At Xplore, we believe that the world is meant to be explored, experienced, and cherished. With a passion for travel and a commitment to exceptional service, we're here to turn your wanderlust dreams into reality.
-</p>
-                    <div class="row gy-2 gx-4 mb-4">
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>First Class Flights</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Handpicked Hotels</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>5 Star Accommodations</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Latest Model Vehicles</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>150 Premium City Tours</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>24/7 Service</p>
-                        </div>
-                    </div>
-                    <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- About End -->
-
-    <!-- Destination Start -->
-    <div class="activities text-center" >
-    <h1 class="mb-4"><span class="text-primary" > Our activities</span></h1>
-    </div>
-    <div class="container-xxl py-5 destination">
-       
-    <div class="container">
-    <div class="row row-cols-2 row-cols-md-3 g-4">
-    <?php
+    
+<?php
+// Inclure le fichier de configuration de la base de données
 include_once "../config.php";
-$activities = mysqli_query($con, "SELECT * FROM `activity` ORDER BY `date` DESC LIMIT 6");
-while ($activity = mysqli_fetch_assoc($activities)) {
-    ?>
-    <div class="col">
-        <div class="card h-100">
-            <img src="<?= $activity['image'] ?>" class="card-img-top" alt="<?= $activity['nom_activity'] ?>">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Activity name:</strong> <?= $activity['nom_activity'] ?></h5>
-                <?php
-                // Vérifier la longueur de la description
-                if (strlen($activity['description']) > 100) {
-                    // Si la description est trop longue, afficher un extrait suivi de "View more"
-                    $short_description = substr($activity['description'], 0, 100) . '...';
-                    echo "<p class='card-text'><strong>Description:</strong> $short_description <a href='../controller/showActivityfront.php?id_act={$activity['id_act']}'>View more</a></p>";
-                } else {
-                    // Si la description est suffisamment courte, l'afficher complètement
-                    echo "<p class='card-text'><strong>Description:</strong> {$activity['description']}</p>";
-                }
-                ?>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Place:</strong> <?= $activity['lieu'] ?></li>
-                <li class="list-group-item"><strong>Date:</strong> <?= date('Y-m-d', strtotime($activity['date'])) ?></li>
-                <li class="list-group-item"><strong>Price:</strong> <?= $activity['prix'] ?></li>
-            </ul>
-            <div class="card-body">
-            <a href="../controller/showActivityfront.php?id_act=<?= $activity['id_act'] ?>" class="btn btn-primary">View more info</a>
 
-            </div>
-        </div>
-    </div>
-    <?php
+// Vérifier si l'ID de la catégorie est défini dans l'URL
+if(isset($_GET['category_id'])) {
+    // Récupérer l'ID de la catégorie à partir de l'URL
+    $category_id = $_GET['category_id'];
+
+    // Préparer la requête SQL pour récupérer les activités liées à la catégorie spécifiée
+    $query_activities = "SELECT * FROM activity WHERE id_category = ?";
+    
+    // Préparer la déclaration SQL
+    $stmt_activities = $con->prepare($query_activities);
+
+    // Liaison des paramètres
+    $stmt_activities->bind_param("i", $category_id);
+
+    // Exécuter la requête
+    $stmt_activities->execute();
+
+    // Récupérer le résultat de la requête
+    $result_activities = $stmt_activities->get_result();
+
+    // Afficher les activités liées à la catégorie spécifiée
+    if($result_activities->num_rows > 0) {
+        while($row = $result_activities->fetch_assoc()) {
+            // Extraire les deux premiers caractères de la durée pour afficher l'heure et les minutes
+            $duration = substr($row['duration'], 0, 5);
+            // Formater la date pour afficher uniquement la date sans l'heure
+            $date_formattee = date_format(date_create($row['date']), 'Y-m-d');
+            // Format the date_debut and date_fin to display only hours and minutes
+            $date_debut = date_format(date_create($row['date_debut']), 'H:i');
+            $date_fin = date_format(date_create($row['date_fin']), 'H:i');
+    
+            // Début de la div pour cette activité avec la classe 'table'
+            echo "<div class='table'>";
+    
+            // Contenu de l'activité avec les classes CSS correspondantes
+            echo "<div class='activity'>";
+            echo "<div class='activity-details'>";
+            echo "<h3 class='table th'>Nom de l'activité : {$row['nom_activity']}</h3>";
+            echo "<p class='table td'>Description : {$row['description']}</p>";
+            echo "<p class='table td'>Lieu : {$row['lieu']}</p>";
+            echo "<p class='table td'>Date : $date_formattee</p>";
+            echo "<p class='table td'>Date début : $date_debut</p>";
+            echo "<p class='table td'>Date fin : $date_fin</p>";
+            echo "<p class='table td'>Prix : {$row['prix']}</p>";
+            echo "<p class='table td'>Capacité maximale : {$row['capacity_max']}</p>";
+            echo "<p class='table td'>Durée : $duration</p>";
+            /*echo "<p class='table td'>Nom de la catégorie : {$row['nom_category']}</p>";*/
+            echo "</div>"; // Fin de activity-details
+            echo "<div class='activity-image'><img src='{$row['image']}' class='activity-img'></div>";
+            echo "</div>"; // Fin de activity
+    
+            // Fin de la div pour cette activité
+            echo "</div>";
+        }
+    } else {
+        // Afficher un message si aucune activité n'est trouvée pour cette catégorie
+        echo "Aucune activité trouvée pour cette catégorie.";
+    }
+    
+
+    // Fermer la déclaration SQL
+    $stmt_activities->close();
+} else {
+    echo "ID de la catégorie non spécifié.";
 }
+
+// Fermer la connexion à la base de données
+$con->close();
 ?>
-
-    </div>
-</div>
-
-        </div>
-        <div class="card-body text-center">
-                        <a href="../controller/showActivityfront.php" class="btn btn-primary">View all activities</a>
-                    </div>
-    </div>
-    <!-- Destination Start -->
-
-
-   
-    <!-- Destination Start -->
-    <div class="container-xxl py-5 destination">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Destination</h6>
-                <h1 class="mb-5">Popular Destination</h1>
-            </div>
-            <div class="row g-3">
-                <div class="col-lg-7 col-md-6">
-                    <div class="row g-3">
-                        <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
-                            <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="../view/frontoffice/img/img1.jpg" alt="">
-                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">30% OFF</div>
-                                <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">North Africa</div>
-                            </a>
-                        </div>
-                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
-                            <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="../view/frontoffice/img/img2.jpg" alt="">
-                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">25% OFF</div>
-                                <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Brazil</div>
-                            </a>
-                        </div>
-                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
-                            <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="../view/frontoffice/img/img3.jpg" alt="">
-                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">35% OFF</div>
-                                <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Jordan</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
-                    <a class="position-relative d-block h-100 overflow-hidden" href="">
-                        <img class="img-fluid position-absolute w-100 h-100" src="../view/frontoffice/img/img4.jpg" alt="" style="object-fit: cover;">
-                        <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">20% OFF</div>
-                        <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Italy</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Destination Start -->
-
-    <!-- Package Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Offers</h6>
-                <h1 class="mb-5">Our best Offers</h1>
-            </div>
-            <div class="row g-4 justify-content-center">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="package-item">
-                        <div class="overflow-hidden">
-                            <img class="img-fluid" src="img/package-1.jpg" alt="">
-                        </div>
-                        <div class="d-flex border-bottom">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt text-primary me-2"></i>Thailand</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt text-primary me-2"></i>3 days</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>2 Person</small>
-                        </div>
-                        <div class="text-center p-4">
-                            <h3 class="mb-0">1490.00DT</h3>
-                            <div class="mb-3">
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                            </div>
-                            <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam eos</p>
-                            <div class="d-flex justify-content-center mb-2">
-                                <a href="#" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="package-item">
-                        <div class="overflow-hidden">
-                            <img class="img-fluid" src="img/package-2.jpg" alt="">
-                        </div>
-                        <div class="d-flex border-bottom">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt text-primary me-2"></i>Indonesia</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt text-primary me-2"></i>3 days</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>2 Person</small>
-                        </div>
-                        <div class="text-center p-4">
-                            <h3 class="mb-0">2300.00DT</h3>
-                            <div class="mb-3">
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                            </div>
-                            <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam eos</p>
-                            <div class="d-flex justify-content-center mb-2">
-                                <a href="#" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="package-item">
-                        <div class="overflow-hidden">
-                            <img class="img-fluid" src="img/package-3.jpg" alt="">
-                        </div>
-                        <div class="d-flex border-bottom">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt text-primary me-2"></i>Malaysia</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt text-primary me-2"></i>3 days</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>2 Person</small>
-                        </div>
-                        <div class="text-center p-4">
-                            <h3 class="mb-0">500.00DT</h3>
-                            <div class="mb-3">
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                            </div>
-                            <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam eos</p>
-                            <div class="d-flex justify-content-center mb-2">
-                                <a href="#" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Package End -->
-
-
-    <!-- Booking Start -->
-    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+  <!-- Booking Start -->
+  <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
         <div class="container">
             <div class="booking p-5">
                 <div class="row g-5 align-items-center">
@@ -412,90 +371,7 @@ while ($activity = mysqli_fetch_assoc($activities)) {
         </div>
     </div>
     <!-- Booking Start -->
- <!-- Service Start -->
- <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Services</h6>
-                <h1 class="mb-5">Our Services</h1>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-globe text-primary mb-4"></i>
-                            <h5>WorldWide Tours</h5>
-                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-hotel text-primary mb-4"></i>
-                            <h5>Hotel Reservation</h5>
-                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-user text-primary mb-4"></i>
-                            <h5>Travel Guides</h5>
-                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-cog text-primary mb-4"></i>
-                            <h5>Event Management</h5>
-                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-globe text-primary mb-4"></i>
-                            <h5>WorldWide Tours</h5>
-                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-hotel text-primary mb-4"></i>
-                            <h5>Hotel Reservation</h5>
-                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-user text-primary mb-4"></i>
-                            <h5>Travel Guides</h5>
-                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-cog text-primary mb-4"></i>
-                            <h5>Event Management</h5>
-                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Service End -->
+
 
     <!-- Process Start -->
     <div class="container-xxl py-5">
@@ -621,7 +497,6 @@ while ($activity = mysqli_fetch_assoc($activities)) {
     </div>
      Team End -->
 
-        
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -703,24 +578,3 @@ while ($activity = mysqli_fetch_assoc($activities)) {
     </div>
     <!-- Footer End -->
 
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
-</body>
-
-</html>

@@ -11,8 +11,7 @@
   top: 50%;
   left: 40%;
   transform: translate(-40%, -40%);
- /* border: 2px solid blue;
-  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); */
+ 
  flex-wrap: wrap;
  
 }
@@ -28,8 +27,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 2px solid blue; /* Ajout d'une bordure bleue */
-  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); /* Ajout d'une ombre bleue */
+  border: 2px solid blue;
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); 
 }
 .title {
   font-size: 28px;
@@ -73,12 +72,18 @@
   text-align: center;
 }
 
+.signin label {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 5px; /* Ajoute une marge entre la case à cocher et le texte */
+}
+
 .signin a {
   color: royalblue;
 }
 
 .signin a:hover {
-  text-decoration: underline royalblue;
+  text-decoration: underline;
 }
 
 .flex {
@@ -159,29 +164,27 @@
 
 .form .input:focus ~ span,
 .form .input:not(:placeholder-shown) ~ span {
-  color: grey; /* Couleur verte lorsqu'un champ est activé ou valide */
+  color: grey; 
   top: 30px;
   font-size: 0.7em;
   font-weight: 600;}
-/*.form label .input:valid + span {
-  color: green;
-}*/
+
 .formlogin .input:focus ~ span,
 .formlogin .input:not(:placeholder-shown) ~ span {
-  color: grey; /* Couleur verte lorsqu'un champ est activé ou valide */
+  color: grey; 
   top: 30px;
   font-size: 0.7em;
   font-weight: 600;}
-.submit {
-  border: none;
-  outline: none;
-  background-color: royalblue;
-  padding: 10px;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 16px;
-  transform: .3s ease;
-}
+  .submit {
+    border: none;
+    outline: none;
+    background-color: royalblue;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 1px;
+    width: auto; /* Définir une largeur automatique */
+    transition: transform 0.3s ease;
+  }
 
 .submit:hover {
   background-color: rgb(56, 90, 194);
@@ -197,4 +200,9 @@
     transform: scale(1.8);
     opacity: 0;
   }
+}
+.input[readonly] {
+  background-color: #f0f0f0;
+  color: #888; 
+  border: 1px solid #ccc; 
 }

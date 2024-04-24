@@ -6,11 +6,43 @@
     <link rel="stylesheet" href="../style.css"> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <title>Inscription</title>
+    <style>
+    .form {
+        border: 2px solid blue;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 1100px; /* Ajustez la largeur selon vos besoins */
+        margin: auto; /* Centrer le formulaire horizontalement */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .form .submit {
+  /* Styles spécifiques pour le bouton submit à l'intérieur du formulaire */
+  border: none;
+  outline: none;
+  background-color: royalblue;
+  padding: 10px 20px;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 16px;
+  width:610px;;
+  transition: transform 0.3s ease;
+}
+ .form .signin {
+  text-align: center;
+  position: absolute;
+  top: 110%; /* Position verticale au milieu de la page */
+  left: 50%; /* Position horizontale au milieu de la page */
+  transform: translate(-50%, -50%); /* Centrer le contenu */
+}
+</style>
 </head>
     <body>
     <p class="title">Register </p>
     <p class="message">Signup now and get full access to our app. </p>
-    <a href = "afficherUser.php" class="btn btn-primary">Back</a>
+    <a href = "../index.html" class="btn btn-primary">Back</a>
     <form class="form" method="POST" name="inscription" id="formulaire">
             <div class="flex">
                 <label>
@@ -41,6 +73,7 @@
                     <input placeholder="" type="email" name="email" class="input">
                     <span>Email User</span>
                     <div id="email"></div>
+
                 </label>
                 <label>
                     <input placeholder="" type="number" name="phone" class="input">
@@ -54,7 +87,7 @@
                     <div id="password"></div>
                 </label>
                 <button type="submit" name="ajouter" value="ajouter" class="submit">Submit</button>
-                <p class="signin">Already have an acount ? <a href="login.php">Signin</a> </p>
+              <p class="signin">Already have an acount ? <a href="login.php">Signin</a> </p>
     </form>
     <script src="../User_js/Ajout_User.js"></script>
     </body>
@@ -92,7 +125,7 @@ try {
     $User= new User($_POST['cin'],$_POST['nom'],$_POST['prenom'],$_POST['d_n'],$_POST['email'],$_POST['phone'],$_POST['pwd']);
     $UserC=new UserC();
     $UserC->ajouterUser($User);
-    header('Location: afficherUser.php');
+    header("Location:index1_User.php?cin={$_POST['cin']}");
         }
 } catch (PDOException $e) {
     echo 'echec de connexion:' . $e->getMessage();}       

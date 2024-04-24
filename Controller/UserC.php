@@ -1,6 +1,6 @@
-<?PHP
- require_once('../config.php');
- include '../Model/User.php';
+<?php
+ require_once '../config.php';
+ require_once '../Model/User.php';
 class UserC 
 {  
     function afficherUser ()
@@ -14,8 +14,8 @@ class UserC
   } catch (PDOException $e) {
     echo 'echec de connexion:' . $e->getMessage();
   }
+}
         
-	}
 	
     function ajouterUser($User)
     {
@@ -76,7 +76,7 @@ try {
         $query->bindParam(':email', $Email_User);
         $query->bindParam(':phone', $Phone_User);
         $query->execute();
-        echo $query->rowCount() . 'records updated successfully';
+        echo $query->rowCount() . '';
     } catch (PDOException $e) {
         echo $e->getMessage();
     }

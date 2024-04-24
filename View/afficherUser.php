@@ -11,12 +11,12 @@
     <link rel="stylesheet" href="../style1.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
-     table {
+    table {
     border-collapse: collapse;
     color: #404040;
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 30%;
     transform: translate(-50%, -50%);
     font-size: 14px;
     margin-top: -10mm; 
@@ -28,7 +28,7 @@ th {
     font-size: 14px; 
     border-bottom: 2px solid #ffcb61; 
     padding: 8px 16px; 
-    font-weight: 500;
+    font-weight: bold; /* Ajout de font-weight: bold; */
     width: 130px; 
 }
 
@@ -172,7 +172,7 @@ tr:nth-child(2n) td {
                         <ion-icon name="search-outline"></ion-icon>
                     </label>
                 </div>
-
+                <a href="login.php" class="btn btn-primary rounded-pill py-2 px-4"style="margin-left: 10px;">log out</a>
                 <div class="user">
                     <img src="../imgs/customer01.jpg" alt="">
                 </div>
@@ -237,7 +237,6 @@ include "../Controller/UserC.php";
 $UserC=new UserC();
 $listecommande=$UserC->afficherUser();
 ?>
-<a href = "ajouterUser.php" class="Btn_add">Add</a>
 <table border="1">
 <tr>
 <td>cin</td>
@@ -246,7 +245,6 @@ $listecommande=$UserC->afficherUser();
 <td>Date DE Naissance</td>
 <td>Email</td>
 <td>phone</td>
-<td>Modifier</td>
 <td>Supprimer</td>
 </tr>
 
@@ -260,19 +258,32 @@ foreach($listecommande as $row){
 	<td><?PHP echo $row['d_n']; ?></td>
 	<td><?PHP echo $row['email']; ?></td>
     <td><?PHP echo $row['phone']; ?></td>
-	<td><a href="modifierUser.php?cin=<?PHP echo $row['cin']; ?>" class="btn btn-success">Modifier</a></td>
-    <td><a href="supprimerUser.php?cin=<?PHP echo $row['cin']; ?>"  class="btn btn-danger">Supprimer</a></td>
+    <td><a href="afficherUser.php?cin=<?PHP echo $row['cin']; ?>"  class="btn btn-danger">Supprimer</a></td>
 	</tr>
 	<?PHP
 }
+if(isset($_GET["cin"])){
+    echo '<script>';
+    echo '    var cin = "' . htmlspecialchars($_GET["cin"]) . '";';
+    echo 'var result = confirm("Do you want to delete the user: "+cin+"?");';
+    echo 'if (result) {';
+    echo '    window.location.href = "supprimerUser.php?cin=' . $_GET["cin"] . '&confirmed=true";';
+    echo '} else {';
+    echo '    window.location.href = "afficherUser.php";';
+    echo '}';
+    echo '</script>';
+}
 ?>
 </table>
+
                 </div>
 
                 <!-- ================= New Customers ================ -->
               
     <!-- =========== Scripts =========  -->
     <script src="../User_js/main.js"></script>
+    <script src="../User_js/modifierUser.js"></script>
+   
 
     <!-- ====== ionicons ======= -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

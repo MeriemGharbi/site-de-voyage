@@ -169,7 +169,7 @@
                             <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>24/7 Service</p>
                         </div>
                     </div>
-                    <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
+                    <a  class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
                 </div>
             </div>
         </div>
@@ -205,8 +205,9 @@ try {
             echo '<h2 class="text-center">' . $hotel['nomHotel'] . '</h2>';
             
             // Display price, location, and contact information
-            echo '<p class="text-center mb-3">Prix: ' . $hotel['prixHotel'] . ' dt | ' . $hotel['adresse'] . ' | ' . $hotel['infoContact'] . '</p>';
-            
+           // echo '<p class="text-center mb-3">Prix: ' . $hotel['prixHotel'] . ' dt | ' . $hotel['adresse'] . ' | ' . $hotel['infoContact'] . '</p>';
+           echo '<p class="text-center">' . $hotel['adresse'] . '</p>';
+
             // Display star rating
             echo '<div class="mb-3 text-center">';
             echo '<small class="fa fa-star text-primary"></small>';
@@ -218,12 +219,14 @@ try {
             
             // Display description
             echo '<p class="text-center">' . $hotel['description'] . '</p>';
-            echo'<div class="d-flex justify-content-center mb-2">
-                                <a href="#" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Book Now</a>
-                            </div>';
+
+            echo '<div class="d-flex justify-content-center mb-2">';
             
+            echo '<a href="../controller/readMore.php?hotel=' . urlencode($hotel['nomHotel']) . '" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>';
+            echo '<a href="#" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Book Now</a>';
             echo '</div>';
+            echo '</div>';
+            
         }
     }
     else {

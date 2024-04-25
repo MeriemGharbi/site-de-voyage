@@ -27,12 +27,6 @@
 
 
 
-
-    <!-- $fullName= "Foulen";
-        $email="foulen";
-        $query= "INSERT INTO users(fullName,email) VALUES ('emna rbii','rbii1111@gmail.com')";
-        $pdo->exec($query); -->
-
 </body>
 
 </html>

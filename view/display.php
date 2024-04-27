@@ -19,7 +19,7 @@
   text-decoration: none;
   color: var(--white);
   border-radius: 6px;
-  left: -450px;
+  left: 0;
 }
 </style>
 
@@ -143,18 +143,107 @@
             
      <!-- =============== Main end ================ -->
 
+ <div class="details" id="contentSection">
+    <div class="recentOrders">
+        <div style="text-align: center; margin-bottom: 20px;"> <!-- New container for "Liste des hôtels" and "Ajouter" -->
+            <h2>Liste des hôtels</h2>
+            <div class="cardHeader">
+            <a href="../controller/insert.php" class="btn" style="margin-right: 20px;">Ajouter</a>
+            </div>
+        </div>
+        <div class="toggle-buttons" style="text-align: center;">
+            <button onclick="showMore()" id="showMoreHotels" class="button" >Plus</button>
+            <button onclick="showLess()" id="showLessHotels" class="button">Moins</button>
+        </div>
+        <?php include '../controller/main_table.php'; ?> <!-- Table content -->
+    </div>
+</div>
 
 
-     <div class="details">
 
-                <div class="recentOrders">
-                    <div class="cardHeader">
-                    <h2>Liste des hôtels</h2>
-                    <a href="../controller/insert.php" class="btn">Ajouter</a>
-                    </div>
+<div class="details" id="offerSection">
+    <div class="recentOrders">
+        <div style="text-align: center; margin-bottom: 20px;"> <!-- New container for "Liste des offres" and "Ajouter" -->
+            <h2>Liste des offres</h2>
+            <div class="cardHeader">
+                <a href="../controller/offres/insertOffre.php" class="btn" style="margin-right: 20px;">Ajouter</a>
+            </div>
+        </div>
+        <div class="toggle-buttons" style="text-align: center;">
+            <button onclick="showMore()" id="showMoreOffers" class="button">Plus</button>
+            <button onclick="showLess()" id="showLessOffers" class="button">Moins</button>
+        </div>
+        <?php include '../controller/offres/affichageOffre.php'; ?> <!-- Table content -->
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+    // Function to toggle visibility of elements
+    function toggleElements(elements, visible) {
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.display = visible ? 'table-row' : 'none';
+        }
+    }
+
+    // Function to hide extra elements
+    function hideExtraElements(elements, batchSize) {
+        for (var i = batchSize; i < elements.length; i++) {
+            elements[i].style.display = 'none';
+        }
+    }
+
+    // Function to show all elements
+    function showAllElements(elements) {
+        toggleElements(elements, true);
+    }
+
+    // Function to initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        var hotelList = document.querySelectorAll('.hotel-item');
+        var offerList = document.querySelectorAll('.offer-item'); // Adjust the class name here
+
+        var batchSize = 2;
+
+        // Hide all extra hotels and offers initially
+        hideExtraElements(hotelList, batchSize);
+        hideExtraElements(offerList, batchSize);
+
+        // Show more hotels
+        document.getElementById('showMoreHotels').addEventListener('click', function() {
+            showAllElements(hotelList);
+        });
+
+        // Show more offers
+        document.getElementById('showMoreOffers').addEventListener('click', function() {
+            showAllElements(offerList);
+        });
+
+        // Show less hotels
+        document.getElementById('showLessHotels').addEventListener('click', function() {
+            hideExtraElements(hotelList, batchSize);
+        });
+
+        // Show less offers
+        document.getElementById('showLessOffers').addEventListener('click', function() {
+            hideExtraElements(offerList, batchSize);
+        });
+    });
+</script>
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 <?php
-include '../controller/main_table.php';
+//include '../controller/main_table.php';
+//include '../controller/offres/affichageOffre.php';
 include '../controller/search.php';
 include '../controller/modification_form.php';
 ?>
@@ -169,6 +258,3 @@ include '../controller/modification_form.php';
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-
-
-    

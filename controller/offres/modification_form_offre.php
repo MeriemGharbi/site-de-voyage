@@ -1,5 +1,6 @@
-
 <?php
+      
+
     // Function to fetch hotel names from the database
     function populateNomHotelOptions() {
         try {
@@ -18,14 +19,24 @@
             echo "Error: " . $e->getMessage();
         }
     }
+
+
+  
+
+$idOffre = isset($_POST['idOffre']) ? $_POST['idOffre'] : null;
+
+
     ?>
 
+ 
+ 
+  
 <!-- Formulaire de modification -->
 <div id="editFormOffre" style="display:none; position: fixed; top: 50%; left: 85%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
     <h2 style="margin-bottom: 20px; color: #2a2185;">Modifier l'offre</h2>
-    <form id="offreForm" onsubmit="return validateForm()" method="post" action="update_offre.php" >
+    <form id="offreForm" onsubmit="return validateFormOffre()" method="post" action="../controller/offres/update_offre.php" >
         <label for="nomHotel">Nom de l'hotel:</label>
-        <select id="nomHotel" name="nomHotel" style="margin-bottom: 10px; width: 100%;">
+        <select id="nomHotelSelection" name="nomHotel" style="margin-bottom: 10px; width: 100%;">
             <?php populateNomHotelOptions(); ?>
         </select><br>
         <label for="descriptionOffre">Description:</label>
@@ -38,12 +49,13 @@
         <input type="text" id="lienOffre2" name="lienOffre2" style="margin-bottom: 10px; width: 100%;"><br>
         <label for="lienOffre3">Lien Offre 3:</label>
         <input type="text" id="lienOffre3" name="lienOffre3" style="margin-bottom: 10px; width: 100%;"><br>
+        <input type="hidden" id="idOffreInput" name="idOffre" value="">
         <input type="submit" value="Modifier" style="padding: 10px 20px; background-color: var(--blue); color: var(--white); border: none; border-radius: 6px; cursor: pointer;">
     </form>
 </div>
 
 <script>
-function validateForm() {
+function validateFormOffre() {
     var descriptionOffre = document.getElementById("descriptionOffre").value.trim();
     var prixOffre = document.getElementById("prixOffre").value.trim();
     // Check if required fields are empty
@@ -60,36 +72,61 @@ function validateForm() {
     alert("Formulaire soumis avec succès!");
     return true;
 }
-</script>
 
 
-
-
-<script>
 function getOffreInfo(idOffre) {
-    var offres = <?php echo json_encode($offres); ?>; // Retrieve hotels data from PHP
+    var offres = <?php echo json_encode($offres); ?>; // Retrieve offres data from PHP
+    console.log("Offres data:", offres); // Log the retrieved data
     for (var i = 0; i < offres.length; i++) {
-        if (offre[i].idOffre === idOffre) {
+        if (offres[i].idOffre == idOffre) { // Use loose comparison to handle potential data type differences
+            console.log("Matching offre found:", offres[i]);
             return offres[i];
         }
     }
-    return null; // Return null if hotel not found
+    console.error("Error: No matching offre found for idOffre: " + idOffre);
+    return null; // Return null if offre not found
 }
 
-    function showEditForm(idfOffre) {
-    console.log(idOffre);
+
+
+
+
+function showEditFormOffre(idOffre) {
+    var modificationForm = document.getElementById('editFormOffre');
+
     var offre = getOffreInfo(idOffre);
-  
+    modificationForm.style.display = 'block'; // Show the modification form
+
+    document.getElementById('idOffreInput').value = idOffre; // Set the value of the hidden input field
+
+
     if (offre) {
-        document.getElementById("nomHotel").value = offre.nomHotel;
-        document.getElementById("prixOffre").value = offre.prixOffre;
-        document.getElementById("descriptionOffre").value = offre.descriptionOffre;
-        document.getElementById("lienOffre1").value = offre.lienOffre1; 
-        document.getElementById("lienOffre2").value = offre.lienOffre2; 
-        document.getElementById("lienOffre3").value = offre.lienOffre3; 
-        document.getElementById("editForm").style.display = "block"; 
-    } else {
-        alert("Failed to retrieve offre information. Please check console for details.");
+
+
+
+                document.getElementById("prixOffre").value = offre.prixOffre;
+                document.getElementById("descriptionOffre").value = offre.descriptionOffre;
+                document.getElementById("lienOffre1").value = offre.lienOffre1; 
+                document.getElementById("lienOffre2").value = offre.lienOffre2; 
+                document.getElementById("lienOffre3").value = offre.lienOffre3; 
+
+    ///////////////////////////////////////////////////////////////////
+var nomHotelValue =offre.nomHotel;
+var nomHotelSelect = document.getElementById("nomHotelSelection");
+        
+    for (var i = 0; i < nomHotelSelect.options.length; i++) 
+    {
+        if (nomHotelSelect.options[i].value === nomHotelValue) {
+            nomHotelSelect.options[i].selected = true;
+            break;
+        }
     }
+    ///////////////////////////////////////////////////////////////////////
+            
+                } else {
+                    alert("Failed to retrieve offre information. Please check console for details.");
+                }
+
+
 }
 </script>

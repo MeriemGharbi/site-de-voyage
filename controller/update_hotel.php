@@ -27,9 +27,11 @@ try {
 
     $stmt->execute();
 
+    
     // Redirection vers modification_form.php avec un message de succès
     header("Location: ../view/display.php?");
     exit(); // Assure que le script s'arrête ici
+    
 } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
 }

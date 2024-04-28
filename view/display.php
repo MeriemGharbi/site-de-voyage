@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -143,6 +144,7 @@
             
      <!-- =============== Main end ================ -->
 
+
  <div class="details" id="contentSection">
     <div class="recentOrders">
         <div style="text-align: center; margin-bottom: 20px;"> <!-- New container for "Liste des hôtels" and "Ajouter" -->
@@ -155,7 +157,7 @@
             <button onclick="showMore()" id="showMoreHotels" class="button" >Plus</button>
             <button onclick="showLess()" id="showLessHotels" class="button">Moins</button>
         </div>
-        <?php include '../controller/main_table.php'; ?> <!-- Table content -->
+        <?php include '../controller/main_table.php'; ?> 
     </div>
 </div>
 
@@ -177,12 +179,6 @@
 
     </div>
 </div>
-
-
-
-
-
-
 
 
 
@@ -239,14 +235,16 @@
     });
 </script>
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
 <?php
 //include '../controller/main_table.php';
 //include '../controller/offres/affichageOffre.php';
 include '../controller/search.php';
 include '../controller/modification_form.php';
+include '../controller/offres/modification_form_offre.php';
+
 ?>
+
+
 
 </div>
 </div>
@@ -258,3 +256,30 @@ include '../controller/modification_form.php';
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
+
+    <script>
+document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("edit-icon")) {
+        var iconId = event.target.id;
+        if (iconId.startsWith("editOfferIcon")) {
+            toggleModificationForm('offre');
+        } else if (iconId.startsWith("editHotelIcon")) {
+            toggleModificationForm('hotel');
+        }
+    }
+});
+
+function toggleModificationForm(formType) {
+    var offreForm = document.getElementById("editFormOffre");
+    var hotelForm = document.getElementById("editForm");
+
+    // Toggle display based on form type
+    if (formType === 'offre') {
+        hotelForm.style.display = "none";  // Hide hotel modification form
+        offreForm.style.display = "block"; // Show offer modification form
+    } else if (formType === 'hotel') {
+        offreForm.style.display = "none";  // Hide offer modification form
+        hotelForm.style.display = "block"; // Show hotel modification form
+    }
+}
+</script>

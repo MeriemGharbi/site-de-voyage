@@ -1,8 +1,6 @@
-
 <?php
 
-if(isset($_POST['send']))//ken nzelna al send button
-{
+if(isset($_POST['send'])) {
     if(isset($_POST['id_category']) &&
         isset($_POST['nom_category'])&&
         isset($_POST['level'])&&
@@ -17,22 +15,46 @@ if(isset($_POST['send']))//ken nzelna al send button
         $_POST['popularity'] != "" &&
         $_POST['mobility'] != "" 
        
-    ){//ken les valeurs hekom lkol mesh ferghin
-            include_once"../config.php";
-            extract($_POST); //extraire tout ces données
-            $sql = "INSERT INTO category (id_category, nom_category, level, season, popularity, mobility ) VALUES ('$id_category', '$nom_category', '$level', '$season', '$popularity', '$mobility' )";
-       if(mysqli_query($con, $sql)){
-        header("location:showCategory.php");
-       }
-       else{
-        header("location:addCategory.php?message=AddFailed");
-       }}
-       else{
-        header("location:addCategory.php?message=EmptyField");
-       
+    ) {
+        try {
+            include_once "../config.php";
+            extract($_POST); // Extract all these data
+
+            // Connect to database using PDO directly
+            $pdo = new PDO("mysql:host=localhost;dbname=travel_agency", "root", "");
+            // Set PDO error mode to exception
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Prepare SQL statement
+            $stmt = $pdo->prepare("INSERT INTO category (id_category, nom_category, level, season, popularity, mobility ) VALUES (?, ?, ?, ?, ?, ?)");
+            
+            // Bind parameters
+            $stmt->bindParam(1, $id_category);
+            $stmt->bindParam(2, $nom_category);
+            $stmt->bindParam(3, $level);
+            $stmt->bindParam(4, $season);
+            $stmt->bindParam(5, $popularity);
+            $stmt->bindParam(6, $mobility);
+
+            // Execute statement
+            $stmt->execute();
+
+            // Redirect to showCategory.php
+            header("Location: showCategory.php");
+            exit(); // Make sure to exit after redirecting
+        } catch(PDOException $e) {
+            // If there was an error, redirect with a message
+            header("Location: addCategory.php?message=AddFailed");
+            exit();
         }
+    } else {
+        // If any field is empty, redirect with a message
+        header("Location: addCategory.php?message=EmptyField");
+        exit();
     }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -113,7 +113,7 @@
         </div>
         
         
-      <!-- ========================= partie search ==================== -->
+      <!-- ========================= DEBUT PARTIE RECHERCHE==================== -->
       <br><br>
         <div class="main">
             <div class="topbar">
@@ -122,63 +122,61 @@
                 </div>
 
                 <div class="search">
-                    <label>
-                        <input type="text" placeholder="Search for activities">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </div>
+    <label>
+    
+        <input type="text" class="form-control" id="live_search" autocomplete="off" placeholder="Search...">
+        <div id="searchresult"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#live_search").keyup(function(){
+            var input = $(this).val();
+            if(input != ""){
+                $.ajax({
+                    url:"livesearch.php",
+                    method : "POST",
+                    data:{input:input},
+                    success:function(data){
+                        // Hide the existing activities container
+                        $(".table-container").hide();
+                        // Show the search results container
+                        $("#searchresult").html(data).show();
+                    }
+                });
+            } else {
+                // If the input is empty, show all results again
+                $.ajax({
+                    url:"showactivity.php", // Change the URL to the PHP file that fetches all results
+                    method : "POST",
+                    success:function(data){
+                        // Show the existing activities container
+                        $(".table-container").show();
+                        // Hide the search results container
+                        $("#searchresult").html("").hide();
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+
+    </label>
+</div>
+<div id="search-results"></div>
+
 
                 <div class="logo">
                 <img src="../view/backoffice/img/xplore.png" alt="">
                 </div>
             </div>
-  <!-- ======================= Cards ================== 
-  <div class="cardBox">
-                <div class="card">
-                    <div>
-                        <div class="numbers">1,504</div>
-                        <div class="cardName">Daily Views</div>
-                    </div>
 
-                    <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">80</div>
-                        <div class="cardName">Sales</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="cart-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">284</div>
-                        <div class="cardName">Comments</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="chatbubbles-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">$7,842</div>
-                        <div class="cardName">Earning</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="cash-outline"></ion-icon>
-                    </div>
-                </div>
-            </div> -->
-            <!-- ================ Order Details List ================= -->
+             <!-- ========================= DEBUT PARTIE RECHERCHE==================== -->
+  <!-- ======================= Cards ==================  -->
            <div class="table-container">    
             <div class="details">
                 <div class="recentOrders">
@@ -196,46 +194,54 @@
     </thead>
     <tbody>
     <?php
-include_once "../config.php";
-// Modifier la requête SQL pour inclure une jointure avec la table category
-$pic = mysqli_query($con, "SELECT activity.*, category.nom_category AS category_name FROM `activity` LEFT JOIN `category` ON activity.id_category = category.id_category");
-while ($row = mysqli_fetch_array($pic)) {
-      // Extraire les deux premiers caractères de la durée pour afficher l'heure et les minutes
-      $duration = substr($row['duration'], 0, 5);
-      // Formater la date pour afficher uniquement la date sans l'heure
-      $date_formattee = date_format(date_create($row['date']), 'Y-m-d');
-  
-      // Format the date_debut and date_fin to display only hours and minutes
-      $date_debut = date_format(date_create($row['date_debut']), 'H:i');
-      $date_fin = date_format(date_create($row['date_fin']), 'H:i');
-  
+include_once "../config.php"; // Include the configuration file
 
-    echo "
-    <tr>
-        <td>$row[id_act]</td>
-        <td colspan='8'>
-           
-                <img src='$row[image]' class='activity-img'  style='float: right;'>
+try {
+    // Establish connection using PDO
+    $pdo = new PDO("mysql:host=localhost;dbname=travel_agency", "root", "");
+
+    // Set PDO to throw exceptions on error
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Modify SQL query to include a join with the category table
+    $sql = "SELECT activity.*, category.nom_category AS category_name FROM `activity` LEFT JOIN `category` ON activity.id_category = category.id_category";
+    $stmt = $pdo->query($sql);
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Extract the first two characters of the duration to display hours and minutes
+        $duration = substr($row['duration'], 0, 5);
+        // Format the date to display only the date without the time
+        $date_formattee = date_format(date_create($row['date']), 'Y-m-d');
+        // Format the date_debut and date_fin to display only hours and minutes
+        $date_debut = date_format(date_create($row['date_debut']), 'H:i');
+        $date_fin = date_format(date_create($row['date_fin']), 'H:i');
+        
+        echo "
+        <tr>
+            <td>$row[id_act]</td>
+            <td colspan='8'>
+                <img src='$row[image]' class='activity-img' style='float: right;'>
                 <div class='activity-details'>
                     <div class='activity-name1'>Nom de l'activité : $row[nom_activity]</div>
                     <div class='activity-name'>Description : $row[description]</div>
                     <div class='activity-name'>Lieu : $row[lieu]</div>
-                    <div class='activity-name'>Date : $date_formattee</div> <!-- Utilisation de la date formatée -->
-                    <div class='activity-name'>Date debut : $date_debut</div> <!-- Afficher seulement les heures et les minutes -->
-                    <div class='activity-name'>Date fin: $date_fin</div> <!-- Afficher seulement les heures et les minutes -->
+                    <div class='activity-name'>Date : $date_formattee</div>
+                    <div class='activity-name'>Date debut : $date_debut</div>
+                    <div class='activity-name'>Date fin: $date_fin</div>
                     <div class='activity-name'>Prix : $row[prix]</div>
                     <div class='activity-name'>Capacité maximale : $row[capacity_max]</div>
-                    <div class='activity-name'>Durée : $duration</div> <!-- Afficher l'heure et les minutes -->
-                    <div class='activity-name'>Nom de la catégorie : $row[category_name]</div> <!-- Afficher le nom de la catégorie -->
+                    <div class='activity-name'>Durée : $duration</div>
+                    <div class='activity-name'>Nom de la catégorie : $row[category_name]</div>
                 </div>
-            </div>
-        </td>
-        <td>
-            <a href='deleteActivity.php?id_act=$row[id_act]' class='button' onclick='return confirmDelete();'>Delete</a> <br> <br> <br> <br>
-            <a href='update.php?id_act=$row[id_act]' class='button'>Update</a>
-        </td>
-    </tr>
-    ";
+            </td>
+            <td>
+                <a href='deleteActivity.php?id_act=$row[id_act]' class='button' onclick='return confirmDelete();'>Delete</a> <br> <br> <br> <br>
+                <a href='update.php?id_act=$row[id_act]' class='button'>Update</a>
+            </td>
+        </tr>
+        ";
+    }
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
 }
 ?>
 
@@ -627,6 +633,8 @@ while ($row = mysqli_fetch_array($pic)) {
 
              <!-- =========== Scripts =========  -->
     <script src="../view/backoffice/assets/js/main.js"></script>
+    <script src="search.js"></script>
+
 
 <!-- ====== ionicons ======= -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

@@ -2,32 +2,36 @@
 $id_category = $_GET['id'];
 if(isset($_POST['send'])) {
     include_once "../config.php";
-    extract($_POST); // Extraire toutes les données
-    $sql = "UPDATE category SET  nom_category = '$nom_category' , level = '$level', season = '$season', popularity = '$popularity' , mobility = '$mobility' WHERE id_category = $id_category";
+    // Extracting all data
+    extract($_POST);
 
-    if(mysqli_query($con, $sql)) {
+    // Prepare the SQL statement using placeholders
+    $sql = "UPDATE category SET nom_category = ?, level = ?, season = ?, popularity = ?, mobility = ? WHERE id_category = ?";
+
+    // Prepare the statement
+    $stmt = $con->prepare($sql);
+
+    // Bind parameters
+    $stmt->bind_param("sssssi", $nom_category, $level, $season, $popularity, $mobility, $id_category);
+
+    // Execute the statement
+    if($stmt->execute()) {
         header("location:showCategory.php");
     } else {
         header("location:showCategory.php?message=modifyFailed");
     }
+    // Close the statement
+    $stmt->close();
 }
+
+// Fetch category information for modification
+include_once "../config.php";
+$sql = "SELECT * FROM category WHERE id_category = ?";
+$stmt = $con->prepare($sql);
+$stmt->bind_param("i", $id_category);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier Activité</title>
-</head>
-<body>
-    <?php
-    include_once "../config.php";
-    // Obtenir les informations de l'activité à modifier
-    $sql = "SELECT * FROM category where id_category = $id_category";
-    $result = mysqli_query($con , $sql);
-    // Afficher le formulaire de modification avec les données existentes
-    while($row = mysqli_fetch_assoc($result)) {
-    ?>
 
 <!DOCTYPE html>
 <html lang="en">

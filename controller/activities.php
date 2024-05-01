@@ -32,7 +32,7 @@
     <!-- Template Stylesheet -->
     <link href="../view/frontoffice/css/style.css" rel="stylesheet">
     <style>
-              .container {
+            .container {
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -116,10 +116,23 @@
         .table {
     width: 80%;
     border-collapse: collapse;
-    margin: 0 auto; /* Center the table horizontally */
-    margin-top: 20px; /* Add some space between the table and other elements */
-    border-radius: 20px; /* Add border radius to all corners of the table */
-    overflow: hidden; /* Ensure border radius is applied correctly */
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 170px;
+    margin-right: 170px;
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
 }
 
 .table th{
@@ -130,13 +143,20 @@
     color: black;
     font-weight: 700;
 }
-
 .table td {
+    background-color: #fff;
+    color: black;
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #ddd; /* Add a bottom border to separate rows */
+    border-bottom: 1px solid #ddd;
+    font-size: 30px;
+    font-weight: 700;
 }
 
+.table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+=
 .table th {
     background-color: #f2f2f2; /* Light gray background color for header */
     font-weight: bold;
@@ -147,13 +167,25 @@
 }
 
 .table tr:hover {
-    background-color: #f0f0f0; /* Background color on hover */
+    background-color: #f0f0f0;
 }
+.activity-link {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.activity-link:hover {
+    color: #0056b3;
+}
+
+
 .imglevel{
         margin-right: 15px;
-    width: 40px;
-    height:35px;
+        width: 40px;
+        height:35px;
 }
+
 
             </style>
 </head>

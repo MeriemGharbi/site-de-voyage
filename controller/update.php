@@ -1,9 +1,26 @@
 <?php
+// Include your database configuration file
 include_once "../config.php";
-$ID_ACT = $_GET['id_act'];
-$Record = mysqli_query($con,"SELECT * FROM activity WHERE id_act = $ID_ACT");
-$data = mysqli_fetch_array($Record )
+
+try {
+    // Establish a PDO connection
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    // Set the PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    // Assuming you're passing the ID of the activity through GET method
+    $ID_ACT = $_GET['id_act'];
+
+    // Using prepared statements to prevent SQL injection
+    $stmt = $pdo->prepare("SELECT * FROM activity WHERE id_act = :id_act");
+    $stmt->execute(['id_act' => $ID_ACT]);
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch(PDOException $e) {
+    // Handle PDO connection errors
+    echo "Connection failed: " . $e->getMessage();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

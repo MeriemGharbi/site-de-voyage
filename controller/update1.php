@@ -1,5 +1,6 @@
 <?php
 include_once "../config.php";
+
 if(isset($_POST['update'])){
     // Retrieve form data
     $ID_ACT = $_POST['id_act'];
@@ -17,9 +18,13 @@ if(isset($_POST['update'])){
     // Check if image field is empty
     if($_FILES['image']['size'] == 0) {
         // Image field is not updated, retain the existing image
-        $existingImageQuery = mysqli_query($con, "SELECT image FROM activity WHERE id_act = '$ID_ACT'");
-        $existingImageData = mysqli_fetch_array($existingImageQuery);
-        $img_des = $existingImageData['image'];
+        $stmt_select = $con->prepare("SELECT image FROM activity WHERE id_act = ?");
+        $stmt_select->bind_param("i", $ID_ACT);
+        $stmt_select->execute();
+        $stmt_select->bind_result($existingImageData);
+        $stmt_select->fetch();
+        $stmt_select->close(); // Close the SELECT statement
+        $img_des = $existingImageData;
     } else {
         // File upload
         $img_loc = $_FILES['image']['tmp_name'];
@@ -28,8 +33,11 @@ if(isset($_POST['update'])){
         move_uploaded_file($img_loc,'uploadImage/'.$img_name); 
     }
 
-    // Update the record
-    mysqli_query($con, "UPDATE `activity` SET `nom_activity`='$NOM_ACTIVITY', `description`='$DESCRIPTION', `lieu`='$LIEU', `date`='$DATE', `prix`='$PRIX', `capacity_max`='$CAPACITY_MAX', `image`='$img_des', `id_category`='$ID_CATEGORY', `duration`='$DURATION',`date_debut`='$DATE_DEBUT', `date_fin`='$DATE_FIN'  WHERE id_act = '$ID_ACT'");
+    // Update the record using prepared statements
+    $stmt_update = $con->prepare("UPDATE `activity` SET `nom_activity`=?, `description`=?, `lieu`=?, `date`=?, `prix`=?, `capacity_max`=?, `image`=?, `id_category`=?, `duration`=?, `date_debut`=?, `date_fin`=?  WHERE id_act = ?");
+    $stmt_update->bind_param("ssssdissisii", $NOM_ACTIVITY, $DESCRIPTION, $LIEU, $DATE, $PRIX, $CAPACITY_MAX, $img_des, $ID_CATEGORY, $DURATION, $DATE_DEBUT, $DATE_FIN, $ID_ACT);
+    $stmt_update->execute();
+    $stmt_update->close(); // Close the UPDATE statement
 
     header("location:showActivity.php");
 }

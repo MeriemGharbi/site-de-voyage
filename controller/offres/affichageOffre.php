@@ -15,7 +15,9 @@ try {
             echo '<strong>' .'Hotel: '. $offre['nomHotel'] .'</strong>  <img id="editOfferIcon" class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier"  onclick="showEditFormOffre(\'' .  $offre['idOffre'] . '\')"><br>';
             echo 'Prix: ' . $offre['prixOffre'] . ' dt <img id="editOfferIcon"class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditFormOffre(\'' .  $offre['idOffre'] . '\')"><br>';
             echo 'date Ajout Offre: ' . $offre['dateAjoutOffre'] . ' <img id="editOfferIcon" class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditFormOffre(\'' . $offre['idOffre'] . '\')"><br>';
-            
+            echo 'likes: ' . $offre['likes'] . ' dt <img id="editOfferIcon"class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditFormOffre(\'' .  $offre['idOffre'] . '\')"><br>';
+            echo 'dislikes: ' . $offre['dislikes'] . ' dt <img id="editOfferIcon"class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditFormOffre(\'' .  $offre['idOffre'] . '\')"><br>';
+
             
             // Form for deletion
     echo '<form id="deleteForm' . $offre['idOffre'] . '" method="post" action="../controller/offres/deleteOffre.php">';

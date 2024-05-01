@@ -9,8 +9,6 @@
         <input type="text" id="description" name="description" style="margin-bottom: 10px; width: 100%;"><br>
         <label for="etoiles">Nombre d'étoiles:</label>
         <input type="number" id="etoiles" name="etoiles" style="margin-bottom: 10px; width: 100%;"><br>
-        <label for="prixHotel">Prix:</label>
-        <input type="text" id="prixHotel" name="prixHotel" style="margin-bottom: 10px; width: 100%;"><br>
         <label for="lienPhotoHotel">Lien de la photo:</label>
         <input type="text" id="lienPhotoHotel" name="lienPhotoHotel" style="margin-bottom: 10px; width: 100%;"><br>
         <label for="infoContact">Info contact:</label>
@@ -25,7 +23,6 @@ function validateForm() {
     var adresse = document.getElementById("adresse").value.trim();
     var description = document.getElementById("description").value.trim();
     var etoiles = document.getElementById("etoiles").value.trim();
-    var prixHotel = document.getElementById("prixHotel").value.trim();
     var lienPhotoHotel = document.getElementById("lienPhotoHotel").value.trim();
     var infoContact = document.getElementById("infoContact").value.trim();
 
@@ -34,7 +31,6 @@ function validateForm() {
         adresse === "" || 
         description === "" || 
         etoiles === "" || 
-        prixHotel === "" || 
         lienPhotoHotel === "" || 
         infoContact === ""
     ) {
@@ -49,11 +45,6 @@ function validateForm() {
 
     if (isNaN(etoiles) || etoiles < 1 || etoiles > 5) {
         alert("Le nombre d'étoiles doit être un nombre entre 1 et 5.");
-        return false;
-    }
-
-    if (!/^\d+(\.\d+)?$/.test(prixHotel)) {
-        alert("Le prix de l'hôtel ne peut contenir que des chiffres et éventuellement un point pour les décimales.");
         return false;
     }
 
@@ -94,7 +85,6 @@ function getHotelInfo(nomHotel) {
         document.getElementById("adresse").value = hotel.adresse;
         document.getElementById("description").value = hotel.description;
         document.getElementById("etoiles").value = hotel.etoiles;
-        document.getElementById("prixHotel").value = hotel.prixHotel;
         document.getElementById("lienPhotoHotel").value = hotel.lienPhotoHotel; 
         document.getElementById("infoContact").value = hotel.infoContact;
 

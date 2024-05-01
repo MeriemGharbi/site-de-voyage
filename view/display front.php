@@ -184,29 +184,30 @@
             </div>
             <div class="row g-4 justify-content-center">
             <div class="package-item">
+
+            
 <?php
 function displayLogo($logoLink) {
     return '<img class="logo" style="width:20px;height:20px;" src="' . $logoLink  . '">';
 }
 
+
 include '../config.php';
 $conn = config::getConnexion(); // Establish the connection
 
 try {
-    $query = $conn->query("SELECT * FROM hotels");
-    $hotels = $query->fetchAll();
+    $query = $conn->query("SELECT offres.idOffre, offres.nomHotel, hotels.lienPhotoHotel, hotels.adresse, offres.descriptionOffre
+                            FROM offres
+                            INNER JOIN hotels ON offres.nomHotel = hotels.nomHotel");
+    $offers = $query->fetchAll();
 
-    if (count($hotels) > 0) {
-        foreach ($hotels as $hotel) {
+    if (count($offers) > 0) {
+        foreach ($offers as $offer) {
             echo '<div class="hotel">';
-            echo '<img class="img-fluid" src="' . $hotel['lienPhotoHotel'] . '" alt="Photo de l\'hôtel">';
+            echo '<img class="img-fluid" src="' . $offer['lienPhotoHotel'] . '" alt="Photo de l\'hôtel">';
 
-            // Display hotel name with increased font size
-            echo '<h2 class="text-center">' . $hotel['nomHotel'] . '</h2>';
-            
-            // Display price, location, and contact information
-           // echo '<p class="text-center mb-3">Prix: ' . $hotel['prixHotel'] . ' dt | ' . $hotel['adresse'] . ' | ' . $hotel['infoContact'] . '</p>';
-           echo '<p class="text-center">' . $hotel['adresse'] . '</p>';
+            echo '<h2 class="text-center">' . $offer['nomHotel'] . '</h2>'; // font big
+            echo '<p class="text-center">' . $offer['adresse'] . '</p>';
 
             // Display star rating
             echo '<div class="mb-3 text-center">';
@@ -216,26 +217,63 @@ try {
             echo '<small class="fa fa-star text-primary"></small>';
             echo '<small class="fa fa-star text-primary"></small>';
             echo '</div>';
-            
+
             // Display description
-            echo '<p class="text-center">' . $hotel['description'] . '</p>';
+            echo '<p class="text-center">' . $offer['descriptionOffre'] . '</p>';
 
             echo '<div class="d-flex justify-content-center mb-2">';
             
-            echo '<a href="../controller/readMore.php?hotel=' . urlencode($hotel['nomHotel']) . '" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>';
+            echo '<a href="../controller/readMore.php?hotel=' . urlencode($offer['nomHotel']) . '" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>';
             echo '<a href="#" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Book Now</a>';
+           
             echo '</div>';
-            echo '</div>';
+
+
+            //like dislike buttons work
+            $formId = 'likeDislikeForm_' . $offer['idOffre'];
+
+            echo '<form id="' . $formId . '" method="post" target="hidden_iframe" action="../controller/likeDislike.php">';
+            echo '<input type="hidden" name="offer_id" value="' . $offer['idOffre'] . '">';
+            echo '<input type="hidden" name="reaction" id="reactionInput_' . $offer['idOffre'] . '" value="">'; // Unique hidden input for reaction
             
+            echo '<button type="button" class="btn btn-sm btn-primary px-2" style="border-radius: 30px; padding: 5px;" onclick="likeDislike(\'like\', ' . $offer['idOffre'] . ')">';
+            echo '<img src="assets/assetsFront/img/like.png" alt="Like" style="width: 20px; height: 20px;">';
+            echo '</button>';
+            
+            echo '<button type="button" class="btn btn-sm btn-primary px-2" style="border-radius: 30px; padding: 5px;" onclick="likeDislike(\'dislike\', ' . $offer['idOffre'] . ')">';
+            echo '<img src="assets/assetsFront/img/dislike.png" alt="Dislike" style="width: 20px; height: 20px;">';
+            echo '</button>';
+            
+            echo '</form>';
+            
+           
+/////////////////////////////////////////////////////////////////////
+
+
+            echo '</div>';
+
         }
     }
     else {
-        echo 'Aucun hôtel trouvé.';
+        echo 'Aucune offre trouvée.';
     }
 } catch (PDOException $e) {
     echo 'Echec de connexion:' . $e->getMessage();
 }
+
 ?>
+<iframe id="hidden_iframe" name="hidden_iframe" style="display:none;"></iframe>
+
+
+<script>
+    function likeDislike(reaction, offerId) {
+        var reactionInputId = 'reactionInput_' + offerId;
+        document.getElementById(reactionInputId).value = reaction;
+        document.getElementById('likeDislikeForm_' + offerId).submit();
+    }
+</script>
+
+
  </div>
  </div>
  </div>

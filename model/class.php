@@ -6,17 +6,15 @@ class Hotel
     private string $adresse;
     private string $description;
     private int $etoiles;
-    private float $prixHotel;
     private string $lienPhotoHotel;
     private string $infoContact;
 
-    public function __construct($nomHotel, $adresse, $description, $etoiles, $prixHotel, $lienPhotoHotel, $infoContact)
+    public function __construct($nomHotel, $adresse, $description, $etoiles, $lienPhotoHotel, $infoContact)
     {
         $this->nomHotel = $nomHotel;
         $this->adresse = $adresse;
         $this->description = $description;
         $this->etoiles = $etoiles;
-        $this->prixHotel = $prixHotel;
         $this->lienPhotoHotel = $lienPhotoHotel;
         $this->infoContact = $infoContact;
     }
@@ -59,16 +57,6 @@ class Hotel
     public function setEtoiles(int $etoiles): void
     {
         $this->etoiles = $etoiles;
-    }
-
-    public function getPrixHotel(): float
-    {
-        return $this->prixHotel;
-    }
-
-    public function setPrixHotel(float $prixHotel): void
-    {
-        $this->prixHotel = $prixHotel;
     }
 
     public function getLienPhotoHotel(): string

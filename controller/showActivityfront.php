@@ -278,6 +278,8 @@
             <div class="activities text-center">
                 <h1 class="mb-4"><span class="title">Our Activities</span></h1>
             </div>
+            <!--chatbot-->
+            
             <?php
             include_once "../config.php";
             $activities = mysqli_query($con, "SELECT activity.*, category.nom_category AS category_name FROM `activity` LEFT JOIN `category` ON activity.id_category = category.id_category");

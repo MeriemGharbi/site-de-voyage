@@ -124,7 +124,8 @@
                 <div class="search">
     <label>
     
-        <input type="text" class="form-control" id="live_search" autocomplete="off" placeholder="Search...">
+        <input type="text" class="form-control" id="live_search" autocomplete="off" placeholder="Search..." oninput="handleSearchInput()">
+</label>
         <div id="searchresult"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -132,7 +133,17 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#live_search").keyup(function(){
+        // Function to handle search input changes
+        function handleSearchInput() {
+            var input = $("#live_search").val();
+            // Store the search value in localStorage
+            localStorage.setItem('searchValue', input);
+        }
+
+        // Attach the handleSearchInput function to the input element's input event
+        $("#live_search").on('input', function() {
+            handleSearchInput();
+
             var input = $(this).val();
             if(input != ""){
                 $.ajax({
@@ -160,12 +171,15 @@
                 });
             }
         });
+
+        // Check if there is a stored search value
+        var storedSearch = localStorage.getItem('searchValue');
+        if (storedSearch) {
+            // Populate the search input field with the stored value
+            $("#live_search").val(storedSearch);
+        }
     });
-</script>
-
-
-
-    </label>
+</script>    
 </div>
 <div id="search-results"></div>
 
@@ -255,376 +269,118 @@ try {
                     <div class="cardHeader">
                         <h2>our best activity offers</h2>
                     </div>
+                    <?php
+// Database connection settings
+$host = 'localhost';
+$dbname = 'travel_agency';
+$username = 'root';
+$password = '';
 
-                    <table>
-                    <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/forest1.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Adventure Trek :<br><span>Explore the Wilderness</span></span></h4>
-                            </td>
-                        </tr>
+// Establish PDO connection
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
 
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/kayak.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Sunset Kayaking:<br> <span> Paddle into the Twilight</span></h4>
-                            </td>
-                        </tr>
+// Function to fetch chatbot questions and answers
+function getChatbotData($pdo) {
+    $query = "SELECT * FROM question";
+    $statement = $pdo->prepare($query);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
 
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act3.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Yoga Retreat:<br> <span> Find Your Inner Peace</span></h4>
-                            </td>
-                        </tr>
+// Function to insert new chatbot question and answer
+function insertChatbotData($pdo, $question, $answer) {
+    $query = "INSERT INTO question (question, answer) VALUES (?, ?)";
+    $statement = $pdo->prepare($query);
+    $statement->execute([$question, $answer]);
+}
 
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act4.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Mountain Biking Excursion:<br> <span>Conquer the Trails </span></h4>
-                            </td>
-                        </tr>
+// Function to update chatbot question and answer
+function updateChatbotData($pdo, $id, $question, $answer) {
+    $query = "UPDATE question SET question=?, answer=? WHERE id_quest=?";
+    $statement = $pdo->prepare($query);
+    $statement->execute([$question, $answer, $id]);
+}
 
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act6.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Wildlife Safari:<br> <span> Encounter the Wonders of Nature</span></h4>
-                            </td>
-                        </tr>
+// Function to delete chatbot question and answer
+function deleteChatbotData($pdo, $id) {
+    $query = "DELETE FROM question WHERE id_quest=?";
+    $statement = $pdo->prepare($query);
+    $statement->execute([$id]);
+}
 
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act9.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Team-Building Challenge:<br> <span> Strengthen Bonds Together</span></h4>
-                            </td>
-                        </tr>
+?>
+<?php include_once "../config.php"; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add your meta tags, stylesheets, and scripts here -->
+    <title>Chatbot</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Chatbot Questions and Answers</h2>
+        <!-- Display chatbot questions and answers -->
+        <ul>
+            <?php
+            $chatbotData = getChatbotData($pdo);
+            foreach ($chatbotData as $row) {
+                echo "<li>{$row['question']}: {$row['answer']} 
+                      <form method='post' style='display: inline;'>
+                          <button type='submit' name='update' value='{$row['id_quest']}'>Update</button>
+                      </form>
+                      <form method='post' style='display: inline;'>
+                          <button type='submit' name='delete' value='{$row['id_quest']}'>Delete</button>
+                      </form>
+                      </li>";
+            }
+            ?>
+        </ul>
+        
+        <!-- Form to add new chatbot question and answer -->
+        <form method="post">
+            <label for="question">Question:</label>
+            <input type="text" id="question" name="question" required>
+            <label for="answer">Answer:</label>
+            <input type="text" id="answer" name="answer" required>
+            <button type="submit" name="add">Add Question</button>
+        </form>
+    </div>
+    <?php
+    // Handle form submission to add new question and answer
+    if (isset($_POST['add'])) {
+        $question = $_POST['question'];
+        $answer = $_POST['answer'];
+        insertChatbotData($pdo, $question, $answer);
+        // Refresh the page to display the newly added question
+        header("Location: ".$_SERVER['PHP_SELF']);
+        exit();
+    }
 
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act7.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>sahara tour <br> <span>explore the sahara of north africa</span></h4>
-                            </td>
-                        </tr>
+    // Handle form submission to update question and answer
+    if (isset($_POST['update'])) {
+        $id = $_POST['update'];
+        // Redirect to the update page with the selected ID
+        header("Location: update_page.php?id=$id");
+        exit();
+    }
 
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act8.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Historical Walking Tour: <br> <span>Step Back in Time</span></h4>
-                            </td>
-                    <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/forest1.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Adventure Trek :<br><span>Explore the Wilderness</span></span></h4>
-                            </td>
-                        </tr>
+    // Handle form submission to delete question and answer
+    if (isset($_POST['delete'])) {
+        $id = $_POST['delete'];
+        deleteChatbotData($pdo, $id);
+        // Refresh the page to reflect the deletion
+        header("Location: ".$_SERVER['PHP_SELF']);
+        exit();
+    }
+    ?>
 
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/kayak.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Sunset Kayaking:<br> <span> Paddle into the Twilight</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act3.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Yoga Retreat:<br> <span> Find Your Inner Peace</span></h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act6.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Wildlife Safari:<br> <span> Encounter the Wonders of Nature</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act9.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Team-Building Challenge:<br> <span> Strengthen Bonds Together</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act7.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>sahara tour <br> <span>explore the sahara of north africa</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act8.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Historical Walking Tour: <br> <span>Step Back in Time</span></h4>
-                            </td>
-                    <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/forest1.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Adventure Trek :<br><span>Explore the Wilderness</span></span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/kayak.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Sunset Kayaking:<br> <span> Paddle into the Twilight</span></h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act6.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Wildlife Safari:<br> <span> Encounter the Wonders of Nature</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act9.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Team-Building Challenge:<br> <span> Strengthen Bonds Together</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act7.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>sahara tour <br> <span>explore the sahara of north africa</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act8.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Historical Walking Tour: <br> <span>Step Back in Time</span></h4>
-                            </td>
-                    <tr>
-                    <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act6.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Wildlife Safari:<br> <span> Encounter the Wonders of Nature</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act9.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Team-Building Challenge:<br> <span> Strengthen Bonds Together</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act7.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>sahara tour <br> <span>explore the sahara of north africa</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act8.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Historical Walking Tour: <br> <span>Step Back in Time</span></h4>
-                            </td>
-                    <tr>
-                        
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/forest1.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Adventure Trek :<br><span>Explore the Wilderness</span></span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/kayak.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Sunset Kayaking:<br> <span> Paddle into the Twilight</span></h4>
-                            </td>
-                        </tr>
-                        <tr>
-                        
-                        <td width="60px">
-                            <div class="imgBx"><img src="../view/backoffice/img/forest1.jpg" alt=""></div>
-                        </td>
-                        <td>
-                            <h4>Adventure Trek :<br><span>Explore the Wilderness</span></span></h4>
-                        </td>
-                    </tr>
-                    <tr>
-                        
-                        <td width="60px">
-                            <div class="imgBx"><img src="../view/backoffice/img/forest1.jpg" alt=""></div>
-                        </td>
-                        <td>
-                            <h4>Adventure Trek :<br><span>Explore the Wilderness</span></span></h4>
-                        </td>
-                    </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act4.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Mountain Biking Excursion:<br> <span>Conquer the Trails </span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act6.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Wildlife Safari:<br> <span> Encounter the Wonders of Nature</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act9.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Team-Building Challenge:<br> <span> Strengthen Bonds Together</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act7.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>sahara tour <br> <span>explore the sahara of north africa</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act8.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Historical Walking Tour: <br> <span>Step Back in Time</span></h4>
-                            </td>
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/forest1.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Adventure Trek :<br><span>Explore the Wilderness</span></span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/kayak.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Sunset Kayaking:<br> <span> Paddle into the Twilight</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act3.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Yoga Retreat:<br> <span> Find Your Inner Peace</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act4.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Mountain Biking Excursion:<br> <span>Conquer the Trails </span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act6.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Wildlife Safari:<br> <span> Encounter the Wonders of Nature</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act9.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Team-Building Challenge:<br> <span> Strengthen Bonds Together</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act7.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>sahara tour <br> <span>explore the sahara of north africa</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="../view/backoffice/img/act8.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Historical Walking Tour: <br> <span>Step Back in Time</span></h4>
-                            </td>
-                        </tr>
-                    </table>
+</body>
+</html>
                 </div>
             </div>
         </div>

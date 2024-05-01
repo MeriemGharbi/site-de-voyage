@@ -53,6 +53,14 @@ function deleteChatbotData($pdo, $id) {
 <body>
     <div class="container">
         <h2>Chatbot Questions and Answers</h2>
+         <!-- Form to add new chatbot question and answer -->
+         <form method="post">
+            <label for="question">Question:</label>
+            <input type="text" id="question" name="question" required>
+            <label for="answer">Answer:</label>
+            <input type="text" id="answer" name="answer" required>
+            <button type="submit" name="add">Add Question</button>
+        </form>
         <!-- Display chatbot questions and answers -->
         <ul>
             <?php
@@ -70,14 +78,7 @@ function deleteChatbotData($pdo, $id) {
             ?>
         </ul>
         
-        <!-- Form to add new chatbot question and answer -->
-        <form method="post">
-            <label for="question">Question:</label>
-            <input type="text" id="question" name="question" required>
-            <label for="answer">Answer:</label>
-            <input type="text" id="answer" name="answer" required>
-            <button type="submit" name="add">Add Question</button>
-        </form>
+       
     </div>
     <?php
     // Handle form submission to add new question and answer

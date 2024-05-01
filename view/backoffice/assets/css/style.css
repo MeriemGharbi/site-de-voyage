@@ -403,8 +403,6 @@ th {
   text-align: center;
 }
 .recentCustomers {
-
- 
   background: var(--white);
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
@@ -435,9 +433,7 @@ th {
   .details {
     grid-template-columns: 1fr;
   }
-  .recentOrders {
-    overflow-x: auto;
-  }
+ 
   .status.inProgress {
     white-space: nowrap;
   }

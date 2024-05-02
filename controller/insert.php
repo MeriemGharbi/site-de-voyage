@@ -8,9 +8,9 @@ if(isset($_POST['upload'])){
         $NOM_ACTIVITY = $_POST['nom_activity'];
         $DESCRIPTION = $_POST['description'];
         $LIEU = $_POST['lieu'];
-        $DATE = $_POST['date_debut'];
-        $DATE_DEBUT = $_POST['date_fin'];
-        $DATE_FIN = $_POST['date'];
+        $DATE = $_POST['date'];
+        $DATE_DEBUT = $_POST['date_debut'];
+        $DATE_FIN = $_POST['date_fin'];
         $PRIX = $_POST['prix'];
         $CAPACITY_MAX = $_POST['capacity_max'];
         $image = $_FILES['image'];

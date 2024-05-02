@@ -224,7 +224,8 @@ try {
         // Extract the first two characters of the duration to display hours and minutes
         $duration = substr($row['duration'], 0, 5);
         // Format the date to display only the date without the time
-        $date_formattee = date_format(date_create($row['date']), 'Y-m-d');
+        $date_formattee = date("Y-m-d", strtotime($row['date']));
+
         // Format the date_debut and date_fin to display only hours and minutes
         $date_debut = date_format(date_create($row['date_debut']), 'H:i');
         $date_fin = date_format(date_create($row['date_fin']), 'H:i');
@@ -239,11 +240,12 @@ try {
                     <div class='activity-name'>Description : $row[description]</div>
                     <div class='activity-name'>Lieu : $row[lieu]</div>
                     <div class='activity-name'>Date : $date_formattee</div>
-                    <div class='activity-name'>Date debut : $date_debut</div>
-                    <div class='activity-name'>Date fin: $date_fin</div>
+                    <div class='activity-name'>Heure debut : $date_debut</div>
+                    <div class='activity-name'>Heure fin: $date_fin</div>
+                    <div class='activity-name'>Durée : $duration</div>
                     <div class='activity-name'>Prix : $row[prix]</div>
                     <div class='activity-name'>Capacité maximale : $row[capacity_max]</div>
-                    <div class='activity-name'>Durée : $duration</div>
+                   
                     <div class='activity-name'>Nom de la catégorie : $row[category_name]</div>
                 </div>
             </td>

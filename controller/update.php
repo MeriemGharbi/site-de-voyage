@@ -168,12 +168,14 @@ try {
                <span id="error-lieu" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
                <span id="valid-lieu" class="valid-message" style="color: green; visibility: hidden;">Lieu valide</span><br>
 
-
-                <label for="date">date</label>
-                <input type="date" name="date" value="<?php echo date('Y-m-d', strtotime($data['date'])); ?>" id="date">
-
+               <div class="attributs">
+               <label for="date">date</label>
+               <input type="datetime-local" name="date" value="<?php echo date('Y-m-d\TH:i', strtotime($data['date'])); ?>" id="date">
+               <span id="error-date" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
+                <span id="valid-date" class="valid-message" style="color: green; visibility: hidden;">Date valide</span><br>
+                </div>  
                 <div class="attributs">
-                <label for="date">date debut</label>
+                <label for="date_debut">date debut</label>
                 <input type="time" name="date_debut" value="<?php echo $data['date_debut'] ?>" id="date_debut" class="input">
                 <span id="error-date" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
                 <span id="valid-date" class="valid-message" style="color: green; visibility: hidden;">Date valide</span><br>
@@ -181,13 +183,14 @@ try {
                             
                 <div class="attributs">
                 <label for="date_fin">date fin</label>
-                <input type="time" name="date_fin" value="<?php echo $data['date_fin'] ?>" id="date_fin" class="input">
+                <input type="time" name="date_fin" value="<?php echo date('H:i', strtotime($data['date_fin'])); ?>" id="date_fin" class="input">
+
                 <span id="error-date" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
                 <span id="valid-date" class="valid-message" style="color: green; visibility: hidden;">Date valide</span><br>
                 </div>
-
-               <span id="error-date" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
-               <span id="valid-date" class="valid-message" style="color: green; visibility: hidden;">Date valide</span><br>
+                        
+          
+              
 
                <label for="prix">prix</label>
                <input type="text" name="prix" value="<?php echo $data['prix'] ?>" id="prix">
@@ -207,10 +210,12 @@ try {
                <span id="error-id-category" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
                <span id="valid-id-category" class="valid-message" style="color: green; visibility: hidden;">ID Category valide</span><br>
 
+               <div class="attributs">
                <label for="duration">durée</label>
-               <input type="time" name="duration"  value="<?php echo $data['duration'] ?>" placeholder="duration" id="duration">
+               <input type="time" name="duration" value="<?php echo date('H:i', strtotime($data['duration'])); ?>"  placeholder="duration" id="duration">
                <span id="error-id-category" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
                <span id="valid-id-category" class="valid-message" style="color: green; visibility: hidden;">ID Category valide</span><br>
+               </div>
 
                <input type="hidden" name="id_act" value="<?php echo $data['id_act']?>">
 

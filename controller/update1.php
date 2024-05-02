@@ -35,7 +35,7 @@ if(isset($_POST['update'])){
 
     // Update the record using prepared statements
     $stmt_update = $con->prepare("UPDATE `activity` SET `nom_activity`=?, `description`=?, `lieu`=?, `date`=?, `prix`=?, `capacity_max`=?, `image`=?, `id_category`=?, `duration`=?, `date_debut`=?, `date_fin`=?  WHERE id_act = ?");
-    $stmt_update->bind_param("ssssdissisii", $NOM_ACTIVITY, $DESCRIPTION, $LIEU, $DATE, $PRIX, $CAPACITY_MAX, $img_des, $ID_CATEGORY, $DURATION, $DATE_DEBUT, $DATE_FIN, $ID_ACT);
+    $stmt_update->bind_param("ssssdisssssi", $NOM_ACTIVITY, $DESCRIPTION, $LIEU, $DATE, $PRIX, $CAPACITY_MAX, $img_des, $ID_CATEGORY, $DURATION, $DATE_DEBUT, $DATE_FIN, $ID_ACT);
     $stmt_update->execute();
     $stmt_update->close(); // Close the UPDATE statement
 

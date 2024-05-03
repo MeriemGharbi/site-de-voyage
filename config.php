@@ -1,5 +1,5 @@
-<?php
 
+<<<<<<< HEAD
 class config
 {
     private static $pdo = null;
@@ -25,3 +25,5 @@ class config
     }
 }
 
+=======
+>>>>>>> 97093d76f79c7a573b5799d711848cd0f7374505

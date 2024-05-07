@@ -1,15 +1,41 @@
 <?php
-$id_reservation = $_GET['id_reservation'];
+include_once "../config.php";
 if(isset($_POST['send'])) {
-    include_once "../config.php";
-    extract($_POST); // Extract all data
-    $sql = "UPDATE reservation SET  id_reservation = '$id_reservation', id_voiture = '$id_voiture', date_debut = '$date_debut', date_fin = '$date_fin', statut = '$statut' WHERE id_reservation = $id_reservation";
-
-    if(mysqli_query($con, $sql)) {
-        header("location:showreservation.php");
-    } else {
-        header("location:showreservation.php?message=modifyFailed");
+    try {
+        $pdo = new PDO("mysql:host=localhost;dbname=2a41", "root", "");       
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        extract($_POST);
+        $sql = "UPDATE reservation SET nom_client = ?, id_voiture = ?, date_debut = ?, date_fin = ?, prix_total = ?, statut = ? WHERE id_reservation = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(1, $nom_client);
+        $stmt->bindParam(2, $id_voiture);
+        $stmt->bindParam(3, $date_debut);
+        $stmt->bindParam(4, $date_fin);
+        $stmt->bindParam(5, $prix_total);
+        $stmt->bindParam(6, $statut);
+        $stmt->bindParam(7, $id_reservation);
+        
+        if($stmt->execute()) {
+            header("location:showReservation.php");
+        } else {
+            header("location:showReservation.php?message=modifyFailed");
+        }
+       // $stmt->close();
+    } catch(PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
+}
+
+try {
+    $pdo = new PDO("mysql:host=localhost;dbname=2a41", "root", "");   
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "SELECT * FROM reservation WHERE id_reservation = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(1, $_GET['id']);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch(PDOException $e) {
+    echo "Error: " . $e->getMessage();
 }
 ?>
 <!DOCTYPE html>
@@ -17,19 +43,10 @@ if(isset($_POST['send'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../view/backoffice/assets/css/style2.css">
-    <title>Modifier Réservation</title>
+    <link rel="stylesheet" href="../view/backoffice/assets/css/style1.css">
+    <title>update reservation</title>
 </head>
 <body>
-    <?php
-    include_once "../config.php";
-    // Get the information of the reservation to modify
-    $sql = "SELECT * FROM reservation where id_reservation = $id_reservation";
-    $result = mysqli_query($con , $sql);
-    // Display the modification form with existing data
-    while($row = mysqli_fetch_assoc($result)) {
-    ?>
-
 <div class="container">
    <!-- ===============XPLORE================ -->
    <div class="navigation">
@@ -149,42 +166,46 @@ if(isset($_POST['send'])) {
     
  <!-- ========================= Form Section ==================== -->
 
-    <form action="" method="post">
-    <div class="form">
-        <div class="text-center">
-            <h1>Modify Reservation</h1>
-        </div>
-       
-        <label for="id_user">User ID:</label>
-        <input type="text" name="id_reservation" placeholder="reservation ID" value="<?php echo $row['id_reservation']; ?>">
+ <form action="" method="post">
+            <div class="form">
+                <div class="text-center">
+                    <h1>Update Reservation</h1>
+                </div>
+                <label for="nom_client">Client Name:</label>
+                <input type="text" name="nom_client" placeholder="Client Name" value="<?php echo $row['nom_client']; ?>">
+   
+                <label for="id_voiture">Car ID:</label>
+                <input type="text" name="id_voiture" placeholder="Car ID" value="<?php echo $row['id_voiture']; ?>">
 
-        <label for="id_voiture">Car ID:</label>
-        <input type="text" name="id_voiture" placeholder="Car ID" value="<?php echo $row['id_voiture']; ?>">
+                <label for="date_debut">Start Date:</label>
+                <input type="text" name="date_debut" placeholder="Start Date" value="<?php echo $row['date_debut']; ?>">
 
-        <label for="date_debut">Start Date:</label>
-        <input type="date" name="date_debut" value="<?php echo $row['date_debut']; ?>">
+                <label for="date_fin">End Date:</label>
+                <input type="text" name="date_fin" placeholder="End Date" value="<?php echo $row['date_fin']; ?>">
 
-        <label for="date_fin">End Date:</label>
-        <input type="date" name="date_fin" value="<?php echo $row['date_fin']; ?>">
+                <label for="prix_total">Total Price:</label>
+                <input type="text" name="prix_total" placeholder="Total Price" value="<?php echo $row['prix_total']; ?>">
 
-        <label for="etat">Status:</label>
-        <input type="text" name="statut" placeholder="Statut" value="<?php echo $row['statut']; ?>">
+                <label for="statut">Status:</label>
+                <input type="text" name="statut" placeholder="Status" value="<?php echo $row['statut']; ?>">
 
-        <input type="submit" value="Modifier" name="send">
-        <a class="link back" href="showcar.php">Annuler</a>
-    </form>
+                <input type="hidden" name="id_reservation" value="<?php echo $row['id_reservation']; ?>">
+                <input type="submit" value="Update" name="send">
+                <a class="link back" href="showReservation.php">Cancel</a>
+            </div>
+        </form>
 
-    <?php
-    }
-    ?>
+
     </div>
 </div>
 <script src="reservation.js"></script>
+<script src="../view/backoffice/assets/js/main.js"></script>
    <!-- =========== Scripts =========  -->
-   <script src="assets/js/main.js"></script>
 
 <!-- ====== ionicons ======= -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
+
+

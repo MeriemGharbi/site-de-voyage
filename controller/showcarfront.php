@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Tourist - Travel Agency HTML Template</title>
+    <title>Travel Agency </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -242,40 +242,45 @@
                 <h1 class="mb-4"><span class="title">Our Cars</span></h1>
             </div>
             <?php
-            include_once "../config.php";
-            try {
-                // Prepare SQL statement
-                $stmt = $pdo->query("SELECT * FROM `car`");
-                // Execute the statement
-                while ($car = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    ?>
-                    <div class="car">
-                        <div class="car-details">
-                            <h3 class="car-name"><?= $car['marque'] ?> <?= $car['modele'] ?></h3>
-                            <p class="car-label">Year:</p>
-                            <p class="car-year"><?= $car['annee'] ?></p>
-                            <p class="car-label">Color:</p>
-                            <p class="car-color"><?= $car['couleur'] ?></p>
-                            <p class="car-label">Type:</p>
-                            <p class="car-type"><?= $car['type'] ?></p>
-                            <p class="car-label">Price per Day:</p>
-                            <p class="car-price"><?= $car['prix_journee'] ?> TND</p>
-                            <p class="car-label">Availability:</p>
-                            <p class="car-availability"><?= $car['disponibilite'] ? 'Available' : 'Not Available' ?></p>
-                        </div>
-                        <div class="car-image">
-                            <img src="<?= $car['image'] ?>" alt="<?= $car['marque'] ?> <?= $car['modele'] ?>">
-                        </div>
-                    </div>
-                    <?php
-                }
-            } catch(PDOException $e) {
-                // If there is an error in the PDO operation, display an error message
-                echo "Error: " . $e->getMessage();
-            }
-            ?>
+include_once "../config.php";
+try {
+    // Establish database connection
+    $pdo = new PDO("mysql:host=localhost;dbname=2a41", "root", "");
+
+    // Set PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Prepare SQL statement
+    $stmt = $pdo->query("SELECT * FROM `car`");
+    // Execute the statement
+    while ($car = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        ?>
+        <div class="car">
+            <div class="car-details">
+                <h3 class="car-name"><?= $car['marque'] ?> <?= $car['modele'] ?></h3>
+                <p class="car-label">Year:</p>
+                <p class="car-year"><?= $car['annee'] ?></p>
+                <p class="car-label">Color:</p>
+                <p class="car-color"><?= $car['couleur'] ?></p>
+                <p class="car-label">Type:</p>
+                <p class="car-type"><?= $car['type'] ?></p>
+                <p class="car-label">Price per Day:</p>
+                <p class="car-price"><?= $car['prix_journee'] ?> TND</p>
+                <p class="car-label">Availability:</p>
+                <p class="car-availability"><?= $car['disponibilite'] ? 'Available' : 'Not Available' ?></p>
+            </div>
+            <div class="car-image">
+                <img src="<?= $car['image'] ?>" alt="<?= $car['marque'] ?> <?= $car['modele'] ?>">
+            </div>
         </div>
-    </div>
+        <?php
+    }
+} catch(PDOException $e) {
+    // If there is an error in the PDO operation, display an error message
+    echo "Error: " . $e->getMessage();
+}
+?>
+</div>
+</div>
 </div>
 
 <!-- Footer Start -->
@@ -323,6 +328,7 @@
         ?>
     </tbody>
 </table>
+
 
 
     <!-- Booking Start -->

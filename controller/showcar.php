@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show Cars</title>
     <link rel="stylesheet" href="../view/backoffice/assets/css/style.css">
+    <style>
+        /* CSS to control the size of the car image */
+        .car-img {
+            max-width: 200px; /* Set the maximum width of the image */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
 </head>
 <body>
 

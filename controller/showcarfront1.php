@@ -161,31 +161,38 @@
 <div class="container-xxl py-5 destination">
     <div class="container">
         <div class="row row-cols-2 row-cols-md-3 g-4">
-            <?php
-            include_once "../config.php";
-            $cars = mysqli_query($con, "SELECT * FROM `car` ORDER BY `annee` DESC LIMIT 6");
-            while ($car = mysqli_fetch_assoc($cars)) {
-            ?>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="<?= $car['image'] ?>" class="card-img-top" alt="<?= $car['marque'] . ' ' . $car['modele'] ?>">
-                        <div class="card-body">
-                            <h5 class="card-title"><strong>Car:</strong> <?= $car['marque'] . ' ' . $car['modele'] ?></h5>
-                            <p class="card-text"><strong>Description:</strong> <?= $car['couleur'] . ' ' . $car['type'] ?></p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><strong>Year:</strong> <?= $car['annee'] ?></li>
-                            <li class="list-group-item"><strong>Daily Price:</strong> <?= $car['prix_journee'] ?></li>
-                            <li class="list-group-item"><strong>Availability:</strong> <?= $car['disponibilite'] ?></li>
-                        </ul>
-                        <div class="card-body">
-                            <a href="../controller/showcarfront.php" class="btn btn-primary">View more info</a>
-                        </div>
-                    </div>
-                </div>
-            <?php
-            }
-            ?>
+        <?php
+include_once "../config.php";
+try {
+    $pdo = new PDO("mysql:host=localhost;dbname=2a41", "root", "");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $stmt = $pdo->query("SELECT * FROM `car` ORDER BY `annee` DESC LIMIT 6");
+    while ($car = $stmt->fetch(PDO::FETCH_ASSOC)) {
+?>
+    <div class="col">
+        <div class="card h-100">
+            <img src="<?= $car['image'] ?>" class="card-img-top" alt="<?= $car['marque'] . ' ' . $car['modele'] ?>">
+            <div class="card-body">
+                <h5 class="card-title"><strong>Car:</strong> <?= $car['marque'] . ' ' . $car['modele'] ?></h5>
+                <p class="card-text"><strong>Description:</strong> <?= $car['couleur'] . ' ' . $car['type'] ?></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Year:</strong> <?= $car['annee'] ?></li>
+                <li class="list-group-item"><strong>Daily Price:</strong> <?= $car['prix_journee'] ?></li>
+                <li class="list-group-item"><strong>Availability:</strong> <?= $car['disponibilite'] ?></li>
+            </ul>
+            <div class="card-body">
+                <a href="../controller/showcarfront.php" class="btn btn-primary">View more info</a>
+            </div>
+        </div>
+    </div>
+<?php
+    }
+} catch(PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+?>
+
         </div>
     </div>
 </div>

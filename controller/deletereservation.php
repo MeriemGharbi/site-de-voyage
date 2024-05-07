@@ -2,8 +2,7 @@
 include_once "../config.php";
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = config::getConnexion();
     $id_reservation = $_GET['id'];
     $stmt = $pdo->prepare("DELETE FROM reservation WHERE id_reservation = :id_reservation");
     $stmt->bindParam(':id_reservation', $id_reservation);

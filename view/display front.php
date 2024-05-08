@@ -53,6 +53,11 @@
             height: auto;
             border-radius: 10px;
         }
+        .no-op {
+    /* This CSS rule does nothing */
+}
+
+        
     </style>
 </head>
 <body>
@@ -185,13 +190,30 @@
             <div class="row g-4 justify-content-center">
             <div class="package-item">
 
-            <?php
+
+
+            <div class="position-relative w-75 mx-auto animated slideInDown">
+        <form action="searchResultsOffre.php" method="GET">
+            <input name="search" class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Eg: Thailand">
+            <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 position-absolute top-0 end-0 me-2" style="margin-top: 7px;">Search</button>
+        </form>
+    </div>
+
+<div class="no-op">
+
+<?php
+include('../controller/phpqrcode/qrlib.php'); // etape 1
+
 function displayLogo($logoLink) {
     return '<img class="logo" style="width:20px;height:20px;" src="' . $logoLink  . '">';
 }
-
+function generateQRCode($text, $filename)
+{
+    QRcode::png($text, $filename);
+}
 
 include '../config.php';
+
 $conn = config::getConnexion(); // Establish the connection
 
 try {
@@ -201,9 +223,21 @@ try {
                             LEFT JOIN chambres ON hotels.nomHotel = chambres.nomHotel");
     $offers = $query->fetchAll();
 
+
     if (count($offers) > 0) {
         foreach ($offers as $offer) {
-            echo '<div class="hotel">';
+
+
+            $qrCodeFilename = 'temp_qr_code_' . $offer['idOffre'] . '.png';
+            $lien = 'https://xplore1.000webhostapp.com/controller/readMore.php?hotel=' . urlencode($offer['nomHotel']);
+
+            // Generate the QR code image for the offer
+            generateQRCode($lien, $qrCodeFilename);
+
+
+
+
+        echo '<div class="hotel">';
             echo '<img class="img-fluid" src="' . $offer['lienPhotoHotel'] . '" alt="Photo de l\'hôtel">';
 
             echo '<h2 class="text-center">' . $offer['nomHotel'] . '</h2>'; // font big
@@ -243,8 +277,13 @@ try {
             echo '<button type="button" class="btn btn-sm btn-primary px-2" style="border-radius: 30px; padding: 5px;" onclick="likeDislike(\'dislike\', ' . $offer['idOffre'] . ')">';
             echo '<img src="assets/assetsFront/img/dislike.png" alt="Dislike" style="width: 20px; height: 20px;">';
             echo '</button>';
-            
+echo'&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+            echo '<img src="' . $qrCodeFilename . '" alt="QR Code"  style="width: 90px; height: 90px; ">'; 
             echo '</form>';
+
+
+
             
             echo '</div>';
 
@@ -258,6 +297,7 @@ try {
 }
 
 ?>
+</div>
 
 <iframe id="hidden_iframe" name="hidden_iframe" style="display:none;"></iframe>
 
@@ -268,6 +308,35 @@ try {
         document.getElementById(reactionInputId).value = reaction;
         document.getElementById('likeDislikeForm_' + offerId).submit();
     }
+</script>
+
+
+<script>
+    const searchInputOffre = document.getElementById('searchInputOffre');
+
+    searchInputOffre.addEventListener('input', function(event) {
+        const searchQuery = event.target.value.trim();
+        console.log('Search query:', searchQuery);
+
+        // Call the function to perform AJAX search
+        searchOffres(searchQuery);
+    });
+
+    function searchOffres(searchQuery) {
+    const url = '../controller/searchFront.php?search=' + encodeURIComponent(searchQuery);
+    console.log('Fetching URL:', url);
+
+    // Perform AJAX call to the PHP script
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response data (e.g., update the UI)
+            console.log('Search results:', data);
+            // Implement logic to update UI with search results
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 </script>
 
 

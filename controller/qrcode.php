@@ -1,7 +1,7 @@
 <?php
 include('phpqrcode/qrlib.php'); // Include the QR Code library
 // URL to encode in the QR code
-$lien = 'insert.php'; // Modify the link as needed
+$lien = 'www.google.com'; // Modify the link as needed
 // Output the QR code directly to the browser
 QRcode::png($lien);
 

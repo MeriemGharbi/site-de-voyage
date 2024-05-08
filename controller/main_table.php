@@ -19,10 +19,10 @@ try {
             echo displayLogo("https://png.pngtree.com/png-vector/20190419/ourmid/pngtree-vector-location-icon-png-image_956422.jpg") . $hotel['adresse'] . ' <img id="editHotelIcon" class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditForm(\'' . $hotel['nomHotel'] . '\')"><br>';
             echo  $hotel['etoiles'] .' étoiles ' . ' <img id="editHotelIcon" class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditForm(\'' . $hotel['nomHotel'] . '\')"><br>';
             echo 'Info contact: ' . $hotel['infoContact'] . ' <img id="editHotelIcon" class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditForm(\'' . $hotel['nomHotel'] . '\')"><br>';
-            echo '<form method="post" action="../controller/delete.php"><input type="hidden" name="deleteHotel" value="' . $hotel['nomHotel'] . '"><input type="submit" class="button"  style="margin-right: -70px;" value="Supprimer"></form>';
+            echo '<form id="deleteForm' . $hotel['nomHotel'] . '" method="post" action="../controller/delete.php"><input type="hidden" name="deleteHotel" value="' . $hotel['nomHotel'] . '"><input type="submit" class="button"  style="margin-right: -70px;" value="Supprimer" onclick="confirmDeleteHotel(\'' . $hotel['nomHotel'] . '\')"></form>';
             echo '</td>';
         
-            echo '<td><img src="' . $hotel['lienPhotoHotel'] . '" alt="Photo de l\'hôtel" style="width:200px;height:150px;" onclick="showEditForm(\'' . $hotel['nomHotel'] . '\')"></td>';
+            echo '<td><img src="' . $hotel['lienPhotoHotel'] . '" alt="Photo de l\'hôtel" style="width:200px;height:150px;" ></td>';
             
             echo '</tr>';
         }
@@ -34,5 +34,8 @@ try {
     echo 'Echec de connexion:' . $e->getMessage();
 }
 ?>
+
+
+
 
 

@@ -1,3 +1,30 @@
+<?php
+$idOffre = isset($_POST['nomHotel']) ? $_POST['nomHotel'] : null;
+
+
+function populateidChambreOptions() {
+    try {
+        // Establish connection
+        $conn = config::getConnexion();
+        // Prepare SQL statement to fetch hotel names
+        $stmt = $conn->prepare("SELECT idChambre FROM chambres");
+        $stmt->execute();
+        // Fetch hotel names
+        $chambres = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Loop through hotels and output as options
+        foreach ($chambres as $chambre) {
+            echo '<option value="' . $chambre['idChambre'] . '">' . $chambre['idChambre'] . '</option>';
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+?>
+
+
+
+
 <!-- Formulaire de modification -->
 <div id="editForm" style="display:none; position: fixed; top: 50%; left: 85%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
     <h2 style="margin-bottom: 20px; color: #2a2185;">Modifier l'hôtel</h2>
@@ -13,6 +40,15 @@
         <input type="text" id="lienPhotoHotel" name="lienPhotoHotel" style="margin-bottom: 10px; width: 100%;"><br>
         <label for="infoContact">Info contact:</label>
         <input type="text" id="infoContact" name="infoContact" style="margin-bottom: 10px; width: 100%;"><br>
+
+        <label for="id chambre">id de la chambre:</label>
+                          
+                          <select id="idChambre" name="idChambre">
+                              <?php populateidChambreOptions(); ?>
+                          </select><br>
+                     
+
+
         <input type="submit" value="Modifier" style="padding: 10px 20px; background-color: var(--blue); color: var(--white); border: none; border-radius: 6px; cursor: pointer;">
     </form>
 </div>

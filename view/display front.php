@@ -185,8 +185,7 @@
             <div class="row g-4 justify-content-center">
             <div class="package-item">
 
-            
-<?php
+            <?php
 function displayLogo($logoLink) {
     return '<img class="logo" style="width:20px;height:20px;" src="' . $logoLink  . '">';
 }
@@ -196,9 +195,10 @@ include '../config.php';
 $conn = config::getConnexion(); // Establish the connection
 
 try {
-    $query = $conn->query("SELECT offres.idOffre, offres.nomHotel, hotels.lienPhotoHotel, hotels.adresse, offres.descriptionOffre
+    $query = $conn->query("SELECT offres.idOffre, offres.nomHotel, hotels.lienPhotoHotel, hotels.adresse, offres.descriptionOffre, chambres.typeChambre
                             FROM offres
-                            INNER JOIN hotels ON offres.nomHotel = hotels.nomHotel");
+                            LEFT JOIN hotels ON offres.nomHotel = hotels.nomHotel
+                            LEFT JOIN chambres ON hotels.nomHotel = chambres.nomHotel");
     $offers = $query->fetchAll();
 
     if (count($offers) > 0) {
@@ -207,7 +207,7 @@ try {
             echo '<img class="img-fluid" src="' . $offer['lienPhotoHotel'] . '" alt="Photo de l\'hôtel">';
 
             echo '<h2 class="text-center">' . $offer['nomHotel'] . '</h2>'; // font big
-            echo '<p class="text-center">' . $offer['adresse'] . '</p>';
+            echo '<p class="text-center">' . $offer['adresse'] . ' - Chambre: ' . $offer['typeChambre']  . '</p>';
 
             // Display star rating
             echo '<div class="mb-3 text-center">';
@@ -246,10 +246,6 @@ try {
             
             echo '</form>';
             
-           
-/////////////////////////////////////////////////////////////////////
-
-
             echo '</div>';
 
         }
@@ -262,6 +258,7 @@ try {
 }
 
 ?>
+
 <iframe id="hidden_iframe" name="hidden_iframe" style="display:none;"></iframe>
 
 

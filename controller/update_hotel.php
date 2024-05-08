@@ -10,7 +10,7 @@ $description = $_POST['description'];
 $etoiles = $_POST['etoiles'];
 $infoContact = $_POST['infoContact'];
 $lienPhotoHotel = $_POST['lienPhotoHotel'];
-
+$idChambre = $_POST['idChambre'];
 // Requête d'ajout
 $sql = "UPDATE hotels SET adresse = :adresse, description = :description, etoiles = :etoiles, infoContact = :infoContact , lienPhotoHotel = :lienPhotoHotel WHERE nomHotel = :nomHotel";
 
@@ -24,6 +24,23 @@ try {
     $stmt->bindParam(':lienPhotoHotel', $lienPhotoHotel);
 
     $stmt->execute();
+
+
+
+
+
+
+////////////////////chambre
+ // Prepare SQL statement for updating chambre table with idOffre
+ $requeteChambre = $conn->prepare("UPDATE chambres SET nomHotel = :nomHotel WHERE idChambre = :idChambre");
+
+ // Bind parameters for updating chambre table
+ $requeteChambre->bindParam(':nomHotel', $nomHotel);
+ $requeteChambre->bindParam(':idChambre', $idChambre);
+
+ // Execute the query to update chambre table
+ $requeteChambre->execute();
+
 
     
     // Redirection vers modification_form.php avec un message de succès

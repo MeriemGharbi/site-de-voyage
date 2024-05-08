@@ -20,3 +20,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteHotel'])) {
 header("Location: ../view/display.php?");
     exit(); // Ensure script stops here
 ?>
+

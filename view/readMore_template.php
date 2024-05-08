@@ -167,7 +167,9 @@
                             <h6 class="section-title bg-white text-start text-primary pe-3 offer-title">Offre</h6>
                             <p class="mb-4 offer-description" style="color: #333;"><?php echo $selectedHotel['descriptionOffre']; ?></p>
                             <!-- Here, we'll access the price from the 'offres' table -->
-                            <p class="mb-4 offer-price" style="color: #333;">Prix de l'offre: <span><?php echo $selectedHotel['prixOffre']; ?></span></p>
+                            <p class="mb-4 offer-price" style="color: #333;">Type : <span><?php echo $selectedHotel['typeChambre']; ?> </span></p>
+                            <p class="mb-4 offer-price" style="color: #333;">Prix de la chambre: <span><?php echo $selectedHotel['prixChambre']; ?> dt</span></p>
+
                         </div>
                     <?php else: ?>
                         <p class="text-center">Aucune offre trouvée.</p>
@@ -177,5 +179,8 @@
         </div>
     </div>
     
+
+
+
 </body>
 </html>

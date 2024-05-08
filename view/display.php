@@ -180,6 +180,20 @@
     </div>
 </div>
 
+<div class="details" id="chambreSection">
+    <div class="recentOrders">
+        <div style="text-align: center;"> <!-- New container for "Liste des offres" and "Ajouter" -->
+            <h2>Liste des chambres</h2>
+            <div class="cardHeader">
+                <a href="../controller/chambres/insertChambre.php" class="btn" style="margin-right: 20px;">Ajouter</a>
+            </div>
+        </div>
+        
+        <?php include '../controller/chambres/affichageChambre.php'; ?> <!-- Table content -->
+
+    </div>
+</div>
+
 
 
 <script>
@@ -241,6 +255,8 @@
 include '../controller/search.php';
 include '../controller/modification_form.php';
 include '../controller/offres/modification_form_offre.php';
+//include '../controller/chambres/affichageChambre.php';
+
 
 ?>
 

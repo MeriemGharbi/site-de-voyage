@@ -8,22 +8,44 @@ $NomHotel = $_POST['NomHotel'];
 $adresse = $_POST['adresse'];
 $description = $_POST['description'];
 $etoiles = $_POST['etoiles'];
-$prixHotel = $_POST['prixHotel'];
 $lienPhotoHotel = $_POST['lienPhotoHotel'];
 $infoContact = $_POST['infoContact'];
 
-$requette = $conn->prepare("INSERT INTO hotels(NomHotel, adresse, description, etoiles, prixHotel, lienPhotoHotel, infoContact) 
-VALUES (:NomHotel, :adresse, :description, :etoiles, :prixHotel, :lienPhotoHotel, :infoContact)");
+$requette = $conn->prepare("INSERT INTO hotels(NomHotel, adresse, description, etoiles, lienPhotoHotel, infoContact) 
+VALUES (:NomHotel, :adresse, :description, :etoiles, :lienPhotoHotel, :infoContact)");
 
 $requette->bindParam(':NomHotel', $NomHotel);
 $requette->bindParam(':adresse', $adresse);
 $requette->bindParam(':description', $description);
 $requette->bindParam(':etoiles', $etoiles);
-$requette->bindParam(':prixHotel', $prixHotel);
 $requette->bindParam(':lienPhotoHotel', $lienPhotoHotel);
 $requette->bindParam(':infoContact', $infoContact);
 
 $requette->execute();
+
+
+
+
+////////////////////////////////////////////// CHAMBRES
+//$nomHotel = $conn->lastInsertId();
+
+$idChambre = $_POST['idChambre'];
+
+// Prepare SQL statement for updating chambre table with idOffre
+$requeteChambre = $conn->prepare("UPDATE chambres SET nomHotel = :NomHotel WHERE idChambre = :idChambre");
+
+// Assuming you have $idChambre defined from $_POST['idChambre']
+
+
+// Bind parameters for updating chambre table
+$requeteChambre->bindParam(':NomHotel', $NomHotel); 
+$requeteChambre->bindParam(':idChambre', $idChambre);
+
+// Execute the query to update chambre table
+$requeteChambre->execute();
+////////////////////////////////////////////////////
+
+
 header('Location: ../view/display.php');
 exit(); // Stop execution after redirection
 
@@ -34,6 +56,26 @@ if ($e->errorInfo[1] == 1062) {
    // echo 'echec de connexion:' . $e->getMessage();
 }
 }
+
+function populateidChambreOptions() {
+    try {
+        // Establish connection
+        $conn = config::getConnexion();
+        // Prepare SQL statement to fetch hotel names
+        $stmt = $conn->prepare("SELECT idChambre FROM chambres");
+        $stmt->execute();
+        // Fetch hotel names
+        $chambres = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Loop through hotels and output as options
+        foreach ($chambres as $chambre) {
+            echo '<option value="' . $chambre['idChambre'] . '">' . $chambre['idChambre'] . '</option>';
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -170,10 +212,6 @@ if ($e->errorInfo[1] == 1062) {
                                 <td><input type="number" id="etoiles" name="etoiles"></td>
                             </tr>
                             <tr>
-                                <td><label for="prixHotel">Prix:</label></td>
-                                <td><input type="number" id="prixHotel" name="prixHotel"></td>
-                            </tr>
-                            <tr>
                                 <td><label for="lienPhotoHotel">Lien Photo de l'hotel:</label></td>
                                 <td><input type="text" id="lienPhotoHotel" name="lienPhotoHotel"></td>
                             </tr>
@@ -181,6 +219,20 @@ if ($e->errorInfo[1] == 1062) {
                                 <td><label for="infoContact">Informations de contact:</label></td>
                                 <td><input type="text" id="infoContact" name="infoContact"></td>
                             </tr>
+
+
+                            <tr>
+                            <td><label for="id chambre">id de la chambre:</label></td>
+                            <td>
+                                <select id="idChambre" name="idChambre">
+                                    <?php populateidChambreOptions(); ?>
+                                </select>
+                            </td>
+                            </tr>
+
+
+
+
                         </tbody>
                     </table>
 
@@ -196,11 +248,11 @@ if ($e->errorInfo[1] == 1062) {
             var adresse = document.getElementById("adresse").value.trim();
             var description = document.getElementById("description").value.trim();
             var etoiles = document.getElementById("etoiles").value.trim();
-            var prixHotel = document.getElementById("prixHotel").value.trim();
+            //var prixHotel = document.getElementById("prixHotel").value.trim();
             var lienPhotoHotel = document.getElementById("lienPhotoHotel").value.trim();
             var infoContact = document.getElementById("infoContact").value.trim();
 
-            if (nomHotel === "" || adresse === "" || description === "" || etoiles === "" || prixHotel === "" || lienPhotoHotel === "" || infoContact === "") {
+            if (nomHotel === "" || adresse === "" || description === "" || etoiles === ""  || lienPhotoHotel === "" || infoContact === "") {
                 alert("Tous les champs sont obligatoires.");
                 return false; 
             }
@@ -213,12 +265,6 @@ if ($e->errorInfo[1] == 1062) {
 
             if (isNaN(etoiles) || etoiles < 1 || etoiles > 5) {
                 alert("Le nombre d'étoiles doit être un nombre entre 1 et 5.");
-                return false;
-            }
-
-            var prixHotelRegex = /^\d+(\.\d+)?$/;
-            if (!prixHotelRegex.test(prixHotel)) {
-                alert("Le prix de l'hôtel ne peut contenir que des chiffres et éventuellement un point pour les décimales.");
                 return false;
             }
 
@@ -238,6 +284,10 @@ if ($e->errorInfo[1] == 1062) {
             return true; 
         }
     </script>
+
+    <?php
+      
+    ?>
 
 
 

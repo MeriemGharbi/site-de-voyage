@@ -212,7 +212,13 @@
                             <span id="error-duration" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
                             <span id="valid-duration" class="valid-message" style="color: green; visibility: hidden;">Durée valide</span><br>
                             </div>
-                
+
+    
+                        <input type="text" name="map" placeholder="enter address">
+    
+    <input type="submit" name="submit_map">
+
+
                             <button type="submit" name="upload" class="btn btn-primary" id="uploadButton">upload</button>
                             <script src="Activity.js"></script>
                    </div>

@@ -31,7 +31,34 @@
     <!-- Template Stylesheet -->
     <link href="../view/frontoffice/css/style.css" rel="stylesheet">
 </head>
+<style>
+    .category-links {
+    display: flex;
+    align-items: center;
+}
 
+.select-category {
+    margin-right: 10px; /* Adjust spacing between the select and search bar */
+}
+
+.select-category select {
+    width: 150px; /* Adjust the width of the select dropdown */
+}
+
+.search {
+    position: relative;
+}
+
+/* Style the search input */
+.search input {
+    width: 250px; /* Adjust the width of the search input */
+    border-radius: 20px; /* Add some border-radius for rounded corners */
+    padding: 10px; /* Add padding for better appearance */
+    border: 1px solid #ccc; /* Add a border for clarity */
+}
+
+
+</style>
 <body>
  
 
@@ -98,17 +125,85 @@
                     <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
                         <h1 class="display-3 text-white mb-3 animated slideInDown">Enjoy Your Vacation With Us</h1>
                         <p class="fs-4 text-white mb-4 animated slideInDown">Welcome to Xplore - Your Gateway to Unforgettable Adventures!
-
-</p>
+                          </p>
                         <div class="position-relative w-75 mx-auto animated slideInDown">
+                            
+                         <div class="category-links">
+    <!-- Category Dropdown -->
+    <div class="select-category">
+        <select onchange="window.location.href=this.value" class="form-select">
+            <option value="#" selected>Select a category</option>
+            <?php
+            // Include the database configuration file
+            include_once "../config.php";
+
+            // Fetch categories from the database
+            $sql = "SELECT * FROM category";
+            $stmt = $con->prepare($sql);
+            $stmt->execute();
+            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Display categories as options in the dropdown
+            if (count($categories) > 0) {
+                foreach ($categories as $row) {
+                    echo "<option value='activitiesjoinback.php?category_id=" . $row['id_category'] . "'>" . $row['nom_category'] . "</option>";
+                }
+            } else {
+                echo "<option disabled>No categories found</option>";
+            }
+            ?>
+        </select>
+    </div>
+    <div class="position-relative w-75 mx-auto animated slideInDown">
                             <input class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Exemple: France">
                             <button type="button" class="btn btn-primary rounded-pill py-2 px-4 position-absolute top-0 end-0 me-2" style="margin-top: 7px;">Xplore</button>
+                        </div>
+
+                             
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- Search Bar -->
+    <div class="search">
+        <input type="text" class="form-control" id="live_search" autocomplete="off" placeholder="Search...">
+        <div id="searchresult" class="cardBox"></div>
+    </div>
+</div>
+
+    
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $("#live_search").keyup(function(){
+            var input =$(this).val();
+            if(input!=""){
+                $.ajax({
+                    url:"livesearch.php",
+                    method:"POST",
+                    data:{input:input},
+                    success:function(data){
+                        $("#searchresult").html(data);
+                    }
+                });
+            } else {
+                $("#searchresult").css("display","none");
+            }
+        });
+    });
+</script>
+    <a href="chatbot.php">
+    <button type="button" class="btn">Need assistance?</button>
+
+    
+</a>
+
     <!-- Navbar & Hero End -->
 
 
@@ -118,12 +213,12 @@
             <div class="row g-5">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                     <div class="position-relative h-100">
-                        <img class="img-fluid position-absolute w-100 h-100" src="../view/frontoffice/img/img6.jpeg" alt="" style="object-fit: cover;">
+                        <img  src="../view/frontoffice/img/spring3.jpg" alt="" style="object-fit: cover; width: 650px; height:500px  margin-right: 20px">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
                     <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                    <h1 class="mb-4">Explore <span class="text-primary">Travel Agency</span></h1>
+                    <h1 class="mb-4">Explore <span style="color:black; text-align: center;">Travel Agency</span></h1>
                     <p class="mb-4">Welcome to Xplore - Your Gateway to Unforgettable Adventures!</p>
                     <p class="mb-4">At Xplore, we believe that the world is meant to be explored, experienced, and cherished. With a passion for travel and a commitment to exceptional service, we're here to turn your wanderlust dreams into reality.
 </p>
@@ -164,38 +259,55 @@
     <div class="row row-cols-2 row-cols-md-3 g-4">
     <?php
 include_once "../config.php";
-$activities = mysqli_query($con, "SELECT * FROM `activity` ORDER BY `date` DESC LIMIT 6");
-while ($activity = mysqli_fetch_assoc($activities)) {
-    ?>
-    <div class="col">
-        <div class="card h-100">
-            <img src="<?= $activity['image'] ?>" class="card-img-top" alt="<?= $activity['nom_activity'] ?>">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Activity name:</strong> <?= $activity['nom_activity'] ?></h5>
-                <?php
-                // Vérifier la longueur de la description
-                if (strlen($activity['description']) > 100) {
-                    // Si la description est trop longue, afficher un extrait suivi de "View more"
-                    $short_description = substr($activity['description'], 0, 100) . '...';
-                    echo "<p class='card-text'><strong>Description:</strong> $short_description <a href='../controller/showActivityfront.php?id_act={$activity['id_act']}'>View more</a></p>";
-                } else {
-                    // Si la description est suffisamment courte, l'afficher complètement
-                    echo "<p class='card-text'><strong>Description:</strong> {$activity['description']}</p>";
-                }
-                ?>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Place:</strong> <?= $activity['lieu'] ?></li>
-                <li class="list-group-item"><strong>Date:</strong> <?= date('Y-m-d', strtotime($activity['date'])) ?></li>
-                <li class="list-group-item"><strong>Price:</strong> <?= $activity['prix'] ?></li>
-            </ul>
-            <div class="card-body">
-            <a href="../controller/showActivityfront.php?id_act=<?= $activity['id_act'] ?>" class="btn btn-primary">View more info</a>
 
+try {
+    // Prepare the SQL query to retrieve activities
+    $query = "SELECT * FROM `activity` ORDER BY `date` DESC LIMIT 6";
+
+    // Prepare the statement
+    $stmt = $con->prepare($query);
+
+    // Execute the statement
+    $stmt->execute();
+
+    // Fetch all activities
+    $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Loop through the activities
+    foreach ($activities as $activity) {
+        ?>
+        <div class="col">
+            <div class="card h-100">
+                <img src="<?= $activity['image'] ?>" class="card-img-top" alt="<?= $activity['nom_activity'] ?>">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Activity name:</strong> <?= $activity['nom_activity'] ?></h5>
+                    <?php
+                    // Check the length of the description
+                    if (strlen($activity['description']) > 100) {
+                        // If the description is too long, display an excerpt followed by "View more"
+                        $short_description = substr($activity['description'], 0, 100) . '...';
+                        echo "<p class='card-text'><strong>Description:</strong> $short_description <a href='../controller/showActivityfront.php?id_act={$activity['id_act']}'>View more</a></p>";
+                    } else {
+                        // If the description is short enough, display it completely
+                        echo "<p class='card-text'><strong>Description:</strong> {$activity['description']}</p>";
+                    }
+                    ?>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Place:</strong> <?= $activity['lieu'] ?></li>
+                    <li class="list-group-item"><strong>Date:</strong> <?= date('Y-m-d', strtotime($activity['date'])) ?></li>
+                    <li class="list-group-item"><strong>Price:</strong> <?= $activity['prix'] ?></li>
+                </ul>
+                <div class="card-body">
+                    <a href="../controller/showActivityfront2.php?id_act=<?= $activity['id_act'] ?>" class="btn btn-primary">View more info</a>
+                </div>
             </div>
         </div>
-    </div>
-    <?php
+        <?php
+    }
+} catch (PDOException $e) {
+    // Handle any errors
+    echo "Error: " . $e->getMessage();
 }
 ?>
 

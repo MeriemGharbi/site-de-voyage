@@ -2,17 +2,23 @@
 $id_category = $_GET['id'];
 if(isset($_POST['send'])) {
     include_once "../config.php";
+    
     // Extracting all data
     extract($_POST);
 
     // Prepare the SQL statement using placeholders
-    $sql = "UPDATE category SET nom_category = ?, level = ?, season = ?, popularity = ?, mobility = ? WHERE id_category = ?";
+    $sql = "UPDATE category SET nom_category = :nom_category, level = :level, season = :season, popularity = :popularity, mobility = :mobility WHERE id_category = :id_category";
 
     // Prepare the statement
     $stmt = $con->prepare($sql);
 
     // Bind parameters
-    $stmt->bind_param("sssssi", $nom_category, $level, $season, $popularity, $mobility, $id_category);
+    $stmt->bindParam(':nom_category', $nom_category);
+    $stmt->bindParam(':level', $level);
+    $stmt->bindParam(':season', $season);
+    $stmt->bindParam(':popularity', $popularity);
+    $stmt->bindParam(':mobility', $mobility);
+    $stmt->bindParam(':id_category', $id_category);
 
     // Execute the statement
     if($stmt->execute()) {
@@ -20,17 +26,17 @@ if(isset($_POST['send'])) {
     } else {
         header("location:showCategory.php?message=modifyFailed");
     }
+
     // Close the statement
-    $stmt->close();
+    $stmt->closeCursor();
 }
 
 // Fetch category information for modification
 include_once "../config.php";
 $sql = "SELECT * FROM category WHERE id_category = ?";
 $stmt = $con->prepare($sql);
-$stmt->bind_param("i", $id_category);
-$stmt->execute();
-$result = $stmt->get_result();
+$stmt->execute([$id_category]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -45,123 +51,13 @@ $result = $stmt->get_result();
 <div class="container">
    <!-- ===============XPLORE================ -->
    <div class="navigation">
-            <ul>
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                           <!-- <ion-icon name="logo-apple"></ion-icon>-->
-                        </span>
-                        <span class="title">
-                            <div class="official">
-                            Xplore
-                            </div>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <div class="user">
-                            <img src="../view/backoffice/img/user.png">
-                            </div>
-                        </span>
-                        <span class="title">User</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                        <div class="user">
-                            <img src="../view/backoffice/img/sale.png">
-                            </div>
-                        </span>
-                        <span class="title">offers</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                        <div class="user">
-                            <img src="../view/backoffice/img/activity.png">
-                            </div>
-                        </span>
-                        <span class="title">activities</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                        <div class="user">
-                            <img src="../view/backoffice/img/car.png">
-                            </div>
-                        </span>
-                        <span class="title">Car rent</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                    <span class="icon">
-                        <div class ="user">
-                            <img src="../view/backoffice/img/pay.png">
-                            </div>
-                        </span>
-                        
-                        <span class="title">Payement</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                        <div class="user">
-                            <img src="../view/backoffice/img/comment.png">
-                            </div>
-                        </span>
-                        <span class="title">Feedback</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                        <div class="user">
-                            <img src="../view/backoffice/img/exit.png">
-                            </div>
-                        </span>
-                        </span>
-                        <span class="title">Sign Out</span>
-                    </a>
-                    
-                  
-                     
-                   
-                </li>
-           
-            </ul>
-            <a href="../view/index1.html"><button type="button" class="btn1"><span></span>Return</button></a>
+            <!-- Navigation content -->
         </div>
         
       <!-- ========================= partie search ==================== -->
         <div class="main">
             <div class="topbar">
-                <div class="toggle">
-                    <ion-icon name="menu-outline"></ion-icon>
-                </div>
-
-                <div class="search">
-                    <label>
-                        <input type="text" placeholder="Search for category here">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </div>
-
-                <div class="logo">
-                <img src="../view/img/xplore.png" alt="">
-                </div>
+                <!-- Topbar content -->
             </div>
     
  <!-- ========================= partie form==================== -->
@@ -199,11 +95,9 @@ $result = $stmt->get_result();
 
         <input type="submit" value="Modifier" name="send">
         <a class="link back" href="showActivity.php">Annuler</a>
+    </div>
     </form>
 
-    <?php
-    }
-    ?>
     </div>
 </div>
 <script src="Category.js"></script>

@@ -6,66 +6,83 @@
     <link rel="stylesheet" href="../view/backoffice/assets/css/style.css">
     <title>liste des categories</title>
     <style>
-        /* CSS for arranging the elements */
-       
-        .details table {
-           width: 1300px;
-          
-        }
-        #chartsContainer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        #mobilityChart,
-        #popularityChart {
-            width: 600px;
-            height: 600px;
-            margin-bottom: 15px;  
-        }
-        
-        .table thead th {
-            background-color: #f0f0f0; /* Light gray background */
-            color: #333; /* Dark text color */
-            border: 1px solid #ccc; /* Border color */
-        }
+   .activity {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 60px;
+    overflow: hidden;
+    
+    
+}
 
-        /* Styling for alternating rows */
-        .table tbody tr:nth-child(even) {
-            background-color: #f9f9f9; /* Lighter background for even rows */
-        }
+.activity-details {
+    padding: 20px;
+    text-align: left;
+    flex: 1; /* Fill remaining space */
+    color: black;
 
-        /* Hover effect for table rows */
-        .table tbody tr:hover {
-            background-color: #e0e0e0; /* Light gray background on hover */
-        }
+}
 
-        /* Styling for the sort button */
-        .input-group-text.btn {
-            background-color: #007bff; /* Blue background */
-            color: #fff; /* White text color */
-            border-color: #007bff; /* Blue border color */
-        }
-
-        .input-group-text.btn:hover {
-            background-color: #0056b3; 
-            border-color: #0056b3;
-        }
+.activity-img {
+    width: 500px;
+    height:700px;
+}
+.table td {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
 
 
-        .form-control {
-            border-radius: 0;
-        }
+.table th {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 1.5;
+    margin-bottom: 50px;
+}
+.activity-details {
+    padding: 20px;
+    text-align: left;
+    flex: 1; /* Fill remaining space */
+}
 
-        .container {
-            padding-top: 20px; 
-        }
+.left-content {
+    flex: 1; /* Fill remaining space */
+}
 
-            .chart-container .google-visualization-chart-title {
-                font-size: 300px; 
-                color: #333;
-            
-            }
+.activity-details h3 {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 60px;
+    color: #2a2185;
+    text-align:center;
+}
+
+.activity-details p {
+    font-size: 20px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    font-weight: 600px;
+    
+}
+
+
+.left-content {
+    flex: 1; /* Fill remaining space */
+}
+
+.table-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Centers the table-container horizontally */
+    margin-left: 60px; 
+    width: 115%;
+    
+}
+
 
         .input-group-text.btn {
             background-color: #007bff;
@@ -293,210 +310,96 @@
         ?>
     </select>
 </div>
-                 <!-- ========================= crud =================== -->
+        <!--====================================TODO:=================================-->
+           <div class="table-container">    
             <div class="details">
                 <div class="recentOrders">
-                <div class="cardHeader">
-                       <h1 class="category">Category</h1>
-                        <a href="addCategory.php" class="btn btn-primary">Add category</a>
-                    
+                    <div class="cardHeader">
+                        <h2>Activities available </h2>
+                        <a href="showCategory.php" class="btn btn-primary">Return</a> <br>
+               
                     </div>
-                    <main>
-    <div class="link_container">
-    </div>
-    <div class="details">
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col">Id category</th>
-                        <th>Category name</th>
-                        <th>Level</th>
-                        <th>Season</th>
-                        <th>Popularity</th>
-                        <th>Mobility</th>
-                        <th>Modifier</th>
-                        <th>Supprimer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $host = "localhost";
-                    $username = "root";
-                    $password = "";
-                    $dbname = "travel_agency";
 
-                    try {
-                        $con = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-                        // Set PDO error mode to exception
-                        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    } catch(PDOException $e) {
-                        die("Connection failed: " . $e->getMessage());
-                    }
-
-                    // Fetch category data
-                    $sql = "SELECT * FROM category";
-                    $stmt = $con->prepare($sql);
-                    $stmt->execute();
-                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                    if (count($result) > 0) {
-                        // Display category data
-                        foreach ($result as $row) {
-                            echo "<tr>";
-                            echo "<td>" . $row['id_category'] . "</td>";
-                            echo "<td>" . $row['nom_category'] . "</td>";
-                            echo "<td>" . $row['level'] . "</td>";
-                            echo "<td>" . $row['season'] . "</td>";
-                            echo "<td>" . $row['popularity'] . "</td>";
-                            echo "<td>" . $row['mobility'] . "</td>";
-                            echo "<td class='image' ><a href='updateCategory.php?id=" . $row['id_category'] . "'><img src='../view/backoffice/img/modifier.png' ></a></td>";
-                            echo "<td class='image'><a href='deleteCategory.php?id=" . $row['id_category'] . "' onclick='return confirm(\"Are you sure you want to delete this category?\");'><img src='../view/backoffice/img/trash.png'  ></a></td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='8' class='message'>0 categories pour le moment !</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-         <!-- ========================= statistics==================== -->
-    <div id="chartsContainer">
-        <?php
-        try {
-            // Fetch data for mobility chart
-            $mobilityQuery = "SELECT mobility, COUNT(*) AS count FROM category GROUP BY mobility";
-            $mobilityStmt = $con->prepare($mobilityQuery);
-            $mobilityStmt->execute();
-            $mobilityResult = $mobilityStmt->fetchAll(PDO::FETCH_ASSOC);
-
-            // Prepare data for mobility chart
-            $mobilityData = array();
-            $mobilityData[] = ['Mobility', 'Count'];
-            foreach ($mobilityResult as $row) {
-                $mobility = $row['mobility'] == 'yes' ? 'Needs Mobility' : 'Doesn\'t Need Mobility';
-                $mobilityCount = (int)$row['count'];
-                $mobilityData[] = [$mobility, $mobilityCount];
-            }
-
-            // Fetch data for popularity chart
-            $popularityQuery = "SELECT popularity, COUNT(*) AS count FROM category GROUP BY popularity";
-            $popularityStmt = $con->prepare($popularityQuery);
-            $popularityStmt->execute();
-            $popularityResult = $popularityStmt->fetchAll(PDO::FETCH_ASSOC);
-
-            // Prepare data for popularity chart
-            $popularityData = array();
-            $popularityData[] = ['Popularity', 'Count'];
-            foreach ($popularityResult as $row) {
-                $popularity = ucwords($row['popularity']);
-                $popularityCount = (int)$row['count'];
-                $popularityData[] = [$popularity, $popularityCount];
-            }
-
-            // Encode data as JSON for use in JavaScript
-            $jsonDataMobility = json_encode($mobilityData);
-            $jsonDataPopularity = json_encode($popularityData);
-        } catch(PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-        ?>
-        
-        <!-- Render the charts -->
-        <div id="mobilityChart" class="chart-container"></div>
-        <div id="popularityChart" class="chart-container"></div>
-        <div id="seasonChart" class="chart-container"></div>
-       
-
-    </div>
-</div>
-
-<!-- Script tags for Google Charts -->
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', {'packages': ['corechart']});
-    google.charts.setOnLoadCallback(drawCharts);
-
-    function drawCharts() {
-        // Draw Mobility Chart
-        var jsonDataMobility = <?php echo $jsonDataMobility; ?>;
-        var dataMobility = google.visualization.arrayToDataTable(jsonDataMobility);
-        var optionsMobility = {
-            title: 'Activities Requiring Mobility vs Activities Not Requiring Mobility'
-        };
-        var chartMobility = new google.visualization.PieChart(document.getElementById('mobilityChart'));
-        chartMobility.draw(dataMobility, optionsMobility);
-
-        // Draw Popularity Chart
-        var jsonDataPopularity = <?php echo $jsonDataPopularity; ?>;
-        var dataPopularity = google.visualization.arrayToDataTable(jsonDataPopularity);
-        var optionsPopularity = {
-            title: 'Activities by Popularity'
-        };
-        var chartPopularity = new google.visualization.PieChart(document.getElementById('popularityChart'));
-        chartPopularity.draw(dataPopularity, optionsPopularity);
-    }
-    
-</script>
+                    <table class="table">
+   
 <?php
-try {
-    // Fetch data for level chart
-    $levelQuery = "SELECT level, COUNT(*) AS count FROM category GROUP BY level";
-    $levelStmt = $con->prepare($levelQuery);
-    $levelStmt->execute();
-    $levelResult = $levelStmt->fetchAll(PDO::FETCH_ASSOC);
+// Inclure le fichier de configuration de la base de données
+include_once "../config.php";
 
-    // Prepare data for level chart
-    $levelData = array();
-    $levelData[] = ['Level', 'Count'];
-    foreach ($levelResult as $row) {
-        $level = ucfirst($row['level']); // Capitalize first letter
-        $levelCount = (int)$row['count'];
-        $levelData[] = [$level, $levelCount];
+// Vérifier si l'ID de la catégorie est défini dans l'URL
+if(isset($_GET['category_id'])) {
+    // Récupérer l'ID de la catégorie à partir de l'URL
+    $category_id = $_GET['category_id'];
+
+    try {
+        // Préparer la requête SQL avec une jointure entre les tables activity et category
+        $query_activities = "SELECT activity.*, category.nom_category
+                             FROM activity
+                             INNER JOIN category ON activity.id_category = category.id_category
+                             WHERE activity.id_category = ?";
+        
+        // Préparer la déclaration SQL
+        $stmt_activities = $con->prepare($query_activities);
+
+        // Liaison des paramètres
+        $stmt_activities->bindParam(1, $category_id, PDO::PARAM_INT);
+
+        // Exécuter la requête
+        $stmt_activities->execute();
+
+        // Récupérer le résultat de la requête
+        $result_activities = $stmt_activities->fetchAll(PDO::FETCH_ASSOC);
+
+        // Afficher les activités liées à la catégorie spécifiée
+        if(!empty($result_activities)) {
+            foreach($result_activities as $row) {
+                $duration = substr($row['duration'], 0, 5);
+                $date_formattee = date_format(date_create($row['date']), 'Y-m-d');
+                $date_debut = date_format(date_create($row['date_debut']), 'H:i');
+                $date_fin = date_format(date_create($row['date_fin']), 'H:i');
+            
+                echo "<div class='table'>";
+                echo "<div class='activity'>";
+                echo "<div class='activity-details'>";
+                echo "<div class='left-content'>";
+                echo "<h3 class='table th'>Nom de l'activité : {$row['nom_activity']}</h3>";
+                echo "<p class='table td'>Description : {$row['description']}</p>";
+                echo "<p class='table td'>Lieu : {$row['lieu']}</p>";
+                echo "<p class='table td'>Date : $date_formattee</p>";
+                echo "<p class='table td'>Date début : $date_debut</p>";
+                echo "<p class='table td'>Date fin : $date_fin</p>";
+                echo "<p class='table td'>Prix : {$row['prix']}</p>";
+                echo "<p class='table td'>Capacité maximale : {$row['capacity_max']}</p>";
+                echo "<p class='table td'>Durée : $duration</p>";
+                echo "<p class='table td'>Nom de la catégorie : {$row['nom_category']}</p>";
+                echo "</div>"; // End of left-content
+                echo "</div>"; // End of activity-details
+                echo "<div class='activity-image'><img src='{$row['image']}' class='activity-img'></div>";
+                echo "</div>"; // End of activity
+                echo "</div>"; // End of table
+            }
+            
+            
+        } else {
+            // Afficher un message si aucune activité nest trouvée pour cette catégorie
+            echo "Aucune activité trouvée pour cette catégorie.";
+        }
+    } catch(PDOException $e) {
+        // Gérer les erreurs PDO
+        echo "Erreur de base de données : " . $e->getMessage();
     }
-
-    $jsonDataLevel = json_encode($levelData);
-} catch(PDOException $e) {
-    echo "Error: " . $e->getMessage();
+} else {
+    echo "ID de la catégorie non spécifié.";
 }
+
+// Fermer la connexion à la base de données lorsque vous avez terminé de l'utiliser
+$con = null;
 ?>
 
-<html>
-<head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load('current', {'packages': ['corechart', 'bar']});
-        google.charts.setOnLoadCallback(drawCharts);
-
-        function drawCharts() {
-            // Draw Level Chart
-            var jsonDataLevel = <?php echo $jsonDataLevel; ?>;
-            var dataLevel = google.visualization.arrayToDataTable(jsonDataLevel);
-            var optionsLevel = {
-                title: 'Activities by Level',
-                chartArea: { width: '50%' },
-                hAxis: {
-                    title: 'Count',
-                    minValue: 0
-                },
-                vAxis: {
-                    title: 'Level'
-                }
-            };
-            var chartLevel = new google.charts.Bar(document.getElementById('levelChart'));
-            chartLevel.draw(dataLevel, google.charts.Bar.convertOptions(optionsLevel));
-        }
-        
-    </script>
-    
-</head>
-<body>
-<div id="levelChart" style="width: 900px; height: 400px; margin: 0 auto;"></div>
-</body>
-</html>
+    </div>
 <br>
- <!-- ========================= TODO:sort ==================== -->
+
+ <!-- ========================= sort ==================== -->
 <div class="container">
         <div class="col-md-12">
             <div class="card mt-5">
@@ -530,6 +433,7 @@ try {
                         <th>Popularity</th>
                         <th>Mobility</th>
                     </tr>
+        
                 </thead>
                 <tbody id="categoryTableBody">
                     <!-- Category table body will be populated dynamically -->
@@ -537,6 +441,7 @@ try {
             </table>
         </div>
     </div>
+
     <!-- Include jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -570,3 +475,10 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+
+</script>
+</body>
+</html>
+
+
+

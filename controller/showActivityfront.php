@@ -269,7 +269,7 @@
         </div>
     </div>
     <!-- Navbar & Hero End -->
-    <!-- Navbar & Hero End -->
+    
     
    
     <div class="back">
@@ -281,15 +281,31 @@
             <!--chatbot-->
             
             <?php
-            include_once "../config.php";
-            $activities = mysqli_query($con, "SELECT activity.*, category.nom_category AS category_name FROM `activity` LEFT JOIN `category` ON activity.id_category = category.id_category");
-            while ($activity = mysqli_fetch_assoc($activities)) {
-                
-                ?>
-                <div class="activity">
-                    <div class="activity-details">
-                        <h3 class="activity-name"><?= $activity['nom_activity'] ?></h3>
-                        <p class="activity-label">Description:</p>
+include_once "../config.php";
+
+try {
+    // Prepare the SQL query to retrieve activities along with their category names
+    $query = "SELECT activity.*, category.nom_category AS category_name 
+              FROM `activity` 
+              LEFT JOIN `category` ON activity.id_category = category.id_category";
+
+    // Prepare the statement
+    $stmt = $con->prepare($query);
+
+    // Execute the statement
+    $stmt->execute();
+
+    // Fetch all activities
+    $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Loop through the activities
+    foreach ($activities as $activity) {
+        // Output each activity
+?>
+        <div class="activity">
+            <div class="activity-details">
+                <h3 class="activity-name"><?= $activity['nom_activity'] ?></h3>
+                <p class="activity-label">Description:</p>
                         <p class="activity-description"><?= $activity['description'] ?></p>
                         <p class="activity-label">Place:</p>
                         <p class="activity-place"><?= $activity['lieu'] ?></p>
@@ -305,16 +321,24 @@
                         <p class="activity-max-capacity"><?= $activity['capacity_max'] ?></p>
                         <p class="activity-label">Duration:</p>
                         <p class="activity-duration"><?= date('H:i', strtotime($activity['duration'])) ?></p>
-                        <p class="activity-label">Category:</p>
-                        <p class="activity-category"><?= $activity['category_name'] ?></p> <!-- Display category name -->
-                    </div>
-                    <div class="activity-image">
-                        <img src="<?= $activity['image'] ?>" alt="<?= $activity['nom_activity'] ?>">
-                    </div>
-                </div>
-                <?php
-            }
-            ?>
+                        <p class="activity-label">category name:</p>
+                <p class="activity-category"><?= $activity['category_name'] ?></p> <!-- Display category name -->
+                <p class="activity-map">
+            <iframe width='100%' height='300' src='https://maps.google.com/maps?q=<?= $activity['map'] ?>&output=embed'></iframe>
+        </p>
+            </div>
+            <div class="activity-image">
+                <img src="<?= $activity['image'] ?>" alt="<?= $activity['nom_activity'] ?>">
+            </div>
+        </div>
+<?php
+    }
+} catch (PDOException $e) {
+    // Handle any errors
+    echo "Error: " . $e->getMessage();
+}
+?>
+
         </div>
     </div>
  <!-- Footer Start -->

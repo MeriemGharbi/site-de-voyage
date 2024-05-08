@@ -208,16 +208,15 @@
     </thead>
     <tbody>
     <?php
-include_once "../config.php"; // Include the configuration file
+include_once "../config.php"; 
 
 try {
-    // Establish connection using PDO
+
     $pdo = new PDO("mysql:host=localhost;dbname=travel_agency", "root", "");
 
-    // Set PDO to throw exceptions on error
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Modify SQL query to include a join with the category table
+    
     $sql = "SELECT activity.*, category.nom_category AS category_name FROM `activity` LEFT JOIN `category` ON activity.id_category = category.id_category";
     $stmt = $pdo->query($sql);
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -245,13 +244,14 @@ try {
                     <div class='activity-name'>Durée : $duration</div>
                     <div class='activity-name'>Prix : $row[prix]</div>
                     <div class='activity-name'>Capacité maximale : $row[capacity_max]</div>
-                   
                     <div class='activity-name'>Nom de la catégorie : $row[category_name]</div>
+                    <!-- Display map here -->
+                                    <iframe width='100%' height='300' src='https://maps.google.com/maps?q=$row[map]&output=embed'></iframe>
                 </div>
             </td>
             <td>
                 <a href='deleteActivity.php?id_act=$row[id_act]' class='button' onclick='return confirmDelete();'>Delete</a> <br> <br> <br> <br>
-                <a href='update.php?id_act=$row[id_act]' class='button'>Update</a>
+                <a href='update.php?id_act=$row[id_act]' class='button'>Update</a> 
             </td>
         </tr>
         ";

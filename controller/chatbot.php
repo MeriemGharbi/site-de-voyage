@@ -1,3 +1,4 @@
+
 <?php include_once "../config.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,9 +9,34 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js.bootstrap.min.js"></script>
+    
+    
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../view/frontoffice/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../view/frontoffice/css/style.css" rel="stylesheet">
+
     <title>Chatbot</title>
     <style>
-        body{
+        .body1{
             margin: 0 auto;
             max-width: 800px;
             padding: 0 20px;
@@ -59,62 +85,78 @@
         .title{
             text-align: center;
         }
-
     </style>
-</head>
-<body>
-    <span id ="ref">
-        <div class="square">
-        <div class="title"><h2>chat messages</h2></div>
-    <?php
-    $query="select * from chats ORDER by date DESC";
-    $res=mysqli_query($con,$query);
-    while($data=mysqli_fetch_array($res)){
-        $user=$data['user'];
-        $chatbot=$data['chatbot'];
-        $date=$data['date'];
+<body> 
 
-        ?>
-        <div class="container1" style="margin-right: 400px;">
-        <img src ="" alt="avatar" style ="width:100%;">
-        <p id="message"><?php echo $user; ?>
-        </p>
-            <span class="time-right"><?php echo $date;?></span>
-        </div>
-        
-        <div class="container1 darker" style="margin-left: 400px;">
-        <img src="" alt="avatar" class="right" style="width:100%;">
-        <p><?php echo $chatbot; ?></p>
-        <span class="time-left"><?php echo $date;?></span>
-        </div>
-    <?php } ?>
-    <div class="sticky">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="msg">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" onclick="send()">send</button>                    </div>
+        <?php
+include_once "../config.php";
+
+// Create a PDO instance
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    // Set the PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
+
+// Fetch chat messages
+$query = "SELECT * FROM chats ORDER BY date DESC";
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+$messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+<span id="ref">
+    <div class="body1">
+        <div class="square">
+            <div class="title"><h2>Chat Messages</h2></div>
+            <?php foreach ($messages as $message): ?>
+                <div class="container1" style="margin-right: 400px;">
+                    <img src="../view/frontoffice/img/avatar1.png" alt="avatar" style="width:40px; height:40px;">
+                    <p id="message"><?= $message['user']; ?></p>
+                    <span class="time-right"><?= $message['date']; ?></span>
+                </div>
+
+                <div class="container1 darker" style="margin-left: 400px;">
+                    <img src="../view/frontoffice/img/robot2.png" alt="avatar" class="right" style="width:40px; height:40px;">
+                    <p><?= $message['chatbot']; ?></p>
+                    <span class="time-left"><?= $message['date']; ?></span>
+                </div>
+            <?php endforeach; ?>
+            <div class="sticky">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="msg">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" onclick="send()">Send</button>
+                                <a href="showActivityfront1.php">
+    <button type="button" class="btn">Return</button>
+    
+</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-    </span>
-    <script type="text/javascript">
-        function send()
-        {
-var text=$('#msg').val().toLowerCase();
-$.ajax({
-    type:"post",
-    url:"chatbotsearch.php",
-    data:{text:text},
-    success:function(data){
-        //alert(data);
-        $("#ref").load("#ref");
+</span>
+
+<script type="text/javascript">
+    function send() {
+        var text = $('#msg').val().toLowerCase();
+        $.ajax({
+            type: "post",
+            url: "chatbotsearch.php",
+            data: { text: text },
+            success: function(data) {
+                $("#ref").load("#ref");
+            }
+        });
     }
-})
-        }  
-  </script>
+</script>
+
 </body>
 </html>

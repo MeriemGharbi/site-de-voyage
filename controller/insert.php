@@ -1,4 +1,11 @@
 <?php
+if(isset($_POST["submit_map"]))
+{
+    $map = $_POST["map"];
+    ?>
+    <iframe width="100%" height="500" src="https://maps.google.com/maps?q=<?php echo $map; ?>&output=embed"></iframe>
+<?php }
+
 // include db connection
 include_once "../config.php";
 
@@ -16,6 +23,9 @@ if(isset($_POST['upload'])){
         $image = $_FILES['image'];
         $ID_CATEGORY = $_POST['id_category'];
         $DURATION = $_POST['duration'];
+        $map = $_POST['map'];
+
+        
         // File upload
         $img_loc = $_FILES['image']['tmp_name'];
         $img_name = $_FILES['image']['name'];
@@ -28,8 +38,9 @@ if(isset($_POST['upload'])){
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Prepare SQL statement
-        $stmt = $pdo->prepare("INSERT INTO `activity` (`nom_activity`, `description`, `lieu`, `date`, `prix`, `capacity_max`, `image`, `id_category`, `duration`, `date_debut`, `date_fin`) 
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO `activity` (`nom_activity`, `description`, `lieu`, `date`, `prix`, `capacity_max`, `image`, `id_category`, `duration`, `date_debut`, `date_fin`, `map`) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
         
         // Bind parameters
         $stmt->bindParam(1, $NOM_ACTIVITY);
@@ -43,6 +54,7 @@ if(isset($_POST['upload'])){
         $stmt->bindParam(9, $DURATION);
         $stmt->bindParam(10, $DATE_DEBUT);
         $stmt->bindParam(11, $DATE_FIN);
+        $stmt->bindParam(12, $map);
 
         // Execute statement
         $stmt->execute();

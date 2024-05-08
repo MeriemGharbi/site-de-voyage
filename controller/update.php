@@ -216,6 +216,10 @@ try {
                <span id="error-id-category" class="error-message" style="color: red; visibility: hidden;">Veuillez remplir ce champ</span><br>
                <span id="valid-id-category" class="valid-message" style="color: green; visibility: hidden;">ID Category valide</span><br>
                </div>
+               
+               <input type="text" name="map" placeholder="enter address">
+    
+    <input type="submit" name="submit_map">
 
                <input type="hidden" name="id_act" value="<?php echo $data['id_act']?>">
 

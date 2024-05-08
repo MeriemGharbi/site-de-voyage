@@ -322,6 +322,7 @@
 
                 <div class="cardHeader">
                        <h1 class="category">Category</h1>
+                       
                     </div>
     
     <table class="table" class="rwd-table">
@@ -337,55 +338,70 @@
                 </tr>
             </thead>
             <tbody>
-                <?php
-                include_once "../config.php";
-                //liste des categories
-                $sql = "SELECT * FROM category";
-                $result = mysqli_query($con, $sql); // Executing the query
-                if (mysqli_num_rows($result) > 0) {
-                    // Afficher les categories dans le cas win les activité lmawjoudin yabdew >0
-                    while ($row = mysqli_fetch_assoc($result)) {
-                ?>
-                <tr>
-                    
-                    <td><?=$row['nom_category']?></td>
-                    <td><img src="../view/frontoffice/img/level.png" class="imglevel" alt="Category Icon" class="icon"><?=$row['level']?></td>
-                    <td><img src="../view/frontoffice/img/season.png" class="imglevel" alt="Category Icon" class="icon"><?=$row['season']?></td>
-                    <td><img src="../view/frontoffice/img/pop.png" class="imglevel" alt="Category Icon" class="icon"><?=$row['popularity']?></td>
-                    <td><img src="../view/frontoffice/img/mob.png" class="imglevel" alt="Category Icon" class="icon"><?=$row['mobility']?></td>
-                  
-                </tr>
-                <?php
-                    } // fin de while loop
-                } else {
-                    echo "<tr><td colspan='12' class='message'>0 categories pour le moment !</td></tr>";
-                }
-                ?>
-                <div class="category-links">
+            <?php
+$host = "localhost";
+$username = "root";
+$password = "";
+$dbname = "travel_agency";
+
+try {
+    $con = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    // Set PDO error mode to exception
+    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    //liste des categories
+    $sql = "SELECT * FROM category";
+    $stmt = $con->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (count($result) > 0) {
+        // Afficher les categories dans le cas où les activités existent
+        foreach ($result as $row) {
+            ?>
+            <tr>
+                <td><?= $row['id_category'] ?></td>
+                <td><?= $row['nom_category'] ?></td>
+                <td><?= $row['level'] ?></td>
+                <td><?= $row['season'] ?></td>
+                <td><?= $row['popularity'] ?></td>
+                <td><?= $row['mobility'] ?></td>
+        </tr>
+            <?php
+        }
+    } else {
+        echo "<tr><td colspan='8' class='message'>0 categories pour le moment !</td></tr>";
+    }
+} catch(PDOException $e) {
+    die("Error: " . $e->getMessage());
+}
+?>
+
+<div class="category-links">
 <?php
 // Inclure le fichier de configuration de la base de données
 include_once "../config.php";
 
 // Récupérer les catégories disponibles dans la base de données
-$query_categories = "SELECT * FROM category";
-$result_categories = $con->query($query_categories);
-
+$sql = "SELECT * FROM category";
+$stmt = $con->prepare($sql);
+$stmt->execute();
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Afficher les catégories sous forme de liens
-if($result_categories->num_rows > 0) {
+if (count($categories) > 0) {
     echo "<ul>";
-    while($row = $result_categories->fetch_assoc()) {
+    foreach ($categories as $row) {
         echo "<li><a href='activities.php?category_id=" . $row['id_category'] . "'>" . $row['nom_category'] . "</a></li>";
     }
     echo "</ul>";
 } else {
     echo "Aucune catégorie trouvée.";
 }
-
-// Fermer la connexion à la base de données
-$con->close();
 ?>
 </div>
+
+
 
 
             </tbody>

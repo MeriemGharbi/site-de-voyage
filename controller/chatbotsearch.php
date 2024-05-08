@@ -1,26 +1,36 @@
 <?php
 include_once "../config.php";
+
 if(isset($_POST['text'])){
     $msg = $_POST['text'];
-    // Prevent SQL injection using prepared statements
-    $query = mysqli_prepare($con, "SELECT * FROM question WHERE question RLIKE ?");
-    mysqli_stmt_bind_param($query, 's', $msg);
-    mysqli_stmt_execute($query);
-    $result = mysqli_stmt_get_result($query);
-    $count = mysqli_num_rows($result);
     
-    if($count == 0){
-        $data = "I am sorry, I can't help you.";
-    } else {
-        while($row = mysqli_fetch_array($result)){
-            $data = $row['answer'];
+    try {
+        // Connect to the database using PDO
+        $pdo = new PDO("mysql:host=localhost;dbname=travel_agency", "root", "");
+        // Set PDO error mode to exception
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Prepare and execute the SELECT query
+        $stmt = $pdo->prepare("SELECT * FROM question WHERE question RLIKE ?");
+        $stmt->execute([$msg]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $count = count($result);
+
+        if($count == 0){
+            $data = "I am sorry, I can't help you.";
+        } else {
+            foreach($result as $row){
+                $data = $row['answer'];
+            }
         }
+
+        // Insert chat into database
+        $server_time = date('Y-m-d H:i:s');
+        $stmt_insert = $pdo->prepare("INSERT INTO chats (user, chatbot, date) VALUES (?, ?, ?)");
+        $stmt_insert->execute([$msg, $data, $server_time]);
+    } catch(PDOException $e) {
+        // Handle any PDO exceptions
+        echo "Error: " . $e->getMessage();
     }
-    
-    // Insert chat into database
-    $server_time = date('Y-m-d H:i:s');
-    $query4 = mysqli_prepare($con, "INSERT INTO chats(user, chatbot, date) VALUES (?, ?, ?)");
-    mysqli_stmt_bind_param($query4, 'sss', $msg, $data, $server_time);
-    mysqli_stmt_execute($query4);
 }
 ?>

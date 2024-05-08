@@ -267,47 +267,34 @@
             </div>
         </div>
     </div>
-    <!-- Navbar & Hero End -->
-    
-<?php
+    <?php
 // Inclure le fichier de configuration de la base de données
 include_once "../config.php";
 
-// Vérifier si l'ID de la catégorie est défini dans l'URL
+
 if(isset($_GET['category_id'])) {
-    // Récupérer l'ID de la catégorie à partir de l'URL
     $category_id = $_GET['category_id'];
 
-    // Préparer la requête SQL pour récupérer les activités liées à la catégorie spécifiée
-    $query_activities = "SELECT * FROM activity WHERE id_category = ?";
     
-    // Préparer la déclaration SQL
+    $query_activities = "SELECT activity.*, category.nom_category
+                         FROM activity
+                         INNER JOIN category ON activity.id_category = category.id_category
+                         WHERE activity.id_category = ?";
+
+
     $stmt_activities = $con->prepare($query_activities);
-
-    // Liaison des paramètres
-    $stmt_activities->bind_param("i", $category_id);
-
-    // Exécuter la requête
+    $stmt_activities->bindParam(1, $category_id, PDO::PARAM_INT);
     $stmt_activities->execute();
-
-    // Récupérer le résultat de la requête
-    $result_activities = $stmt_activities->get_result();
-
-    // Afficher les activités liées à la catégorie spécifiée
-    if($result_activities->num_rows > 0) {
-        while($row = $result_activities->fetch_assoc()) {
-            // Extraire les deux premiers caractères de la durée pour afficher l'heure et les minutes
+    $result_activities = $stmt_activities->fetchAll(PDO::FETCH_ASSOC);
+    if(!empty($result_activities)) {
+        foreach($result_activities as $row) {
             $duration = substr($row['duration'], 0, 5);
-            // Formater la date pour afficher uniquement la date sans l'heure
             $date_formattee = date_format(date_create($row['date']), 'Y-m-d');
-            // Format the date_debut and date_fin to display only hours and minutes
             $date_debut = date_format(date_create($row['date_debut']), 'H:i');
             $date_fin = date_format(date_create($row['date_fin']), 'H:i');
-    
-            // Début de la div pour cette activité avec la classe 'table'
             echo "<div class='table'>";
-    
-            // Contenu de l'activité avec les classes CSS correspondantes
+
+   
             echo "<div class='activity'>";
             echo "<div class='activity-details'>";
             echo "<h3 class='table th'>Nom de l'activité : {$row['nom_activity']}</h3>";
@@ -319,11 +306,11 @@ if(isset($_GET['category_id'])) {
             echo "<p class='table td'>Prix : {$row['prix']}</p>";
             echo "<p class='table td'>Capacité maximale : {$row['capacity_max']}</p>";
             echo "<p class='table td'>Durée : $duration</p>";
-            /*echo "<p class='table td'>Nom de la catégorie : {$row['nom_category']}</p>";*/
+            echo "<p class='table td'>Nom de la catégorie : {$row['nom_category']}</p>";
             echo "</div>"; // Fin de activity-details
             echo "<div class='activity-image'><img src='{$row['image']}' class='activity-img'></div>";
             echo "</div>"; // Fin de activity
-    
+
             // Fin de la div pour cette activité
             echo "</div>";
         }
@@ -331,17 +318,15 @@ if(isset($_GET['category_id'])) {
         // Afficher un message si aucune activité n'est trouvée pour cette catégorie
         echo "Aucune activité trouvée pour cette catégorie.";
     }
-    
-
-    // Fermer la déclaration SQL
-    $stmt_activities->close();
+    // Ne pas appeler $stmt_activities->close() ici
 } else {
     echo "ID de la catégorie non spécifié.";
 }
 
-// Fermer la connexion à la base de données
-$con->close();
+// Fermer la connexion à la base de données lorsque vous avez terminé de l'utiliser
+$con = null;
 ?>
+
   <!-- Booking Start -->
   <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
         <div class="container">

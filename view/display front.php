@@ -52,12 +52,11 @@
             width: 100%;
             height: auto;
             border-radius: 10px;
-        }
-        .no-op {
-    /* This CSS rule does nothing */
-}
+        }   
 
-        
+        .hidden {
+    display: none;
+}
     </style>
 </head>
 <body>
@@ -194,14 +193,23 @@
 
             <div class="position-relative w-75 mx-auto animated slideInDown">
         <form action="searchResultsOffre.php" method="GET">
-            <input name="search" class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Eg: Thailand">
+            <input name="search" class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Eg: four seasons">
             <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 position-absolute top-0 end-0 me-2" style="margin-top: 7px;">Search</button>
         </form>
     </div>
 
-<div class="no-op">
+
+    <select name="sort" id="sortSelect" class="form-select rounded-pill py-3 px-4 position-relative top-0 start-0 ms-2" style="margin-top: 50px;" onchange="sortOffers()">
+    <option value="none">Non trié</option> 
+    <option value="name">Tri alphabétique selon le nom de l'hotel</option>
+    <option value="price">Tri alphabétique selon le prix de la chambre</option>
+</select>
+
+
+<div id="hotelOffers" class="position-relative w-75 mx-auto animated slideInDown">
 
 <?php
+
 include('../controller/phpqrcode/qrlib.php'); // etape 1
 
 function displayLogo($logoLink) {
@@ -217,10 +225,27 @@ include '../config.php';
 $conn = config::getConnexion(); // Establish the connection
 
 try {
-    $query = $conn->query("SELECT offres.idOffre, offres.nomHotel, hotels.lienPhotoHotel, hotels.adresse, offres.descriptionOffre, chambres.typeChambre
+    $sort = isset($_GET['sort']) ? $_GET['sort'] : 'none';
+    switch ($sort) {
+        case 'name':
+            $orderBy = 'ORDER BY nomHotel ASC';
+            break;
+        case 'price':
+            $orderBy = 'ORDER BY chambres.prixChambre ASC';
+            break;
+        default:
+            $orderBy = ''; // No sorting
+            break;
+    }
+
+    $orderByClause = $orderBy ? $orderBy : "";
+
+    $query = $conn->query("SELECT offres.idOffre, offres.nomHotel, hotels.lienPhotoHotel, hotels.adresse, offres.descriptionOffre, chambres.typeChambre, chambres.prixChambre
                             FROM offres
                             LEFT JOIN hotels ON offres.nomHotel = hotels.nomHotel
-                            LEFT JOIN chambres ON hotels.nomHotel = chambres.nomHotel");
+                            LEFT JOIN chambres ON hotels.nomHotel = chambres.nomHotel
+                            $orderByClause");
+
     $offers = $query->fetchAll();
 
 
@@ -238,9 +263,11 @@ try {
 
 
         echo '<div class="hotel">';
+        echo '<h2 class="text-center hotel-name">' . $offer['nomHotel'] . '</h2>'; // font big
+
             echo '<img class="img-fluid" src="' . $offer['lienPhotoHotel'] . '" alt="Photo de l\'hôtel">';
 
-            echo '<h2 class="text-center">' . $offer['nomHotel'] . '</h2>'; // font big
+            // echo '<h2 class="text-center">' . $offer['nomHotel'] . '</h2>'; // font big
             echo '<p class="text-center">' . $offer['adresse'] . ' - Chambre: ' . $offer['typeChambre']  . '</p>';
 
             // Display star rating
@@ -251,6 +278,12 @@ try {
             echo '<small class="fa fa-star text-primary"></small>';
             echo '<small class="fa fa-star text-primary"></small>';
             echo '</div>';
+
+
+            // echo '<p  class="text-center hotel-price">Price: ' . $offer['prixChambre'] . '</p>';
+            echo '<p class="text-center hotel-price hidden">Price: ' . $offer['prixChambre'] . '</p>';
+
+
 
             // Display description
             echo '<p class="text-center">' . $offer['descriptionOffre'] . '</p>';
@@ -277,13 +310,11 @@ try {
             echo '<button type="button" class="btn btn-sm btn-primary px-2" style="border-radius: 30px; padding: 5px;" onclick="likeDislike(\'dislike\', ' . $offer['idOffre'] . ')">';
             echo '<img src="assets/assetsFront/img/dislike.png" alt="Dislike" style="width: 20px; height: 20px;">';
             echo '</button>';
-echo'&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-
-            echo '<img src="' . $qrCodeFilename . '" alt="QR Code"  style="width: 90px; height: 90px; ">'; 
-            echo '</form>';
-
-
-
+            echo'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            
+                        echo '<img src="' . $qrCodeFilename . '" alt="QR Code"  style="width: 90px; height: 90px; ">'; 
+                        echo '</form>';
+            
             
             echo '</div>';
 
@@ -338,6 +369,80 @@ echo'&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n
 }
 
 </script>
+
+<!-- Inside the <script> tag at the end of your HTML document -->
+<script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Add event listener to the sort select element
+        var sortSelect = document.getElementById('sortSelect');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function() {
+                console.log('Selection changed:', sortSelect.value); // Log the selected value
+                // Call the sorting function when the selection changes
+                console.log('Value before sortOffers:', sortSelect.value);
+
+                sortOffers();
+            });
+        }
+    });
+
+    
+    function sortOffers() {
+        var sortSelect = document.getElementById('sortSelect');
+        if (!sortSelect) {
+            console.error('Sort select element not found.');
+            return;
+        }
+
+        var selectedSort = sortSelect.value;
+
+        var hotelOffersContainer = document.getElementById('hotelOffers');
+        if (!hotelOffersContainer) {
+            console.error('Hotel offers container not found.');
+            return;
+        }
+
+        var hotelOffers = hotelOffersContainer.getElementsByClassName('hotel');
+        if (!hotelOffers || hotelOffers.length === 0) {
+            console.error('Hotel offers not found or empty.');
+            return;
+        }
+
+        var sortedOffers = Array.from(hotelOffers);
+
+        switch (selectedSort) {
+            case 'name':
+                sortedOffers.sort(function(a, b) {
+                    var nameA = a.querySelector('.hotel-name').innerText.toUpperCase();
+                    var nameB = b.querySelector('.hotel-name').innerText.toUpperCase();
+                    return nameA.localeCompare(nameB);
+                });
+                break;
+            case 'price':
+                sortedOffers.sort(function(a, b) {
+                    var priceA = parseFloat(a.querySelector('.hotel-price').innerText.replace(/\D/g, ''));
+                    var priceB = parseFloat(b.querySelector('.hotel-price').innerText.replace(/\D/g, ''));
+                    return priceA - priceB;
+                });
+                break;
+            default:
+                // No sorting (reset to default order)
+                sortedOffers = Array.from(hotelOffers);
+                break;
+        }
+
+        // Clear existing offers in container
+        while (hotelOffersContainer.firstChild) {
+            hotelOffersContainer.removeChild(hotelOffersContainer.firstChild);
+        }
+
+        // Append sorted offers to container
+        sortedOffers.forEach(function(offer) {
+            hotelOffersContainer.appendChild(offer);
+        });
+    }
+</script>
+
 
 
  </div>

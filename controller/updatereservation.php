@@ -5,13 +5,13 @@ if(isset($_POST['send'])) {
         $pdo = new PDO("mysql:host=localhost;dbname=2a41", "root", "");       
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         extract($_POST);
-        $sql = "UPDATE reservation SET nom_client = ?, id_voiture = ?, date_debut = ?, date_fin = ?, prix_total = ?, statut = ? WHERE id_reservation = ?";
+        $sql = "UPDATE reservation SET nom_client = ?, id_voiture = ?, date_debut = ?, date_fin = ?, email = ?, statut = ? WHERE id_reservation = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(1, $nom_client);
         $stmt->bindParam(2, $id_voiture);
         $stmt->bindParam(3, $date_debut);
         $stmt->bindParam(4, $date_fin);
-        $stmt->bindParam(5, $prix_total);
+        $stmt->bindParam(5, $email);
         $stmt->bindParam(6, $statut);
         $stmt->bindParam(7, $id_reservation);
         
@@ -183,8 +183,8 @@ try {
                 <label for="date_fin">End Date:</label>
                 <input type="text" name="date_fin" placeholder="End Date" value="<?php echo $row['date_fin']; ?>">
 
-                <label for="prix_total">Total Price:</label>
-                <input type="text" name="prix_total" placeholder="Total Price" value="<?php echo $row['prix_total']; ?>">
+                <label for="prix_total">email:</label>
+                <input type="text" name="email" placeholder="email" value="<?php echo $row['email']; ?>">
 
                 <label for="statut">Status:</label>
                 <input type="text" name="statut" placeholder="Status" value="<?php echo $row['statut']; ?>">

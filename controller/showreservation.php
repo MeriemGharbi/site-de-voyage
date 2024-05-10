@@ -129,7 +129,7 @@
                             <th>Car ID</th>
                             <th>Start Date</th>
                             <th>End Date</th>
-                            <th>Total Price</th>
+                            <th>email</th>
                             <th>Status</th>
                             <th>Edit</th>
                             <th>Delete</th>
@@ -155,7 +155,7 @@
                             <td><?= $row['id_voiture'] ?></td>
                             <td><?= $row['date_debut'] ?></td>
                             <td><?= $row['date_fin'] ?></td>
-                            <td><?= $row['prix_total'] ?></td>
+                            <td><?= $row['email'] ?></td>
                             <td><?= $row['statut'] ?></td>
                             <td class="image"><a href="updateReservation.php?id=<?= $row['id_reservation'] ?>"><img src="../view/backoffice/img/modifier.png"></a></td>
                             <td class="image"><a href="deleteReservation.php?id=<?= $row['id_reservation'] ?>" onclick="return confirm('Are you sure you want to delete this reservation?');"><img src="../view/backoffice/img/trash.png"></a></td>

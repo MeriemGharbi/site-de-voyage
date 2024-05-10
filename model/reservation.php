@@ -7,17 +7,17 @@ class Reservation {
     private $id_voiture;
     private $date_debut;
     private $date_fin;
-    private $prix_total;
+    private $email;
     private $statut;
 
     // Constructor
-    public function __construct($id_reservation, $nom_client, $id_voiture, $date_debut, $date_fin, $prix_total, $statut) {
+    public function __construct($id_reservation, $nom_client, $id_voiture, $date_debut, $date_fin, $email, $statut) {
         $this->id_reservation = $id_reservation;
         $this->nom_client = $nom_client;
         $this->id_voiture = $id_voiture;
         $this->date_debut = $date_debut;
         $this->date_fin = $date_fin;
-        $this->prix_total = $prix_total;
+        $this->email = $email;
         $this->statut = $statut;
     }
 
@@ -42,8 +42,8 @@ class Reservation {
         return $this->date_fin;
     }
 
-    public function getPrixTotal() {
-        return $this->prix_total;
+    public function getemail() {
+        return $this->email;
     }
 
     public function getStatut() {
@@ -71,8 +71,8 @@ class Reservation {
         $this->date_fin = $date_fin;
     }
 
-    public function setPrixTotal($prix_total) {
-        $this->prix_total = $prix_total;
+    public function setPrixTotal($email) {
+        $this->email = $email;
     }
 
     public function setStatut($statut) {

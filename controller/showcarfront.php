@@ -267,6 +267,10 @@ try {
                 <p class="car-price"><?= $car['prix_journee'] ?> TND</p>
                 <p class="car-label">Availability:</p>
                 <p class="car-availability"><?= $car['disponibilite'] ? 'Available' : 'Not Available' ?></p>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    <input type="hidden" name="id_voiture" value="<?= $car['id_voiture'] ?>">
+                    <button type="submit" class="btn btn-primary">Reservation</button>
+                </form>
             </div>
             <div class="car-image">
                 <img src="<?= $car['image'] ?>" alt="<?= $car['marque'] ?> <?= $car['modele'] ?>">
@@ -313,7 +317,7 @@ try {
                         <td><?= $row['id_voiture'] ?></td>
                         <td><?= $row['date_debut'] ?></td>
                         <td><?= $row['date_fin'] ?></td>
-                        <td><?= $row['prix_total'] ?> TND</td>
+                        <td><?= $row['email'] ?> TND</td>
                         <td><?= $row['statut'] ?></td>
                     </tr>
                     <?php

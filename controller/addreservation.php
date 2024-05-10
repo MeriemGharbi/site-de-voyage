@@ -7,7 +7,7 @@ if(isset($_POST['send'])) {
         isset($_POST['id_voiture']) &&
         isset($_POST['date_debut']) &&
         isset($_POST['date_fin']) &&
-        isset($_POST['prix_total']) &&
+        isset($_POST['email']) &&
         isset($_POST['statut']) &&
 
         $_POST['id_reservation'] !=  "" &&
@@ -15,7 +15,7 @@ if(isset($_POST['send'])) {
         $_POST['id_voiture'] != "" &&
         $_POST['date_debut'] != "" &&
         $_POST['date_fin'] != "" &&
-        $_POST['prix_total'] != "" &&
+        $_POST['email'] != "" &&
         $_POST['statut'] != "" 
     ) {
         try {
@@ -24,14 +24,14 @@ if(isset($_POST['send'])) {
             
             $pdo = new PDO("mysql:host=localhost;dbname=2a41", "root", "");
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $pdo->prepare("INSERT INTO reservation (id_reservation, nom_client, id_voiture, date_debut, date_fin, prix_total, statut) 
+            $stmt = $pdo->prepare("INSERT INTO reservation (id_reservation, nom_client, id_voiture, date_debut, date_fin, email, statut) 
                 VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->bindParam(1, $id_reservation);
             $stmt->bindParam(2, $nom_client);
             $stmt->bindParam(3, $id_voiture);
             $stmt->bindParam(4, $date_debut);
             $stmt->bindParam(5, $date_fin);
-            $stmt->bindParam(6, $prix_total);
+            $stmt->bindParam(6, $email);
             $stmt->bindParam(7, $statut);
             $stmt->execute();
 
@@ -194,8 +194,8 @@ if(isset($_POST['send'])) {
             </div>
 
             <div class="input">
-                <label for="prix_total">Total Price</label>
-                <input type="text" name="prix_total" id="prix_total" placeholder="Enter total price">
+                <label for="email">email</label>
+                <input type="text" name="email" id="email" placeholder="Enter your email">
                 <small id="error-prix-total" class="error-message"></small>
             </div>
 

@@ -178,7 +178,7 @@ try {
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><strong>Year:</strong> <?= $car['annee'] ?></li>
-                <li class="list-group-item"><strong>Daily Price:</strong> <?= $car['prix_journee'] ?></li>
+                <li class="list-group-item"><strong>price:</strong> <?= $car['prix_journee'] ?></li>
                 <li class="list-group-item"><strong>Availability:</strong> <?= $car['disponibilite'] ?></li>
             </ul>
             <div class="card-body">

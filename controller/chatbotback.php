@@ -247,12 +247,12 @@ ob_start();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Function to insert new chatbot question and answer
-    function insertChatbotData($pdo, $question, $answer) {
-        $query = "INSERT INTO question (question, answer) VALUES (?, ?)";
-        $statement = $pdo->prepare($query);
-        $statement->execute([$question, $answer]);
-    }
+// Function to insert new chatbot question, answer, and action
+function insertChatbotData($pdo, $question, $answer, $action) {
+    $query = "INSERT INTO question (question, answer, action) VALUES (?, ?, ?)";
+    $statement = $pdo->prepare($query);
+    $statement->execute([$question, $answer, $action]);
+}
 
     // Function to update chatbot question and answer
     function updateChatbotData($pdo, $id, $question, $answer) {
@@ -275,7 +275,7 @@ ob_start();
    <!-- Form to add new chatbot question and answer -->
 <div class="add">
     <form method="post" class="form">
-        <div class="form-group">
+    <div class="form-group">
             <label for="question">Question:</label>
             <input type="text" id="question" name="question" class="input" required>
         </div>
@@ -283,11 +283,15 @@ ob_start();
             <label for="answer">Answer:</label>
             <input type="text" id="answer" name="answer" class="input" required>
         </div>
+        <div class="form-group">
+            <label for="action">Action:</label>
+            <input type="text" id="action" name="action" class="input" required>
+        </div>
         <button type="submit" name="add" class="button">Add Question</button><br><br>
         <div class="cardHeader">
                         
                         <a href="showActivity.php" class="btn btn-primary">Retun</a> 
-                       
+                     
                     </div>
     </form>
 </div>
@@ -302,6 +306,7 @@ ob_start();
                     echo "<div class='card'>
                             <h3>{$row['question']}</h3>
                             <p>{$row['answer']}</p>
+                            <p>{$row['action']}</p>
                             <div class='actions'>
                                 <form method='post'>
                                     <button type='submit' name='update' value='{$row['id_quest']}' class='update'>Update</button>
@@ -316,15 +321,17 @@ ob_start();
             </div>
         </div>
         <?php
-        // Handle form submission to add new question and answer
-        if (isset($_POST['add'])) {
-            $question = $_POST['question'];
-            $answer = $_POST['answer'];
-            insertChatbotData($pdo, $question, $answer);
-            // Refresh the page to display the newly added question
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
-        }
+       // Handle form submission to add new question and answer
+if (isset($_POST['add'])) {
+    $question = $_POST['question'];
+    $answer = $_POST['answer'];
+    $action = $_POST['action']; // Get the value of the "action" field
+    insertChatbotData($pdo, $question, $answer, $action); // Pass the action to the insert function
+    // Refresh the page to display the newly added question
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
 
         // Handle form submission to update question and answer
         if (isset($_POST['update'])) {

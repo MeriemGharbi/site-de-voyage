@@ -83,8 +83,61 @@
             color: #fff; 
 
         }
+        /* Style for the dropdown container */
+.category-links select {
+    width: 200px; /* Adjust width as needed */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    appearance: none; /* Remove default arrow icon */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23555555" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); /* Custom arrow icon */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    
+    position: relative; /* Ensure positioning relative to its container */
+    top: -50px; /* Adjust top position */
+    left: 980px; /* Adjust left position */
+    padding: 10px;
+}
+/* Style for dropdown options */
+.category-links select option {
+    background-color: #fff;
+    color: #333;
+}
 
-            </style>
+/* Hover effect for dropdown options */
+.category-links select option:hover {
+    background-color: #f0f0f0;
+}
+
+.chart-container1 {
+    margin-bottom: -800px; /* Adjust margin as needed */
+    margin-top:50px;
+    margin-left:-800px;
+    width: 1900px; /* Set a fixed width for each chart */
+    height: 300px;
+    
+}
+
+#seasonChart {
+    margin-right: -1000px; /* Add some margin between charts */
+    margin-top:30px;
+    width: 700px; /* Set a fixed width for each chart */
+}
+
+#levelChart {
+    width: 1000px; /* Set a fixed width for each chart */
+    margin-top:120px;
+    height: 400px;
+    
+}
+
+
+</style>
 </head>
 <body>
     
@@ -127,7 +180,7 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="showActivity.php">
                         <span class="icon">
                         <div class="user">
                             <img src="../view/backoffice/img/activity.png">
@@ -439,6 +492,9 @@
     }
     
 </script>
+<div id="chartsContainer">
+ <!-- Level Chart -->
+ <div id="levelChart" class="chart-container1">
 <?php
 try {
     // Fetch data for level chart
@@ -464,8 +520,10 @@ try {
 
 <html>
 <head>
+    
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+   
+   <script type="text/javascript">
         google.charts.load('current', {'packages': ['corechart', 'bar']});
         google.charts.setOnLoadCallback(drawCharts);
 
@@ -474,16 +532,31 @@ try {
             var jsonDataLevel = <?php echo $jsonDataLevel; ?>;
             var dataLevel = google.visualization.arrayToDataTable(jsonDataLevel);
             var optionsLevel = {
-                title: 'Activities by Level',
-                chartArea: { width: '50%' },
-                hAxis: {
-                    title: 'Count',
-                    minValue: 0
-                },
-                vAxis: {
-                    title: 'Level'
-                }
-            };
+    title: 'Categories by Level',
+    titleTextStyle: {
+        fontSize: 18, // Adjust the font size as needed
+        bold: true // Optionally make the title bold
+    
+        
+    },
+    chartArea: { width: '50%' },
+    hAxis: {
+        title: 'Count',
+        titleTextStyle: {
+            fontSize: 14, // Adjust the font size as needed
+            bold: false // Optionally make the title bold
+        },
+        minValue: 0
+    },
+    vAxis: {
+        title: 'Level',
+        titleTextStyle: {
+            fontSize: 14, // Adjust the font size as needed
+            bold: false // Optionally make the title bold
+        }
+    }
+};
+
             var chartLevel = new google.charts.Bar(document.getElementById('levelChart'));
             chartLevel.draw(dataLevel, google.charts.Bar.convertOptions(optionsLevel));
         }
@@ -492,7 +565,85 @@ try {
     
 </head>
 <body>
+</div>
 <div id="levelChart" style="width: 900px; height: 400px; margin: 0 auto;"></div>
+  <!-- Categories by Season Chart -->
+  <div id="seasonChart" class="chart-container">
+
+<?php
+// Include the database configuration file
+include_once "../config.php";
+
+// Fetch categories grouped by season
+$sql = "SELECT season, COUNT(*) AS category_count FROM category GROUP BY season";
+$stmt = $con->prepare($sql);
+$stmt->execute();
+$seasonCategories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Prepare data points for the chart
+$dataPoints = [];
+foreach ($seasonCategories as $row) {
+    $dataPoints[] = array("y" => intval($row['category_count']), "name" => $row['season'], "color" => "#".substr(md5(rand()), 0, 6));
+}
+
+// Convert data points to JSON for JavaScript usage
+$dataPointsJSON = json_encode($dataPoints, JSON_NUMERIC_CHECK);
+?>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script>
+        window.onload = function () {
+            var dataPoints = <?php echo $dataPointsJSON; ?>;
+            
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                theme: "light2",
+                title: {
+                    text: "Categories by Season"
+                },
+                axisX: {
+                    title: "Season",
+                    interval: 1
+                },
+                axisY: {
+                    title: "Number of Categories"
+                },
+                data: [{
+                    type: "column",
+                    dataPoints: dataPoints,
+                    indexLabel: "{name}"
+                }]
+            });
+
+            chart.render();
+        }
+    </script>
+    <style>
+      #backButton {
+        border-radius: 4px;
+        padding: 8px;
+        border: none;
+        font-size: 16px;
+        background-color: #2eacd1;
+        color: white;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+      .invisible {
+        display: none;
+      }
+    </style>
+</head>
+<body>
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    <button class="btn invisible" id="backButton">&lt; Back</button>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+    </div>
+    </div>
 </body>
 </html>
 <br>
@@ -568,5 +719,7 @@ $(document).ready(function() {
     fetchSortedData('a-z');
 });
 </script>
+
 </body>
 </html>
+ 

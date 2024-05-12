@@ -63,14 +63,7 @@
         .search button:hover {
             background-color: #0056b3;
         }
-
-        .card {
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            width:400px;
-            margin-left: 100px;
-        }
+ 
 
         .card-header {
             background-color: #f0f0f0;
@@ -78,11 +71,13 @@
             border-bottom: 1px solid #ccc;
             border-radius: 10px 10px 0 0;
             width:400px;
-            
+            margin-left: 100px;
+           
         }
 
         .card-body {
             padding: 20px;
+            margin-left: 100px;
         }
 
         .table {
@@ -109,7 +104,10 @@
         .table tbody tr:hover {
             background-color: #e0e0e0;
         }
-
+ .button{
+    margin-left: 650px;
+    margin-top: 100px;
+ }
      
  </style>
 </head>
@@ -221,6 +219,8 @@
                 <img src="../view/img/xplore.png" alt="">
                 </div>
             </div>
+ 
+
              
             <div class="category-links">
     <select onchange="window.location.href=this.value">
@@ -254,6 +254,7 @@
             <input type="text" class="form-control" id="live_search" autocomplete="off" placeholder="Search..." oninput="handleSearchInput()">
         </label>
         <div id="searchresult" class="cardBox"></div> 
+        
     </div>
 </div>
 
@@ -280,8 +281,11 @@
 });
 
 </script>
-
+       
 <!--TODO:SORT======-->
+<a href="activityrateback.php" class="button">
+    <button type="button" class="btn" >check the ratings</button>   
+    </a>
 <div class="container">
         <div class="col-md-12">
             <div class="card mt-5">

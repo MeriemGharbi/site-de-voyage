@@ -199,10 +199,11 @@
     });
 </script>
     <a href="chatbot.php">
-    <button type="button" class="btn">Need assistance?</button>
-
-    
-</a>
+    <button type="button" class="btn">Need assistance?</button>   
+    </a>
+    <a href="activityratefront.php">
+    <button type="button" class="btn">Do you want to leave a rating?</button>   
+    </a>
 
     <!-- Navbar & Hero End -->
 

@@ -198,6 +198,7 @@
                         <h2>ACTIVITIES</h2>
                         <a href="addActivity.php" class="btn btn-primary">Add activity</a>
                         <a href="searchdisplay.php" class="btn btn-primary">Search activity</a>
+                        <a href="showCategory.php" class="btn btn-primary"> Check category</a>
                     </div>
 
                     <table class="table">

@@ -352,6 +352,7 @@
                 <div class="cardHeader">
                        <h1 class="category">Category</h1>
                         <a href="addCategory.php" class="btn btn-primary">Add category</a>
+                        <a href="showActivity.php" class="btn btn-primary">Check activity</a>
                     
                     </div>
                     <main>

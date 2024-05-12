@@ -38,9 +38,7 @@
     <!-- Template Stylesheet -->
     <link href="../view/frontoffice/css/style.css" rel="stylesheet">
     <style> 
-.container{ 
-    padding: 30px;
-}
+ 
 .activity-details{
     color:black;
     font-weight: 700;
@@ -69,6 +67,10 @@
     border-radius: 20px; /* Add some border-radius for rounded corners */
     padding: 10px; /* Add padding for better appearance */
     border: 1px solid #ccc; /* Add a border for clarity */
+}
+.container{
+    width: 100%;
+    padding: 70px;
 }
 
     </style>
@@ -265,7 +267,7 @@ try {
                 <p class="activity-label">Category:</p>
                 <p class="activity-category"><?= $activity['category_name'] ?></p>
                 <p class="activity-map">
-            <iframe width='100%' height='300' src='https://maps.google.com/maps?q=<?= $activity['map'] ?>&output=embed'></iframe>
+            <iframe width='1250' height='700' src='https://maps.google.com/maps?q=<?= $activity['map'] ?>&output=embed'></iframe>
         </p>
             </div>
         </div>

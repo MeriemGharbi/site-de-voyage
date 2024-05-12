@@ -24,6 +24,34 @@
     <!-- Template Stylesheet -->
     <link href="../../view/frontoffice/css/style.css" rel="stylesheet">
     <style>
+        
+    .category-links {
+    display: flex;
+    align-items: center;
+}
+
+.select-category {
+    margin-right: 10px; /* Adjust spacing between the select and search bar */
+}
+
+.select-category select {
+    width: 150px; /* Adjust the width of the select dropdown */
+}
+
+.search {
+    position: relative;
+}
+
+/* Style the search input */
+.search input {
+    width: 250px; /* Adjust the width of the search input */
+    border-radius: 20px; /* Add some border-radius for rounded corners */
+    padding: 10px; /* Add padding for better appearance */
+    border: 1px solid #ccc; /* Add a border for clarity */
+}
+
+
+
         .container {
             display: flex;
             justify-content: center;
@@ -225,15 +253,81 @@
                         <h1 class="display-3 text-white mb-3 animated slideInDown">Enjoy Your Vacation With Us</h1>
                         <p class="fs-4 text-white mb-4 animated slideInDown">Welcome to Xplore - Your Gateway to Unforgettable Adventures!
                         </p>
+                        
                         <div class="position-relative w-75 mx-auto animated slideInDown">
-                            <input class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Exemple: France">
-                            <button type="button" class="btn btn-primary rounded-pill py-2 px-4 position-absolute top-0 end-0 me-2" style="margin-top: 7px;">Xplore</button>
+                        
+                            
+                            <div class="category-links">
+   <!-- ========================= TODO:  partie select ==================== -->
+       <div class="select-category">
+           <select onchange="window.location.href=this.value" class="form-select">
+               <option value="#" selected>Select a category</option>
+               <?php
+               // Include the database configuration file
+               include '../../config.php'; 
+               // Fetch categories from the database
+               $sql = "SELECT * FROM category";
+               $stmt = $con->prepare($sql);
+               $stmt->execute();
+               $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+   
+               // Display categories as options in the dropdown
+               if (count($categories) > 0) {
+                   foreach ($categories as $row) {
+                       echo "<option value='activitiesjoinback.php?category_id=" . $row['id_category'] . "'>" . $row['nom_category'] . "</option>";
+                   }
+               } else {
+                   echo "<option disabled>No categories found</option>";
+               }
+               ?>
+           </select>
+       </div>
+                        <input class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Exemple: France">
+ 
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+         
+    <div class="search">
+        <input type="text" class="form-control" id="live_search" autocomplete="off" placeholder="Search...">
+        <div id="searchresult" class="cardBox"></div>
+    </div>
+</div>  
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#live_search").keyup(function(){
+            var input =$(this).val();
+            if(input!=""){
+                $.ajax({
+                    url:"../../controller/activite/livesearch.php",
+                    method:"POST",
+                    data:{input:input},
+                    success:function(data){
+                        $("#searchresult").html(data);
+                    }
+                });
+            } else {
+                $("#searchresult").css("display","none");
+            }
+        });
+    });
+</script>
+<!-- ========================= TODO:  chatbot and rating ==================== -->
+    <a href="chatbot.php">
+    <button type="button" class="btn">Need assistance?</button>   
+    </a>
+    <a href="activityratefront.php">
+    <button type="button" class="btn">Do you want to leave a rating?</button>   
+    </a>
+
+    <!-- Navbar & Hero End -->
+
 <!-- ========================= TODO: Navbar & Hero End==================== -->   
     <div class="back">
     <div class="container">
@@ -241,13 +335,16 @@
             <div class="activities text-center">
                 <h1 class="mb-4"><span class="title">Our Activities</span></h1>
             </div> 
-    <?php
-    include_once "../../config.php";
+            <?php
+include_once "../../config.php";
+
 try {
-    // Prepare the SQL query to retrieve activities along with their category names
-    $query = "SELECT activity.*, category.nom_category AS category_name 
+    // Prepare the SQL query to retrieve activities along with their category names and average ratings
+    $query = "SELECT activity.*, category.nom_category AS category_name, COALESCE(AVG(ratee.rate), 0) AS average_rating
               FROM `activity` 
-              LEFT JOIN `category` ON activity.id_category = category.id_category";
+              LEFT JOIN `category` ON activity.id_category = category.id_category
+              LEFT JOIN `ratee` ON activity.id_act = ratee.id_act
+              GROUP BY activity.id_act";
 
     // Prepare the statement
     $stmt = $con->prepare($query);
@@ -266,30 +363,36 @@ try {
             <div class="activity-details">
                 <h3 class="activity-name"><?= $activity['nom_activity'] ?></h3>
                 <p class="activity-label">Description:</p>
-                        <p class="activity-description"><?= $activity['description'] ?></p>
-                        <p class="activity-label">Place:</p>
-                        <p class="activity-place"><?= $activity['lieu'] ?></p>
-                        <p class="activity-label">Date:</p>
-                        <p class="activity-date"><?= date('Y-m-d', strtotime($activity['date'])) ?></p>
-                        <p class="activity-label">Date debut :</p>
-                        <p class="activity-date"><?= date('H:i', strtotime($activity['date_debut'])) ?></p>  
-                        <p class="activity-label">Date fin :</p>
-                        <p class="activity-date"><?= date('H:i', strtotime($activity['date_fin'])) ?></p>
-                        <p class="activity-label">Price:</p>
-                        <p class="activity-price"><?= $activity['prix'] ?></p>
-                        <p class="activity-label">Max Capacity:</p>
-                        <p class="activity-max-capacity"><?= $activity['capacity_max'] ?></p>
-                        <p class="activity-label">Duration:</p>
-                        <p class="activity-duration"><?= date('H:i', strtotime($activity['duration'])) ?></p>
-                        <p class="activity-label">category name:</p>
+                <p class="activity-description"><?= $activity['description'] ?></p>
+                <p class="activity-label">Place:</p>
+                <p class="activity-place"><?= $activity['lieu'] ?></p>
+                <p class="activity-label">Date:</p>
+                <p class="activity-date"><?= date('Y-m-d', strtotime($activity['date'])) ?></p>
+                <p class="activity-label">Date debut :</p>
+                <p class="activity-date"><?= date('H:i', strtotime($activity['date_debut'])) ?></p>  
+                <p class="activity-label">Date fin :</p>
+                <p class="activity-date"><?= date('H:i', strtotime($activity['date_fin'])) ?></p>
+                <p class="activity-label">Price:</p>
+                <p class="activity-price"><?= $activity['prix'] ?></p>
+                <p class="activity-label">Max Capacity:</p>
+                <p class="activity-max-capacity"><?= $activity['capacity_max'] ?></p>
+                <p class="activity-label">Duration:</p>
+                <p class="activity-duration"><?= date('H:i', strtotime($activity['duration'])) ?></p>
+                <p class="activity-label">Category name:</p>
                 <p class="activity-category"><?= $activity['category_name'] ?></p> <!-- Display category name -->
+                <p class="activity-label">Average Rating:</p>
+                <p class="activity-average-rating"><?= $activity['average_rating'] != 0.0 ? number_format($activity['average_rating'], 1) : 'No ratings yet' ?></p>
+                <a href="activityratefront.php">
+    <button type="button" class="btn">Do you want to leave a rating?</button>   
+    </a>
                 <p class="activity-map">
-            <iframe width='100%' height='300' src='https://maps.google.com/maps?q=<?= $activity['map'] ?>&output=embed'></iframe>
-        </p>
+                    <iframe width='100%' height='300' src='https://maps.google.com/maps?q=<?= $activity['map'] ?>&output=embed'></iframe>
+                </p>
             </div>
             <div class="activity-image">
                 <img src="<?= $activity['image'] ?>" alt="<?= $activity['nom_activity'] ?>">
             </div>
+    
         </div>
 <?php
     }
@@ -297,6 +400,7 @@ try {
     echo "Error: " . $e->getMessage();
 }
 ?>
+
         </div>
     </div> 
  <tbody>

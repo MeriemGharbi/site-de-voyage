@@ -1,5 +1,5 @@
 
-<?php include_once "../config.php"; ?>
+<?php include '../../config.php';  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,7 +89,7 @@
 <body> 
 
         <?php
-include_once "../config.php";
+include '../../config.php'; 
 
 // Create a PDO instance
 try {
@@ -113,13 +113,13 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="title"><h2>Chat Messages</h2></div>
             <?php foreach ($messages as $message): ?>
                 <div class="container1" style="margin-right: 400px;">
-                    <img src="../view/frontoffice/img/avatar1.png" alt="avatar" style="width:40px; height:40px;">
+                    <img src="../../view/frontoffice/img/avatar1.png" alt="avatar" style="width:40px; height:40px;">
                     <p id="message"><?= $message['user']; ?></p>
                     <span class="time-right"><?= $message['date']; ?></span>
                 </div>
 
                 <div class="container1 darker" style="margin-left: 400px;">
-                    <img src="../view/frontoffice/img/robot2.png" alt="avatar" class="right" style="width:40px; height:40px;">
+                    <img src="../../view/frontoffice/img/robot2.png" alt="avatar" class="right" style="width:40px; height:40px;">
                     <p><?= $message['chatbot']; ?></p>
                     <span class="time-left"><?= $message['date']; ?></span>
                 </div>
@@ -131,7 +131,7 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <input type="text" class="form-control" id="msg">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="button" onclick="send()">Send</button>
-                                <a href="showActivityfront1.php">
+                                <a href="../../controller/activite/showActivityfront.php">
     <button type="button" class="btn">Return</button>
     
 </a>

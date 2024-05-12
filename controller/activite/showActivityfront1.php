@@ -30,6 +30,7 @@
     <!-- Template Stylesheet -->
     <link href="../../view/frontoffice/css/style.css" rel="stylesheet">
 </head>
+<!-- ========================= TODO:  style ==================== -->
 <style>
     .category-links {
     display: flex;
@@ -59,10 +60,8 @@
 
 </style>
 <body>
- 
+ <!-- ========================= TODO:  topbar start(partie lkahla esghira mel fouk) ==================== -->
 
-
-    <!-- Topbar Start -->
     <div class="container-fluid bg-dark px-5 d-none d-lg-block">
         <div class="row gx-0">
             <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
@@ -83,14 +82,14 @@
             </div>
         </div>
     </div>
-    <!-- Topbar End -->
+<!-- ========================= TODO:  topbar end ==================== -->
 
-
-    <!-- Navbar & Hero Start -->
+<!-- ========================= TODO:   navbar and hero start ==================== -->
+ 
     <div class="container-fluid position-relative p-0">
         <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
             <a href="" class="navbar-brand p-0">
-            <img src="../view/frontoffice/img/xplore.png" class="logo">
+            <img src="../../view/frontoffice/img/xplore.png" class="logo">
                 <!-- <img src="img/logo.png" alt="Logo"> -->
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -128,30 +127,8 @@
                         <div class="position-relative w-75 mx-auto animated slideInDown">
                             
                          <div class="category-links">
-    <!-- Category Dropdown -->
-    <div class="select-category">
-        <select onchange="window.location.href=this.value" class="form-select">
-            <option value="#" selected>Select a category</option>
-            <?php
-            // Include the database configuration file
-            include '../../config.php'; 
-            // Fetch categories from the database
-            $sql = "SELECT * FROM category";
-            $stmt = $con->prepare($sql);
-            $stmt->execute();
-            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            // Display categories as options in the dropdown
-            if (count($categories) > 0) {
-                foreach ($categories as $row) {
-                    echo "<option value='activitiesjoinback.php?category_id=" . $row['id_category'] . "'>" . $row['nom_category'] . "</option>";
-                }
-            } else {
-                echo "<option disabled>No categories found</option>";
-            }
-            ?>
-        </select>
-    </div>
+  <!-- ========================= TODO:  fin partie select==================== -->
+    
     <div class="position-relative w-75 mx-auto animated slideInDown">
                             <input class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Exemple: France">
                             <button type="button" class="btn btn-primary rounded-pill py-2 px-4 position-absolute top-0 end-0 me-2" style="margin-top: 7px;">Xplore</button>
@@ -164,55 +141,14 @@
             </div>
         </div>
     </div>
-    
-    <!-- Search Bar -->
-    <div class="search">
-        <input type="text" class="form-control" id="live_search" autocomplete="off" placeholder="Search...">
-        <div id="searchresult" class="cardBox"></div>
-    </div>
-</div>
 
-    
-</div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-    $(document).ready(function(){
-        $("#live_search").keyup(function(){
-            var input =$(this).val();
-            if(input!=""){
-                $.ajax({
-                    url:"livesearch.php",
-                    method:"POST",
-                    data:{input:input},
-                    success:function(data){
-                        $("#searchresult").html(data);
-                    }
-                });
-            } else {
-                $("#searchresult").css("display","none");
-            }
-        });
-    });
-</script>
-    <a href="chatbot.php">
-    <button type="button" class="btn">Need assistance?</button>   
-    </a>
-    <a href="activityratefront.php">
-    <button type="button" class="btn">Do you want to leave a rating?</button>   
-    </a>
-
-    <!-- Navbar & Hero End -->
-
-
-    <!-- About Start -->
+   <!-- ========================= TODO:  about us ==================== -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                     <div class="position-relative h-100">
-                        <img  src="../view/frontoffice/img/spring3.jpg" alt="" style="object-fit: cover; width: 650px; height:500px  margin-right: 20px">
+                        <img  src="../../view/frontoffice/img/tounes1.jpg" alt="" style="object-fit: cover; width: 650px; height:500px  margin-right: 60px">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
@@ -246,9 +182,9 @@
             </div>
         </div>
     </div>
-    <!-- About End -->
+<!-- ========================= TODO:  about us end ==================== -->
 
-    <!-- Destination Start -->
+  <!-- ========================= TODO:  Our activities ==================== -->
     <div class="activities text-center" >
     <h1 class="mb-4"><span class="text-primary" > Our activities</span></h1>
     </div>
@@ -260,7 +196,11 @@
 include '../../config.php'; 
 try {
     // Prepare the SQL query to retrieve activities
-    $query = "SELECT * FROM `activity` ORDER BY `date` DESC LIMIT 6";
+    $query = "SELECT activity.*, COALESCE(AVG(ratee.rate), 0) AS average_rating
+              FROM `activity`
+              LEFT JOIN `ratee` ON activity.id_act = ratee.id_act
+              GROUP BY activity.id_act
+              ORDER BY `date` DESC LIMIT 6";
 
     // Prepare the statement
     $stmt = $con->prepare($query);
@@ -295,9 +235,10 @@ try {
                     <li class="list-group-item"><strong>Place:</strong> <?= $activity['lieu'] ?></li>
                     <li class="list-group-item"><strong>Date:</strong> <?= date('Y-m-d', strtotime($activity['date'])) ?></li>
                     <li class="list-group-item"><strong>Price:</strong> <?= $activity['prix'] ?></li>
+                    <li class="list-group-item"><strong>Average Rating:</strong> <?= $activity['average_rating'] != 0.0 ? number_format($activity['average_rating'], 1) : 'No ratings yet' ?></li>
                 </ul>
                 <div class="card-body">
-                    <a href="../controller/showActivityfront2.php?id_act=<?= $activity['id_act'] ?>" class="btn btn-primary">View more info</a>
+                    <a href="../../controller/activite/showActivityfront2.php?id_act=<?= $activity['id_act'] ?>" class="btn btn-primary">View more info</a>
                 </div>
             </div>
         </div>
@@ -308,20 +249,16 @@ try {
     echo "Error: " . $e->getMessage();
 }
 ?>
-
     </div>
 </div>
-
         </div>
         <div class="card-body text-center">
-                        <a href="../controller/showActivityfront.php" class="btn btn-primary">View all activities</a>
+                        <a href="../../controller/activite/showActivityfront.php" class="btn btn-primary">View all activities</a>
                     </div>
     </div>
-    <!-- Destination Start -->
+<!-- ========================= TODO:  end of activity part==================== -->
 
-
-   
-    <!-- Destination Start -->
+<!-- ========================= TODO:  destination start==================== -->
     <div class="container-xxl py-5 destination">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -333,21 +270,21 @@ try {
                     <div class="row g-3">
                         <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
                             <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="../view/frontoffice/img/img1.jpg" alt="">
+                                <img class="img-fluid" src="../../view/frontoffice/img/img1.jpg" alt="">
                                 <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">30% OFF</div>
                                 <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">North Africa</div>
                             </a>
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
                             <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="../view/frontoffice/img/img2.jpg" alt="">
+                                <img class="img-fluid" src="../../view/frontoffice/img/img2.jpg" alt="">
                                 <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">25% OFF</div>
                                 <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Brazil</div>
                             </a>
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
                             <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="../view/frontoffice/img/img3.jpg" alt="">
+                                <img class="img-fluid" src="../../view/frontoffice/img/img3.jpg" alt="">
                                 <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">35% OFF</div>
                                 <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Jordan</div>
                             </a>
@@ -356,7 +293,7 @@ try {
                 </div>
                 <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
                     <a class="position-relative d-block h-100 overflow-hidden" href="">
-                        <img class="img-fluid position-absolute w-100 h-100" src="../view/frontoffice/img/img4.jpg" alt="" style="object-fit: cover;">
+                        <img class="img-fluid position-absolute w-100 h-100" src="../../view/frontoffice/img/img4.jpg" alt="" style="object-fit: cover;">
                         <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">20% OFF</div>
                         <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Italy</div>
                     </a>

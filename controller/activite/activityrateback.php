@@ -89,7 +89,13 @@
             if ($result['rate'] === null) {
                 continue;
             }
-
+        
+            // Calculate the average rating for the activity
+            $ratings = explode(',', $result['rate']);
+            $totalRatings = count($ratings);
+            $sumRatings = array_sum($ratings);
+            $averageRating = $totalRatings > 0 ? round($sumRatings / $totalRatings, 1) : 0;
+        
             echo "<div class='col-md-4'>";
             echo "<div class='activity-card'>";
             echo "<img class='card-img-top' src='" . $result['image'] . "' alt='Activity Image'>";
@@ -104,6 +110,7 @@
             echo "<li class='list-group-item'>Duration: " . $result['duration'] . "</li>";
             echo "<li class='list-group-item'>Start Date: " . $result['date_debut'] . "</li>";
             echo "<li class='list-group-item'>End Date: " . $result['date_fin'] . "</li>";
+            echo "<li class='list-group-item'>Average Rating: " . $averageRating . "</li>"; // Display average rating
             echo "</ul>";
             echo "</div>";
             echo "<div class='card-footer'>";
@@ -112,6 +119,7 @@
             echo "</div>";
             echo "</div>";
         }
+        
     } catch(PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }

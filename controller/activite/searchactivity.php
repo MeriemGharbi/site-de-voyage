@@ -275,7 +275,7 @@
 <a href="activityrateback.php" class="button">
     <button type="button" class="btn" >check the ratings</button>   
     </a>
-    <a href="../../controller/activite/showActivity.php" class="button">
+    <a href="../../view/backoffice/activity.php" class="button">
     <button type="button" class="btn" >Return</button>   
     </a>
 <div class="container">

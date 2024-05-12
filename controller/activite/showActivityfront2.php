@@ -33,10 +33,10 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../view/frontoffice/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../view/frontoffice/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../view/frontoffice/css/style.css" rel="stylesheet">
+    <link href="../../view/frontoffice/css/style.css" rel="stylesheet">
     <style> 
  
 .activity-details{
@@ -153,7 +153,8 @@
             <option value="#" selected>Select a category</option>
             <?php
             // Include the database configuration file
-            include_once "../config.php";
+            include '../../config.php'; 
+
 
             // Fetch categories from the database
             $sql = "SELECT * FROM category";
@@ -212,8 +213,8 @@
         </div>
     </div>
     <!-- Navbar & Hero End -->
-<?php
-include_once "../config.php";
+    <?php
+include '../../config.php'; 
 
 try {
     // Check if the ID parameter is set in the URL
@@ -221,10 +222,11 @@ try {
         // Get the activity ID from the URL parameter
         $activity_id = $_GET['id_act'];
 
-        // Prepare the SQL query to retrieve the details of the specific activity
-        $query = "SELECT activity.*, category.nom_category AS category_name 
+        // Prepare the SQL query to retrieve the details of the specific activity along with its average rating
+        $query = "SELECT activity.*, category.nom_category AS category_name, COALESCE(AVG(ratee.rate), 0) AS average_rating
                   FROM `activity` 
                   LEFT JOIN `category` ON activity.id_category = category.id_category
+                  LEFT JOIN `ratee` ON activity.id_act = ratee.id_act
                   WHERE activity.id_act = :id_act";
 
         // Prepare the statement
@@ -266,6 +268,8 @@ try {
                 <p class="activity-duration"><?= date('H:i', strtotime($activity['duration'])) ?></p>
                 <p class="activity-label">Category:</p>
                 <p class="activity-category"><?= $activity['category_name'] ?></p>
+                <p class="activity-label">Average Rating:</p>
+                <p class="activity-average-rating"><?= $activity['average_rating'] != 0.0 ? number_format($activity['average_rating'], 1) : 'No ratings yet' ?></p>
                 <p class="activity-map">
             <iframe width='1250' height='700' src='https://maps.google.com/maps?q=<?= $activity['map'] ?>&output=embed'></iframe>
         </p>
@@ -290,6 +294,7 @@ try {
     echo "Error: " . $e->getMessage();
 }
 ?>
+
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

@@ -43,7 +43,7 @@
     <div class="row">
     <?php
     session_start(); // Start session to store rated activity IDs
-
+    $rated_activities = []; // Initialize rated activities array
     $host = "localhost";
     $username = "root";
     $password = "";
@@ -85,17 +85,19 @@
 
         // Loop through the results and display only the activities with ratings
         foreach ($results as $result) {
-            // Skip displaying if the activity hasn't been rated yet
-            if ($result['rate'] === null) {
+            // Skip displaying if the activity has been rated
+            if (in_array($result['id_act'], $rated_activities)) {
                 continue;
             }
         
             // Calculate the average rating for the activity
-            $ratings = explode(',', $result['rate']);
-            $totalRatings = count($ratings);
-            $sumRatings = array_sum($ratings);
-            $averageRating = $totalRatings > 0 ? round($sumRatings / $totalRatings, 1) : 0;
-        
+            $averageRating = 0; // Default value
+            if ($result['rate'] !== null) {
+                $ratings = explode(',', $result['rate']);
+                $totalRatings = count($ratings);
+                $sumRatings = array_sum($ratings);
+                $averageRating = $totalRatings > 0 ? round($sumRatings / $totalRatings, 1) : 0;
+            }
             echo "<div class='col-md-4'>";
             echo "<div class='activity-card'>";
             echo "<img class='card-img-top' src='" . $result['image'] . "' alt='Activity Image'>";

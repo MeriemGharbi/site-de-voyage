@@ -130,11 +130,14 @@ try {
 }
 
 // Store rated activity IDs in session
-if (isset($_SESSION['rated_activities'])) {
-    $_SESSION['rated_activities'] = array_unique($_SESSION['rated_activities']); // Remove duplicates
-} else {
-    $_SESSION['rated_activities'] = [];
+// Store rated activity IDs in session
+if (isset($_POST['submit_rating'])) {
+    // Add the rated activity ID to the session
+    $rated_activities[] = $_POST['id_act'];
+    // Remove duplicates and update the session variable
+    $_SESSION['rated_activities'] = array_unique($rated_activities);
 }
+
 ?>
 
     </div>

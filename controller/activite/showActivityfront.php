@@ -336,22 +336,24 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
-        $("#live_search").keyup(function(){
-            var input =$(this).val();
-            if(input!=""){
-                $.ajax({
-                    url:"../../controller/activite/livesearch.php",
-                    method:"POST",
-                    data:{input:input},
-                    success:function(data){
-                        $("#searchresult").html(data);
-                    }
-                });
-            } else {
-                $("#searchresult").css("display","none");
-            }
-        });
+    $("#live_search").keyup(function(){
+        var input = $(this).val();
+        if(input != ""){
+            $.ajax({
+                url: "../../controller/activite/livesearch.php",
+                method: "POST",
+                data: {input: input},
+                success: function(data){
+                    $("#searchresult").html(data);
+                    $("#searchresult").css("display", "block"); // Ensure search results are displayed
+                }
+            });
+        } else {
+            $("#searchresult").css("display", "none");
+        }
     });
+});
+
 </script>
 <!-- ========================= TODO:  chatbot and rating ==================== -->
     <a href="../../controller/activite/chatbot.php">

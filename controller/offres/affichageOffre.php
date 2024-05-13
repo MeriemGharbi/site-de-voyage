@@ -9,18 +9,17 @@ try {
      if (count($offres) > 0) {
         echo '<table>';
         foreach ($offres as $offre) {
-             echo '<tr class="offer-item">'; // Change the class to "offer-item"
-            // echo '<td  style="text-align: left;">'; // Apply left alignment to the table cell
+             echo '<tr class="offer-item">'; 
+            
 
             echo '<td>'; // Start of the first column
             echo '<div style="width: 300px;">';
 
             echo '<strong>' .'id Offre: '. $offre['idOffre'] . '</strong><br>'; 
             echo '<strong>' .'Hotel: '. $offre['nomHotel'] .'</strong>  <img id="editOfferIcon" class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier"  onclick="showEditFormOffre(\'' .  $offre['idOffre'] . '\')"><br>';
-          //  echo 'Prix: ' . $offre['prixOffre'] . ' dt <img id="editOfferIcon"class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditFormOffre(\'' .  $offre['idOffre'] . '\')"><br>';
             echo 'date Ajout Offre: ' . $offre['dateAjoutOffre'] . ' <img id="editOfferIcon" class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditFormOffre(\'' . $offre['idOffre'] . '\')"><br>';
-            echo 'likes: ' . $offre['likes'] . ' dt <img id="editOfferIcon"class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditFormOffre(\'' .  $offre['idOffre'] . '\')"><br>';
-            echo 'dislikes: ' . $offre['dislikes'] . ' dt <img id="editOfferIcon"class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditFormOffre(\'' .  $offre['idOffre'] . '\')"><br>';
+            echo 'likes: ' . $offre['likes'] . '  <img id="editOfferIcon"class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditFormOffre(\'' .  $offre['idOffre'] . '\')"><br>';
+            echo 'dislikes: ' . $offre['dislikes'] . '  <img id="editOfferIcon"class="edit-icon" src="https://cdn-icons-png.flaticon.com/512/84/84380.png" alt="Modifier" onclick="showEditFormOffre(\'' .  $offre['idOffre'] . '\')"><br>';
 
             
             // Form for deletion

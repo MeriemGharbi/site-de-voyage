@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteOffre'])) {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-header("Location: ../../view/display.php?");
+header("Location: ../../view/back.php?");
     exit(); // Ensure script stops here
     
 ?>

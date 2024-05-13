@@ -21,7 +21,7 @@ try {
     $requette->execute();
 
     // Redirect after successful insertion
-    header('Location: ../../view/display.php');
+    header('Location: ../../view/back.php');
     exit(); // Stop execution after redirection
 } catch (PDOException $e) {
     if ($e->errorInfo[1] == 1062) {

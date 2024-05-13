@@ -1,5 +1,4 @@
 <?php
-
 class config
 {
     private static $pdo = null;
@@ -7,9 +6,14 @@ class config
     public static function getConnexion()
     {
         if (!isset(self::$pdo)) {
+            $host = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "xplore";
+
             try {
                 self::$pdo = new PDO(
-                    'mysql:host=localhost;dbname=2A41',
+                    'mysql:host=localhost;dbname=xplore',
                     'root',
                     '',
                     [
@@ -17,13 +21,14 @@ class config
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
                     ]
                 );
-            } catch (Exception $e) {
+            } catch (PDOException $e) {
                 die('Erreur: ' . $e->getMessage());
             }
         }
         return self::$pdo;
     }
 }
+?>
 
 
 

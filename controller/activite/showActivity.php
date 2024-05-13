@@ -1,13 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>.chatbot-response {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
 
+.chatbot-avatar {
+    flex: 0 0 auto;
+    margin-right: 10px;
+    /* Add styles for the avatar */
+}
+
+.chatbot-message {
+    flex: 1 1 auto;
+    background-color: #f3f3f3;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.chatbot-question {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 10px;
+    color:  #2a2185;
+}
+.title{
+    font-size: 20px;
+}
+.title1 {
+    font-size: 34px; 
+    text-align: center;
+    display: flex;
+}
+
+.chatbot-answer {
+    font-size: 20px; 
+}
+.button-container {
+    margin-bottom: 10px; /* Adjust the spacing between the buttons vertically */
+}
+
+.button-container .btn {
+    margin-right: 15px; /* Adjust the spacing between the buttons horizontally */
+    font-size: 18px; /* Adjust the font size */
+    padding: 12px 15px; /* Adjust the padding */
+
+}
+
+</style>
+</body>
+</html>
  <!-- ========================= TODO: buttons==================== -->
            <div class="table-container">    
             <div class="details">
                 <div class="recentOrders">
                     <div class="cardHeader">
                         <h2>ACTIVITIES</h2>
-                        <a href="../../controller/activite/addActivity.php" class="btn btn-primary">Add activity</a>
-                        <a href="../../controller/activite/searchactivity.php" class="btn btn-primary">Search activity</a>
-                        <a href="../../controller/activite/showCategory.php" class="btn btn-primary"> Check category</a>
+                        <div class="button-container">
+                    <a href="../../controller/activite/addActivity.php" class="btn btn-primary">Add activity</a>
+                    <a href="../../controller/activite/searchactivity.php" class="btn btn-primary">Search activity</a>
+                    <a href="../../controller/activite/showCategory.php" class="btn btn-primary">Check category</a>
+                </div>
                     </div>
                     <table class="table">
  <!-- ========================= TODO:  display ==================== -->
@@ -15,7 +75,7 @@
 <?php
 include '../../config.php'; 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=travel_agency", "root", "");
+    $pdo = new PDO("mysql:host=localhost;dbname=xplore", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql = "SELECT activity.*, category.nom_category AS category_name FROM `activity` LEFT JOIN `category` ON activity.id_category = category.id_category";
     $stmt = $pdo->query($sql);
@@ -60,54 +120,47 @@ try {
 </table>
 </div>
  <!-- ========================= TODO: chatbot ==================== -->
-  <div class="recentCustomers">
-                    <div class="cardHeader">
-                    <h2>Chatbot Questions and Answers<div class="cardHeader">
-          <a href="../../controller/activite/chatbotback.php" class="btn btn-primary"> Chatbot Q/A</a>
-      </div></h2>
-</div>
-<?php
-$host = 'localhost';
-$dbname = 'travel_agency';
-$username = 'root';
-$password = '';
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+ <div class="recentCustomers">
+    <div class="cardHeader">
+        <h2 class="title1">Chatbot Questions and Answers</h2>
+        <div class="cardHeader">
+            <a href="../../controller/activite/chatbotback.php" class="btn btn-primary">Chatbot Q/A</a>
+        </div>
+    </div>
+    <div class="chatbot-container">
+        <?php
+        $host = 'localhost';
+        $dbname = 'xplore';
+        $username = 'root';
+        $password = '';
 
-function getChatbotData($pdo) {
-    $query = "SELECT * FROM question";
-    $statement = $pdo->prepare($query);
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
-}
+        try {
+            $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch(PDOException $e) {
+            die("Connection failed: " . $e->getMessage());
+        }
 
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Chatbot</title>
-</head>
-<body>
-    <div class="container">   
-        <ul>
+        function getChatbotData($pdo) {
+            $query = "SELECT * FROM question";
+            $statement = $pdo->prepare($query);
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        $chatbotData = getChatbotData($pdo);
+        ?>
+        <ul class="chatbot-questions">
             <?php
-            $chatbotData = getChatbotData($pdo);
             foreach ($chatbotData as $row) {
-                echo "<li>{$row['question']}: {$row['answer']}</li>";
+                echo "<li class='chatbot-question'>{$row['question']}</li>";
+                echo "<li class='chatbot-answer'>{$row['answer']}</li>";
             } 
             ?>
         </ul>
     </div>
-</body>
-</html>
-            </div>
-         </div>
-    </div>
 </div>
+
    <!-- ===========TODO: Scripts =========  -->
 <script src="../view/backoffice/assets/js/main.js"></script>
 <script src="search.js"></script>

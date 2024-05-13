@@ -51,7 +51,7 @@ session_start(); // Start session to store rated activity IDs
 $host = "localhost";
 $username = "root";
 $password = "";
-$dbname = "travel_agency";
+$dbname = "xplore";
 
 try {
     $con = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -161,7 +161,7 @@ if (isset($_SESSION['rated_activities'])) {
                 // Display a notification
                 alert("Thank you for your rating. We appreciate it!");
                 // Redirect to showActivityfront1.php
-                window.location.href = "showActivityfront1.php";
+                window.location.href = "../../view/index.php";
             },
             error: function(xhr, status, error) {
                 // Handle errors if any

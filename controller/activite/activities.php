@@ -27,10 +27,10 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../view/frontoffice/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../view/frontoffice/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../view/frontoffice/css/style.css" rel="stylesheet">
+    <link href="../../view/frontoffice/css/style.css" rel="stylesheet">
     <style>
             .container {
             display: flex;
@@ -222,7 +222,7 @@
     <div class="container-fluid position-relative p-0">
         <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
             <a href="" class="navbar-brand p-0">
-            <img src="../view/frontoffice/img/xplore.png" class="logo">
+            <img src="../../view/frontoffice/img/xplore.png" class="logo">
                 <!-- <img src="img/logo.png" alt="Logo"> -->
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -269,8 +269,7 @@
     </div>
     <?php
 // Inclure le fichier de configuration de la base de données
-include_once "../config.php";
-
+include '../../config.php'; 
 
 if(isset($_GET['category_id'])) {
     $category_id = $_GET['category_id'];

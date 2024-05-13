@@ -46,9 +46,8 @@
                         <span class="title">offers</span>
                     </a>
                 </li>
-
                 <li>
-                    <a href="#">
+                    <a href="../../view/backoffice/back.php">
                         <span class="icon">
                         <div class="user">
                             <img src="../../view/backoffice/img/activity.png">

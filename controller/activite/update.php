@@ -1,6 +1,6 @@
 <?php
 // Include your database configuration file
-include_once "../config.php";
+include '../../config.php'; 
 
 try {
     // Establish a PDO connection
@@ -26,7 +26,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../view/backoffice/assets/css/style1.css">
+    <link rel="stylesheet" href="../../view/backoffice/assets/css/style1.css">
     <title>Document</title>
 </head>
 <body>
@@ -51,7 +51,7 @@ try {
                     <a href="#">
                         <span class="icon">
                             <div class="user">
-                            <img src="../view/backoffice/img/user.png">
+                            <img src="../../view/backoffice/img/user.png">
                             </div>
                         </span>
                         <span class="title">User</span>
@@ -62,7 +62,7 @@ try {
                     <a href="#">
                         <span class="icon">
                         <div class="user">
-                            <img src="../view/backoffice/img/sale.png">
+                            <img src="../../view/backoffice/img/sale.png">
                             </div>
                         </span>
                         <span class="title">offers</span>
@@ -70,21 +70,22 @@ try {
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="../../view/backoffice/activity.php">
                         <span class="icon">
                         <div class="user">
-                            <img src="../view/backoffice/img/activity.png">
+                            <img src="../../view/backoffice/img/activity.png">
                             </div>
                         </span>
                         <span class="title">activities</span>
                     </a>
                 </li>
 
+
                 <li>
                     <a href="#">
                         <span class="icon">
                         <div class="user">
-                            <img src="../view/backoffice/img/car.png">
+                            <img src="../../view/backoffice/img/car.png">
                             </div>
                         </span>
                         <span class="title">Car rent</span>
@@ -95,7 +96,7 @@ try {
                     <a href="#">
                     <span class="icon">
                         <div class ="user">
-                            <img src="../view/backoffice/img/pay.png">
+                            <img src="../../view/backoffice/img/pay.png">
                             </div>
                         </span>
                         
@@ -107,7 +108,7 @@ try {
                     <a href="#">
                         <span class="icon">
                         <div class="user">
-                            <img src="../view/backoffice/img/comment.png">
+                            <img src="../../view/backoffice/img/comment.png">
                             </div>
                         </span>
                         <span class="title">Feedback</span>
@@ -118,7 +119,7 @@ try {
                     <a href="#">
                         <span class="icon">
                         <div class="user">
-                            <img src="../view/backoffice/img/exit.png">
+                            <img src="../../view/backoffice/img/exit.png">
                             </div>
                         </span>
                         </span>
@@ -145,7 +146,7 @@ try {
                 </div>
 
                 <div class="logo">
-                <img src="../view/img/xplore.png" alt="">
+                <img src="../../view/img/xplore.png" alt="">
                 </div>
             </div>
                 <form action="update1.php" id="activityForm" method="POST" enctype="multipart/form-data">
@@ -218,8 +219,8 @@ try {
                </div>
                
                <input type="text" name="map" placeholder="enter address">
-    
-    <input type="submit" name="submit_map">
+                <input type="submit" name="submit_map">
+
 
                <input type="hidden" name="id_act" value="<?php echo $data['id_act']?>">
 

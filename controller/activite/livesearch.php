@@ -111,6 +111,7 @@
 <?php
 // Include the configuration file
 include '../../config.php'; 
+$pdo = config::getConnexion();
 
 // Check if the input is set
 if(isset($_POST['input'])){
@@ -122,8 +123,8 @@ if(isset($_POST['input'])){
               description LIKE :input OR 
               id_category LIKE :input";
     
-    // Prepare the statement
-    $stmt = $con->prepare($query);
+    // Prepare the statement using the PDO connection object ($pdo)
+    $stmt = $pdo->prepare($query);
     
     // Bind the parameter
     $stmt->bindValue(':input', '%' . $input . '%', PDO::PARAM_STR);

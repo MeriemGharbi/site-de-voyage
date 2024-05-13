@@ -33,7 +33,7 @@ if(isset($_POST['upload'])){
         move_uploaded_file($img_loc,'uploadImage/'.$img_name);
 
         // Connect to database using PDO directly
-        $pdo = new PDO("mysql:host=localhost;dbname=travel_agency", "root", "");
+        $pdo = new PDO("mysql:host=localhost;dbname=xplore", "root", "");
         // Set PDO error mode to exception
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

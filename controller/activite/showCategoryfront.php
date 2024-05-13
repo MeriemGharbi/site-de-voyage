@@ -27,10 +27,10 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../view/frontoffice/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../view/frontoffice/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../view/frontoffice/css/style.css" rel="stylesheet">
+    <link href="../../view/frontoffice/css/style.css" rel="stylesheet">
     <style>
               .container {
             display: flex;
@@ -272,7 +272,7 @@
     <div class="container-fluid position-relative p-0">
         <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
             <a href="" class="navbar-brand p-0">
-            <img src="../view/frontoffice/img/xplore.png" class="logo">
+            <img src="../../view/frontoffice/img/xplore.png" class="logo">
                 <!-- <img src="img/logo.png" alt="Logo"> -->
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -280,7 +280,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="showActivityfront1.php" class="nav-item nav-link active">Home</a>
+                    <a href="../../controller/activite/showActivityfront1.php" class="nav-item nav-link active">Home</a>
                     <a href="about.html" class="nav-item nav-link">Offers</a>
                     <a href="package.html" class="nav-item nav-link">User</a>
                     <a href="package.html" class="nav-item nav-link">location</a>
@@ -327,14 +327,12 @@
     
     <table class="table" class="rwd-table">
     <thead>
-                <tr>
-                    
+                <tr>  
                     <th>Category name</th>
                     <th>Level</th>
                     <th>Season</th>
                     <th>Popularity</th>
-                    <th>Mobility</th>
-                    
+                    <th>Mobility</th>  
                 </tr>
             </thead>
             <tbody>
@@ -342,7 +340,7 @@
 $host = "localhost";
 $username = "root";
 $password = "";
-$dbname = "travel_agency";
+$dbname = "xplore";
 
 try {
     $con = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -360,7 +358,6 @@ try {
         foreach ($result as $row) {
             ?>
             <tr>
-                <td><?= $row['id_category'] ?></td>
                 <td><?= $row['nom_category'] ?></td>
                 <td><?= $row['level'] ?></td>
                 <td><?= $row['season'] ?></td>
@@ -380,7 +377,7 @@ try {
 <div class="category-links">
 <?php
 // Inclure le fichier de configuration de la base de données
-include_once "../config.php";
+include '../../config.php'; 
 
 // Récupérer les catégories disponibles dans la base de données
 $sql = "SELECT * FROM category";
@@ -400,10 +397,6 @@ if (count($categories) > 0) {
 }
 ?>
 </div>
-
-
-
-
             </tbody>
         </table>
    

@@ -22,7 +22,7 @@ if(isset($_POST['send'])) {
             extract($_POST); // Extract all these data
 
             // Connect to database using PDO directly
-            $pdo = new PDO("mysql:host=localhost;dbname=travel_agency", "root", "");
+            $pdo = new PDO("mysql:host=localhost;dbname=xplore", "root", "");
             // Set PDO error mode to exception
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

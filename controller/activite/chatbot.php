@@ -1,5 +1,4 @@
-
-<?php include '../../config.php';  ?>
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,13 +87,12 @@
     </style>
 <body> 
 
-        <?php
+<?php
 include '../../config.php'; 
 
-// Create a PDO instance
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    // Set the PDO error mode to exception
+    $pdo = config::getConnexion();
+ 
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     die("Connection failed: " . $e->getMessage());

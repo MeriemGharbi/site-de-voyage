@@ -69,7 +69,7 @@ if (isset($_POST['text'])) {
     
     try {
         // Connect to the database using PDO
-        $pdo = new PDO("mysql:host=localhost;dbname=travel_agency", "root", "");
+        $pdo = new PDO("mysql:host=localhost;dbname=xplore", "root", "");
         // Set PDO error mode to exception
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

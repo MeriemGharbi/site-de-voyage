@@ -14,7 +14,7 @@ try {
     $stmt->execute();
     
     // Redirect to the showActivity.php page after deletion
-    header('Location:  ../../view/backoffice/activity.php');
+    header('Location:  ../../view/backoffice/back.php');
 } catch (PDOException $e) {
     // Handle exceptions (optional)
     echo "Error: " . $e->getMessage();

@@ -47,7 +47,7 @@
     $host = "localhost";
     $username = "root";
     $password = "";
-    $dbname = "travel_agency";
+    $dbname = "xplore";
 
     try {
         $con = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

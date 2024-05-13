@@ -10,7 +10,6 @@
        
         .details table {
            width: 1300px;
-          
         }
         #chartsContainer {
             display: flex;
@@ -29,43 +28,6 @@
             color: #333; /* Dark text color */
             border: 1px solid #ccc; /* Border color */
         }
-
-        /* Styling for alternating rows */
-        .table tbody tr:nth-child(even) {
-            background-color: #f9f9f9; /* Lighter background for even rows */
-        }
-
-        /* Hover effect for table rows */
-        .table tbody tr:hover {
-            background-color: #e0e0e0; /* Light gray background on hover */
-        }
-
-        /* Styling for the sort button */
-        .input-group-text.btn {
-            background-color: #007bff; /* Blue background */
-            color: #fff; /* White text color */
-            border-color: #007bff; /* Blue border color */
-        }
-
-        .input-group-text.btn:hover {
-            background-color: #0056b3; 
-            border-color: #0056b3;
-        }
-
-
-        .form-control {
-            border-radius: 0;
-        }
-
-        .container {
-            padding-top: 20px; 
-        }
-
-            .chart-container .google-visualization-chart-title {
-                font-size: 300px; 
-                color: #333;
-            
-            }
 
         .input-group-text.btn {
             background-color: #007bff;
@@ -137,6 +99,44 @@
 }
 
 
+ .table tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* Lighter background for even rows */
+        }
+
+        /* Hover effect for table rows */
+        .table tbody tr:hover {
+            background-color: #e0e0e0; /* Light gray background on hover */
+        }
+
+        /* Styling for the sort button */
+        .input-group-text.btn {
+            background-color: #007bff; /* Blue background */
+            color: #fff; /* White text color */
+            border-color: #007bff; /* Blue border color */
+        }
+
+        .input-group-text.btn:hover {
+            background-color: #0056b3; 
+            border-color: #0056b3;
+        }
+        .form-control {
+            border-radius: 0;
+        }
+     .chart-container .google-visualization-chart-title {
+                font-size: 300px; 
+                color: #333;
+            
+            }
+            .button-container {
+    margin-bottom: 10px; /* Adjust the spacing between the buttons vertically */
+}
+
+.button-container .btn {
+    margin-right: 15px; /* Adjust the spacing between the buttons horizontally */
+    font-size: 18px; /* Adjust the font size */
+    padding: 12px 15px; /* Adjust the padding */
+
+}
 </style>
 </head>
 <body>
@@ -180,7 +180,7 @@
                 </li>
 
                 <li>
-                    <a href="showActivity.php">
+                    <a href="../../view/backoffice/back.php">
                         <span class="icon">
                         <div class="user">
                             <img src="../../view/backoffice/img/activity.png">
@@ -351,9 +351,10 @@
                 <div class="recentOrders">
                 <div class="cardHeader">
                        <h1 class="category">Category</h1>
+                       <div class="button-container">
                         <a href="addCategory.php" class="btn btn-primary">Add category</a>
-                        <a href="showActivity.php" class="btn btn-primary">Check activity</a>
-                    
+                        <a href="../../view/backoffice/back.php" class="btn btn-primary">Check activity</a>
+    </div>
                     </div>
                     <main>
     <div class="link_container">
@@ -377,7 +378,7 @@
                     $host = "localhost";
                     $username = "root";
                     $password = "";
-                    $dbname = "travel_agency";
+                    $dbname = "xplore";
 
                     try {
                         $con = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

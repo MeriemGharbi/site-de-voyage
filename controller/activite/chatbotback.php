@@ -142,8 +142,9 @@ ob_start();
                     </a>
                 </li>
 
+              
                 <li>
-                    <a href="#">
+                    <a href="../../view/backoffice/activity.php">
                         <span class="icon">
                         <div class="user">
                             <img src="../../view/backoffice/img/activity.png">
@@ -152,6 +153,7 @@ ob_start();
                         <span class="title">activities</span>
                     </a>
                 </li>
+
 
                 <li>
                     <a href="#">
@@ -227,7 +229,7 @@ ob_start();
     <?php
     // Database connection settings
     $host = 'localhost';
-    $dbname = 'travel_agency';
+    $dbname = 'xplore';
     $username = 'root';
     $password = '';
 
@@ -290,7 +292,7 @@ function insertChatbotData($pdo, $question, $answer, $action) {
         <button type="submit" name="add" class="button">Add Question</button><br><br>
         <div class="cardHeader">
                         
-                        <a href="showActivity.php" class="btn btn-primary">Retun</a> 
+                        <a href="../../view/backoffice/back.php" class="btn btn-primary">Retun</a> 
                      
                     </div>
     </form>

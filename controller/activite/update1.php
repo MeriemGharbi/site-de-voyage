@@ -6,8 +6,7 @@ if(isset($_POST["submit_map"]))
     <iframe width="100%" height="500" src="https://maps.google.com/maps?q=<?php echo $map; ?>&output=embed"></iframe>
 <?php }
 
-include_once "../config.php";
-
+include '../../config.php'; 
 if(isset($_POST['update'])){
     // Retrieve form data
     $ID_ACT = $_POST['id_act'];
@@ -57,6 +56,6 @@ if(isset($_POST['update'])){
     $stmt_update->bindParam(":id_act", $ID_ACT);
     $stmt_update->execute();
 
-    header("location:showActivity.php");
+    header("location: ../../view/backoffice/back.php");
 }
 ?>

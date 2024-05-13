@@ -8,7 +8,7 @@ if(isset($_POST['submit_map'])){
         $map = $_POST['map'];
 
         // Connect to the database
-        $pdo = new PDO("mysql:host=localhost;dbname=travel_agency", "root", "");
+        $pdo = new PDO("mysql:host=localhost;dbname=xplore", "root", "");
         // Set PDO error mode to exception
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

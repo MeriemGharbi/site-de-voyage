@@ -100,7 +100,35 @@
             color: #fff; 
 
         }
+        .category-links select {
+    width: 200px; /* Adjust width as needed */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    appearance: none; /* Remove default arrow icon */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23555555" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); /* Custom arrow icon */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    
+    position: relative; /* Ensure positioning relative to its container */
+    top: -50px; /* Adjust top position */
+    left: 980px; /* Adjust left position */
+    padding: 10px;
+}
+/* Style for dropdown options */
+.category-links select option {
+    background-color: #fff;
+    color: #333;
+}
 
+/* Hover effect for dropdown options */
+.category-links select option:hover {
+    background-color: #f0f0f0;
+}
             </style>
 </head>
 <body>
@@ -317,7 +345,6 @@
                     <div class="cardHeader">
                         <h2>Activities available </h2>
                         <a href="../../controller/activite/showCategory.php" class="btn btn-primary">Return</a> <br>
-               
                     </div>
 
                     <table class="table">

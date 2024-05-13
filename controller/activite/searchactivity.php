@@ -107,6 +107,30 @@
         margin-left: 650px;
         margin-top: 100px;
     }  
+    .button-container {
+    margin-bottom: 100px; /* Adjust the spacing between the buttons vertically */
+    margin-top: -125px;
+    margin-left: -20px;
+}
+
+.button-container .btn {
+  /* Adjust the spacing between the buttons horizontally */
+    font-size: 18px; /* Adjust the font size */
+    padding: 12px 15px; /* Adjust the padding */
+
+}
+.button-container1 {
+    margin-bottom: 100px; /* Adjust the spacing between the buttons vertically */
+    margin-top: -47px;
+    margin-left: 175px;
+}
+
+.button-container1 .btn {
+  /* Adjust the spacing between the buttons horizontally */
+    font-size: 18px; /* Adjust the font size */
+    padding: 12px 15px; /* Adjust the padding */
+
+}
     </style>
     </head>
  <!-- ========================= TODO: navigation ==================== -->
@@ -149,7 +173,7 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="../../view/backoffice/back.php">
                         <span class="icon">
                         <div class="user">
                             <img src="../../view/backoffice/img/activity.png">
@@ -273,10 +297,15 @@
 </script>    
 <!-- =========================TODO: TRI ==================== -->
 <a href="activityrateback.php" class="button">
-    <button type="button" class="btn" >check the ratings</button>   
+<div class="button-container">
+    <button type="button" class="btn" >check the ratings</button> 
+
     </a>
-    <a href="../../view/backoffice/activity.php" class="button">
+    <div class="button-container1">
+    <a href="../../view/backoffice/back.php" class="button">
     <button type="button" class="btn" >Return</button>   
+    </div>
+</div>
     </a>
 <div class="container">
         <div class="col-md-12">

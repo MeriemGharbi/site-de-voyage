@@ -1,0 +1,20 @@
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Center button */
+.container-fluid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
